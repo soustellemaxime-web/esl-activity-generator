@@ -17,16 +17,27 @@ function shuffle(array) {
   return arr
 }
 
-function createGrid(words, gridSize) {
+function createGrid(words, gridSize, freeCenter) {
   const grid = []
   let index = 0
 
   for (let r = 0; r < gridSize; r++) {
+
     const row = []
 
     for (let c = 0; c < gridSize; c++) {
-      row.push(words[index])
-      index++
+
+      if (
+        freeCenter &&
+        r === Math.floor(gridSize / 2) &&
+        c === Math.floor(gridSize / 2)
+      ) {
+        row.push("FREE")
+      } else {
+        row.push(words[index])
+        index++
+      }
+
     }
 
     grid.push(row)
@@ -35,12 +46,12 @@ function createGrid(words, gridSize) {
   return grid
 }
 
-function generateCards(words, gridSize, cardCount) {
+function generateCards(words, gridSize, cardCount, freeCenter) {
   const cards = []
-  const required = gridSize * gridSize
+  const required = gridSize * gridSize - (freeCenter ? 1 : 0)
 
   if (words.length < required) {
-    throw new Error("Not enough words for the grid size")
+    throw new Error(`Need at least ${required} words`)
   }
 
   const baseWords = shuffle(words).slice(0, required)
@@ -52,7 +63,7 @@ function generateCards(words, gridSize, cardCount) {
       rotated.push(baseWords[(j + i) % required])
     }
 
-    const grid = createGrid(rotated, gridSize)
+    const grid = createGrid(rotated, gridSize, freeCenter)
     cards.push(grid)
   }
 
@@ -106,9 +117,9 @@ function generateHTML(cards) {
 }
 
 function generateBingo(data) {
-  const { words, gridSize, cardCount } = data
+  const { words, gridSize, cardCount, freeCenter } = data
 
-  const cards = generateCards(words, gridSize, cardCount)
+  const cards = generateCards(words, gridSize, cardCount, freeCenter)
 
   return generateHTML(cards)
 }

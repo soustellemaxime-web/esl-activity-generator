@@ -9,8 +9,9 @@ function getFormData() {
 
   const gridSize = Number(document.getElementById("gridSize").value)
   const cardCount = Number(document.getElementById("cardCount").value)
+  const freeCenter = document.getElementById("freeCenter").checked
 
-  return { words, gridSize, cardCount }
+  return { words, gridSize, cardCount, freeCenter }
 }
 
 
