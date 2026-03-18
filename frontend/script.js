@@ -55,6 +55,23 @@ async function download() {
   a.click()
 }
 
+function debounce(func, delay) {
+
+  let timer
+
+  return function (...args) {
+
+    clearTimeout(timer)
+
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, delay)
+
+  }
+}
+
+const debouncedPreview = debounce(preview, 500)
+
 function updateWordRequirement() {
 
   const gridSize = Number(document.getElementById("gridSize").value)
@@ -75,5 +92,17 @@ document.getElementById("gridSize")
 
 document.getElementById("freeCenter")
   .addEventListener("change", updateWordRequirement)
+
+document.getElementById("words")
+  .addEventListener("input", debouncedPreview)
+
+document.getElementById("gridSize")
+  .addEventListener("change", debouncedPreview)
+
+document.getElementById("cardCount")
+  .addEventListener("input", debouncedPreview)
+
+document.getElementById("freeCenter")
+  .addEventListener("change", debouncedPreview)
 
 updateWordRequirement()
