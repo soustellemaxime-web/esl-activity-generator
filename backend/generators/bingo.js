@@ -70,7 +70,7 @@ function generateCards(words, gridSize, cardCount, freeCenter) {
   return cards
 }
 
-function generateCardsHTML(cards, title) {
+function generateCardsHTML(cards, title, gridSize) {
 
   let html = ``
 
@@ -84,7 +84,7 @@ function generateCardsHTML(cards, title) {
 
       html += `<div class="card">`
       html += `<h2>${title}</h2>`
-      html += `<table>`
+      html += `<table style="--grid-size:${gridSize}">`
 
       grid.forEach(row => {
 
@@ -128,7 +128,7 @@ function generateBingo(data) {
     <body>
     `
 
-    html += generateCardsHTML(cards, title)
+    html += generateCardsHTML(cards, title, gridSize)
 
     html += generateCallSheet(words)
 
