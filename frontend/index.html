@@ -54,10 +54,12 @@ async function generate() {
     })
   })
 
-  const html = await response.text()
-
-  const win = window.open()
-  win.document.write(html)
+    const blob = await response.blob()
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "bingo.pdf"
+    a.click()
 }
 
 </script>
