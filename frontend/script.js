@@ -77,14 +77,37 @@ function updateWordRequirement() {
   const gridSize = Number(document.getElementById("gridSize").value)
   const freeCenter = document.getElementById("freeCenter").checked
 
+  const words = document
+    .getElementById("words")
+    .value
+    .split("\n")
+    .map(w => w.trim())
+    .filter(w => w.length > 0)
+
+  const currentCount = words.length
+
   let required = gridSize * gridSize
 
   if (freeCenter) {
     required -= 1
   }
 
-  document.getElementById("wordRequirement").textContent =
-    "Words required: " + required
+  const remaining = required - currentCount
+
+  const element = document.getElementById("wordRequirement")
+
+  if (remaining > 0) {
+    element.style.color = "red"
+  } else {
+    element.style.color = "green"
+  }
+
+  let message = `Words: ${currentCount} / ${required}`
+  if (remaining > 0) {
+    message += ` (${remaining} more needed)`
+  }
+
+  document.getElementById("wordRequirement").textContent = message
 }
 
 document.getElementById("gridSize")
@@ -92,6 +115,9 @@ document.getElementById("gridSize")
 
 document.getElementById("freeCenter")
   .addEventListener("change", updateWordRequirement)
+
+document.getElementById("words")
+  .addEventListener("input", updateWordRequirement)
 
 document.getElementById("words")
   .addEventListener("input", debouncedPreview)
