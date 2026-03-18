@@ -31,11 +31,20 @@ function generateCards(words, gridSize, cardCount) {
   const cards = []
   const required = gridSize * gridSize
 
-  for (let i = 0; i < cardCount; i++) {
-    const shuffled = shuffle(words)
-    const selected = shuffled.slice(0, required)
-    const grid = createGrid(selected, gridSize)
+  if (words.length < required) {
+    throw new Error("Not enough words for the grid size")
+  }
 
+  const baseWords = shuffle(words).slice(0, required)
+
+  for (let i = 0; i < cardCount; i++) {
+    const rotated = []
+
+    for (let j = 0; j < required; j++) {
+      rotated.push(baseWords[(j + i) % required])
+    }
+
+    const grid = createGrid(rotated, gridSize)
     cards.push(grid)
   }
 
