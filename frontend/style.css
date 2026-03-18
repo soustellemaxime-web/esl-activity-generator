@@ -10,10 +10,10 @@ textarea {
       margin-bottom: 15px;
 }
 
-input, select {
-      margin-bottom: 15px;
-      width: 100%;
-      padding: 6px;
+input:not([type="checkbox"]), select {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 6px;
 }
 
 button {

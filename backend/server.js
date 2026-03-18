@@ -12,7 +12,11 @@ app.use(express.json())
 //Preview Route
 app.post("/preview-bingo", (req, res) => {
   try {
-    const html = generateBingo(req.body)
+    const previewData = { ...req.body }
+    // limit preview cards
+    previewData.cardCount = Math.min(previewData.cardCount, 4)
+
+    const html = generateBingo(previewData)
     res.send(html)
   } catch (error) {
     console.error(error)
