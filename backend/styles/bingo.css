@@ -1,0 +1,31 @@
+body {
+  font-family: Arial;
+  padding: 20px;
+}
+
+.page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  page-break-after: always;
+}
+
+.card {
+  border: 2px solid black;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td {
+  border: 2px solid black;
+  height: 90px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+}

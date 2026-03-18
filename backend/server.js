@@ -1,5 +1,6 @@
 const express = require("express")
 const cors = require("cors")
+
 const generateBingo = require("./generators/bingo")
 const generatePDF = require("./services/pdfService")
 
@@ -8,6 +9,13 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+//Preview Route
+app.post("/preview-bingo", (req, res) => {
+  const html = generateBingo(req.body)
+  res.send(html)
+})
+
+//Download Route
 app.post("/generate-bingo", async (req, res) => {
     const html = generateBingo(req.body)
     const pdf = await generatePDF(html)

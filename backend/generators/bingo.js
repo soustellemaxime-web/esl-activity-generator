@@ -1,3 +1,11 @@
+const fs = require("fs")
+const path = require("path")
+
+const css = fs.readFileSync(
+  path.join(__dirname, "../styles/bingo.css"),
+  "utf8"
+)
+
 function shuffle(array) {
   const arr = [...array]
 
@@ -52,44 +60,47 @@ function generateCards(words, gridSize, cardCount) {
 }
 
 function generateHTML(cards) {
+
   let html = `
   <html>
   <head>
-  <style>
-  body { font-family: Arial; }
-  table { border-collapse: collapse; margin: 40px auto; }
-  td {
-    border: 2px solid black;
-    width: 120px;
-    height: 120px;
-    text-align: center;
-    font-size: 20px;
-  }
-  .card {
-    page-break-after: always;
-  }
-  </style>
+    <style>${css}</style>
   </head>
   <body>
   `
 
-  cards.forEach(grid => {
-    html += `<div class="card"><table>`
+  for (let i = 0; i < cards.length; i += 4) {
 
-    grid.forEach(row => {
-      html += "<tr>"
+    html += `<div class="page">`
 
-      row.forEach(word => {
-        html += `<td>${word}</td>`
+    const pageCards = cards.slice(i, i + 4)
+
+    pageCards.forEach(grid => {
+
+      html += `<div class="card">`
+      html += `<h2>Bingo</h2>`
+      html += `<table>`
+
+      grid.forEach(row => {
+
+        html += `<tr>`
+
+        row.forEach(word => {
+          html += `<td>${word}</td>`
+        })
+
+        html += `</tr>`
       })
 
-      html += "</tr>"
+      html += `</table>`
+      html += `</div>`
+
     })
 
-    html += "</table></div>"
-  })
+    html += `</div>`
+  }
 
-  html += "</body></html>"
+  html += `</body></html>`
 
   return html
 }

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Bingo Generator</title>
   <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 
 <body>
@@ -26,43 +27,11 @@
 <label>Number of Cards</label>
 <input id="cardCount" type="number" value="5">
 
-<button onclick="generate()">Generate Bingo</button>
+<button onclick="preview()">Preview</button>
+<button onclick="download()">Download PDF</button>
 
-<script>
-
-async function generate() {
-
-  const words = document
-    .getElementById("words")
-    .value
-    .split("\n")
-    .map(w => w.trim())
-    .filter(w => w.length > 0)
-
-  const gridSize = Number(document.getElementById("gridSize").value)
-  const cardCount = Number(document.getElementById("cardCount").value)
-
-  const response = await fetch("http://localhost:3000/generate-bingo", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      words,
-      gridSize,
-      cardCount
-    })
-  })
-
-    const blob = await response.blob()
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = "bingo.pdf"
-    a.click()
-}
-
-</script>
+<h2>Preview</h2>
+<div id="preview"></div>
 
 </body>
 </html>

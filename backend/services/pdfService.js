@@ -6,11 +6,16 @@ async function generatePDF(html) {
 
   const page = await browser.newPage()
 
-  await page.setContent(html, { waitUntil: "networkidle0" })
+  await page.setContent(html, {
+    waitUntil: ["load", "domcontentloaded", "networkidle0"]
+  })
+
+  await page.emulateMediaType("screen")
 
   const pdf = await page.pdf({
     format: "A4",
-    printBackground: true
+    printBackground: true,
+    preferCSSPageSize: true
   })
 
   await browser.close()
