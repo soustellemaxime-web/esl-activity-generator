@@ -91,7 +91,9 @@ function generateCardsHTML(cards) {
         html += `<tr>`
 
         row.forEach(word => {
-          html += `<td>${word}</td>`
+          html += `<td>
+            <div class="cell-content">${word}</div>
+            </td>`
         })
 
         html += `</tr>`
@@ -104,7 +106,7 @@ function generateCardsHTML(cards) {
 
     html += `</div>`
   }
-  
+
   return html
 }
 
