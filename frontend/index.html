@@ -1,20 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Bingo Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>Bingo Generator</h1>
+
+<label>Title</label>
+<input id="title" placeholder="Animals Bingo">
+
+<label>Word List (one per line)</label>
+<textarea id="words"></textarea>
+
+<label>Grid Size</label>
+<select id="gridSize">
+  <option value="3">3 x 3</option>
+  <option value="4">4 x 4</option>
+  <option value="5">5 x 5</option>
+</select>
+
+<label>Number of Cards</label>
+<input id="cardCount" type="number" value="5">
+
 <button onclick="generate()">Generate Bingo</button>
 
 <script>
+
 async function generate() {
-  const res = await fetch("http://localhost:3000/generate-bingo", {
+
+  const words = document
+    .getElementById("words")
+    .value
+    .split("\n")
+    .map(w => w.trim())
+    .filter(w => w.length > 0)
+
+  const gridSize = Number(document.getElementById("gridSize").value)
+  const cardCount = Number(document.getElementById("cardCount").value)
+
+  const response = await fetch("http://localhost:3000/generate-bingo", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({
-      words: ["lion","tiger","zebra","elephant","monkey","bear","frog","dog","cat"],
-      gridSize: 3,
-      cardCount: 2
+      words,
+      gridSize,
+      cardCount
     })
   })
 
-  const html = await res.text()
+  const html = await response.text()
 
   const win = window.open()
   win.document.write(html)
 }
+
 </script>
+
+</body>
+</html>
