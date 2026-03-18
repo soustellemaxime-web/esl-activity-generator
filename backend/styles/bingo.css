@@ -75,3 +75,8 @@ td {
   text-align: center;
   font-size: 18px;
 }
+
+.cell-content img {
+  max-width: 70%;
+  max-height: 60px;
+}

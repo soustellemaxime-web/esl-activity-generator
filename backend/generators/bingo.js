@@ -32,9 +32,9 @@ function createGrid(words, gridSize, freeCenter) {
         r === Math.floor(gridSize / 2) &&
         c === Math.floor(gridSize / 2)
       ) {
-        row.push("FREE")
+        row.push({word: "FREE", image: null})
       } else {
-        row.push(words[index])
+        row.push({word: words[index], image: "https://via.placeholder.com/60"})
         index++
       }
 
@@ -70,9 +70,8 @@ function generateCards(words, gridSize, cardCount, freeCenter) {
   return cards
 }
 
-function generateCardsHTML(cards, title, gridSize) {
+function generateCardsHTML(cards, title, gridSize, displayMode) {
   let html = ``
-
   for (let i = 0; i < cards.length; i += 4) {
 
     html += `<div class="page">`
@@ -93,7 +92,7 @@ function generateCardsHTML(cards, title, gridSize) {
           if (word === "FREE") {
             html += `<td class="free-cell"><div class="cell-content">★ FREE ★</div></td>`
             } else {
-            html += `<td><div class="cell-content">${word}</div></td>`
+            html += `<td>${renderCell(word, displayMode)}</td>`
            }
         })
 
@@ -111,8 +110,33 @@ function generateCardsHTML(cards, title, gridSize) {
   return html
 }
 
+function renderCell(cell, displayMode) {
+
+  if (displayMode === "text") {
+    return `<div class="cell-content">${cell.word}</div>`
+  }
+
+  if (displayMode === "image-word") {
+    return `
+      <div class="cell-content">
+        <img src="${cell.image || ""}">
+        <span>${cell.word}</span>
+      </div>
+    `
+  }
+
+  if (displayMode === "image") {
+    return `
+      <div class="cell-content">
+        <img src="${cell.image || ""}">
+      </div>
+    `
+  }
+
+}
+
 function generateBingo(data) {
-    let { words, gridSize, cardCount, freeCenter, uppercase, title } = data
+    let { words, gridSize, cardCount, freeCenter, uppercase, title, displayMode } = data
     if (uppercase) {
         words = words.map(word => word.toUpperCase())
     }
@@ -127,7 +151,7 @@ function generateBingo(data) {
     <body>
     `
 
-    html += generateCardsHTML(cards, title, gridSize)
+    html += generateCardsHTML(cards, title, gridSize, displayMode)
 
     html += generateCallSheet(words)
 
