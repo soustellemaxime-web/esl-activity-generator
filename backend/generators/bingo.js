@@ -71,7 +71,6 @@ function generateCards(words, gridSize, cardCount, freeCenter) {
 }
 
 function generateCardsHTML(cards, title, gridSize) {
-
   let html = ``
 
   for (let i = 0; i < cards.length; i += 4) {
