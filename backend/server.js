@@ -11,8 +11,13 @@ app.use(express.json())
 
 //Preview Route
 app.post("/preview-bingo", (req, res) => {
-  const html = generateBingo(req.body)
-  res.send(html)
+  try {
+    const html = generateBingo(req.body)
+    res.send(html)
+  } catch (error) {
+    console.error(error)
+    res.status(400).send(error.message)
+  }
 })
 
 //Download Route
