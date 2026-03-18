@@ -54,3 +54,26 @@ async function download() {
   a.download = "bingo.pdf"
   a.click()
 }
+
+function updateWordRequirement() {
+
+  const gridSize = Number(document.getElementById("gridSize").value)
+  const freeCenter = document.getElementById("freeCenter").checked
+
+  let required = gridSize * gridSize
+
+  if (freeCenter) {
+    required -= 1
+  }
+
+  document.getElementById("wordRequirement").textContent =
+    "Words required: " + required
+}
+
+document.getElementById("gridSize")
+  .addEventListener("change", updateWordRequirement)
+
+document.getElementById("freeCenter")
+  .addEventListener("change", updateWordRequirement)
+
+updateWordRequirement()
