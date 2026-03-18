@@ -31,20 +31,19 @@ table {
 td {
   border: 2px solid black;
   width: calc(100% / var(--grid-size));
-  height: 110px;
   padding: 0;
 }
 
 .cell-content {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: clamp(12px, 2.2vw, 26px);
-  text-align: center;
-  word-break: break-word;
+    min-height: 90px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: clamp(12px, 2.2vw, 26px);
+    text-align: center;
+    overflow-wrap: anywhere;
 }
 
 .free-cell {
