@@ -1,0 +1,20 @@
+<button onclick="generate()">Generate Bingo</button>
+
+<script>
+async function generate() {
+  const res = await fetch("http://localhost:3000/generate-bingo", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      words: ["lion","tiger","zebra","elephant","monkey","bear","frog","dog","cat"],
+      gridSize: 3,
+      cardCount: 2
+    })
+  })
+
+  const html = await res.text()
+
+  const win = window.open()
+  win.document.write(html)
+}
+</script>
