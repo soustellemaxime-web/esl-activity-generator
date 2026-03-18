@@ -1,11 +1,8 @@
 function getFormData() {
 
-  const words = document
-    .getElementById("words")
-    .value
-    .split("\n")
-    .map(w => w.trim())
-    .filter(w => w.length > 0)
+  const words = parseWords(
+     document.getElementById("words").value
+  )
 
   const gridSize = Number(document.getElementById("gridSize").value)
   const cardCount = Number(document.getElementById("cardCount").value)
@@ -77,12 +74,9 @@ function updateWordRequirement() {
   const gridSize = Number(document.getElementById("gridSize").value)
   const freeCenter = document.getElementById("freeCenter").checked
 
-  const words = document
-    .getElementById("words")
-    .value
-    .split("\n")
-    .map(w => w.trim())
-    .filter(w => w.length > 0)
+  const words = parseWords(
+    document.getElementById("words").value
+  )
 
   const currentCount = words.length
 
@@ -108,6 +102,13 @@ function updateWordRequirement() {
   }
 
   document.getElementById("wordRequirement").textContent = message
+}
+
+function parseWords(text){
+    return text
+    .split(/[\n,;\t|]+/)
+    .map(word => word.trim())
+    .filter(word => word.length > 0)
 }
 
 document.getElementById("gridSize")
