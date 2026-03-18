@@ -36,17 +36,23 @@ td {
 .cell-content {
   height: 100%;
   width: 100%;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-weight: bold;
   font-size: clamp(12px, 2.2vw, 26px);
   text-align: center;
-
   word-break: break-word;
 }
+
+.free-cell {
+  background-color: #f0f0f0;
+}
+
+.free-cell .cell-content {
+  font-weight: 900;
+}
+
 .call-sheet {
   page-break-before: always;
 }

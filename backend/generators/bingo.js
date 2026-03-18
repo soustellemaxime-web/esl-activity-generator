@@ -91,9 +91,11 @@ function generateCardsHTML(cards) {
         html += `<tr>`
 
         row.forEach(word => {
-          html += `<td>
-            <div class="cell-content">${word}</div>
-            </td>`
+          if (word === "FREE") {
+            html += `<td class="free-cell"><div class="cell-content">★ FREE ★</div></td>`
+            } else {
+            html += `<td><div class="cell-content">${word}</div></td>`
+           }
         })
 
         html += `</tr>`
