@@ -70,7 +70,7 @@ function generateCards(words, gridSize, cardCount, freeCenter) {
   return cards
 }
 
-function generateCardsHTML(cards) {
+function generateCardsHTML(cards, title) {
 
   let html = ``
 
@@ -83,7 +83,7 @@ function generateCardsHTML(cards) {
     pageCards.forEach(grid => {
 
       html += `<div class="card">`
-      html += `<h2>Bingo</h2>`
+      html += `<h2>${title}</h2>`
       html += `<table>`
 
       grid.forEach(row => {
@@ -113,28 +113,31 @@ function generateCardsHTML(cards) {
 }
 
 function generateBingo(data) {
-  const { words, gridSize, cardCount, freeCenter } = data
+    let { words, gridSize, cardCount, freeCenter, uppercase, title } = data
+    if (uppercase) {
+        words = words.map(word => word.toUpperCase())
+    }
 
-  const cards = generateCards(words, gridSize, cardCount, freeCenter)
+    const cards = generateCards(words, gridSize, cardCount, freeCenter)
 
-  let html = `
-  <html>
-  <head>
-  <style>${css}</style>
-  </head>
-  <body>
-  `
+    let html = `
+    <html>
+    <head>
+    <style>${css}</style>
+    </head>
+    <body>
+    `
 
-  html += generateCardsHTML(cards)
+    html += generateCardsHTML(cards, title)
 
-  html += generateCallSheet(words)
+    html += generateCallSheet(words)
 
-  html += `
-  </body>
-  </html>
-  `
+    html += `
+    </body>
+    </html>
+    `
 
-  return html
+    return html
 }
 
 function generateCallSheet(words) {

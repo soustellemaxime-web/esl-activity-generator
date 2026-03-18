@@ -1,5 +1,6 @@
 function getFormData() {
-
+  const title = document.getElementById("title").value
+  const uppercase = document.getElementById("uppercase").checked
   const words = parseWords(
      document.getElementById("words").value
   )
@@ -8,7 +9,7 @@ function getFormData() {
   const cardCount = Number(document.getElementById("cardCount").value)
   const freeCenter = document.getElementById("freeCenter").checked
 
-  return { words, gridSize, cardCount, freeCenter }
+  return { words, gridSize, cardCount, freeCenter, uppercase, title }
 }
 
 
@@ -131,5 +132,11 @@ document.getElementById("cardCount")
 
 document.getElementById("freeCenter")
   .addEventListener("change", debouncedPreview)
+
+document.getElementById("uppercase")
+  .addEventListener("change", debouncedPreview)
+
+document.getElementById("title")
+  .addEventListener("input", debouncedPreview)
 
 updateWordRequirement()
