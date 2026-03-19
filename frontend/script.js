@@ -205,4 +205,38 @@ document.getElementById("uppercase")
 document.getElementById("title")
   .addEventListener("input", debouncedPreview)
 
+document.getElementById("preview").addEventListener("click", async (e) => {
+  const icon = e.target.closest(".reload-icon");
+  if (!icon) return;
+
+  const container = icon.closest(".image-container");
+  const img = container.querySelector("img");
+
+  if (!img) return;
+
+  const word = img.dataset.word;
+
+  // force new image (ignore cache)
+  const res = await fetch(`http://localhost:3000/api/images?word=${word}&t=${Date.now()}`);
+  const data = await res.json();
+
+  if (!data.image) return;
+
+  // convert to base64 again
+  const imageRes = await fetch(data.image);
+  const blob = await imageRes.blob();
+
+  const base64 = await new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(blob);
+  });
+
+  // update cache
+  globalImageMap[word] = base64;
+
+  // update image visually
+  img.src = base64;
+});
+
 updateWordRequirement()

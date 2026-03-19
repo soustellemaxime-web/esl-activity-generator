@@ -121,7 +121,8 @@ function renderCell(cell, displayMode) {
     return `
       <div class="cell-content">
         <div class="image-container">
-          ${cell.image ? `<img src="${cell.image}">` : ""}
+          ${cell.image ? `<img src="${cell.image}" data-word="${cell.word}">` : ""}
+          <div class="reload-icon">↻</div>
         </div>
         <span>${cell.word}</span>
       </div>
@@ -132,7 +133,8 @@ function renderCell(cell, displayMode) {
     return `
       <div class="cell-content">
         <div class="image-container">
-          ${cell.image ? `<img src="${cell.image}">` : ""}
+          ${cell.image ? `<img src="${cell.image}" data-word="${cell.word}">` : ""}
+          <div class="reload-icon">↻</div>
         </div>
       </div>
     `

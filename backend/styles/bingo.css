@@ -95,8 +95,27 @@ td {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  position: relative;
 }
 
 .image-container img {
   border-radius: 6px;
+}
+
+.reload-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  font-size: 14px;
+  padding: 4px 6px;
+  border-radius: 50%;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.image-container:hover .reload-icon {
+  opacity: 1;
 }

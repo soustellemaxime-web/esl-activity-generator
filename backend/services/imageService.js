@@ -12,7 +12,13 @@ async function getImages(word) {
     const { data, timestamp } = cache[key];
 
     if (Date.now() - timestamp < CACHE_DURATION) {
-      return { source: "cache", images: data };
+
+      const images = data;
+
+      const randomIndex = Math.floor(Math.random() * images.length);
+      const image = images[randomIndex];
+
+      return { source: "cache", image };
     }
   }
 
@@ -23,11 +29,18 @@ async function getImages(word) {
   const response = await fetch(url);
   const data = await response.json();
 
-  const image = data.hits[0]?.webformatURL || null;
+  const hits = data.hits;
+
+  let image = null;
+
+  if (hits.length > 0) {
+    const randomIndex = Math.floor(Math.random() * hits.length);
+    image = hits[randomIndex].webformatURL;
+  }
 
   // 3. Save to cache
   cache[key] = {
-    data: image,
+    data: hits.map(img => img.webformatURL),
     timestamp: Date.now()
   };
 
