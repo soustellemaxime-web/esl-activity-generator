@@ -90,30 +90,40 @@ async function preview() {
 
 async function download() {
 
-  const data = getFormData()
+  const btn = document.getElementById("downloadBtn");
+  btn.disabled = true;
+  btn.textContent = "⏳ Generating PDF...";
 
-  if (data.displayMode !== "text") {
-    globalImageMap = await loadImages(data.words, globalImageMap);
+  try {
+      const data = getFormData()
+
+      if (data.displayMode !== "text") {
+        globalImageMap = await loadImages(data.words, globalImageMap);
+      }
+
+      data.imageMap = globalImageMap;
+      
+      const res = await fetch("http://localhost:3000/api/bingo/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+
+      const blob = await res.blob()
+
+      const url = window.URL.createObjectURL(blob)
+
+      const a = document.createElement("a")
+      a.href = url
+      a.download = "bingo.pdf"
+      a.click()
+    } catch (err) {
+    console.error(err);
   }
-
-  data.imageMap = globalImageMap;
-  
-  const res = await fetch("http://localhost:3000/api/bingo/generate", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  })
-
-  const blob = await res.blob()
-
-  const url = window.URL.createObjectURL(blob)
-
-  const a = document.createElement("a")
-  a.href = url
-  a.download = "bingo.pdf"
-  a.click()
+  btn.disabled = false;
+  btn.textContent = "⬇️ Download PDF";
 }
 
 function debounce(func, delay) {

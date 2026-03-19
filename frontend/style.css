@@ -161,6 +161,11 @@ button:active {
   transform: scale(0.97);
 }
 
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 #wordRequirement {
   font-weight: bold;
   margin-bottom: 10px;
