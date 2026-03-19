@@ -17,7 +17,7 @@ function shuffle(array) {
   return arr
 }
 
-function createGrid(words, gridSize, freeCenter) {
+function createGrid(words, gridSize, freeCenter, imageMap) {
   const grid = []
   let index = 0
 
@@ -34,7 +34,8 @@ function createGrid(words, gridSize, freeCenter) {
       ) {
         row.push({word: "FREE", image: null})
       } else {
-        row.push({word: words[index], image: "https://via.placeholder.com/60"})
+        const word = words[index]
+        row.push({word, image: imageMap?.[word] || null})
         index++
       }
 
@@ -46,7 +47,7 @@ function createGrid(words, gridSize, freeCenter) {
   return grid
 }
 
-function generateCards(words, gridSize, cardCount, freeCenter) {
+function generateCards(words, gridSize, cardCount, freeCenter, imageMap) {
   const cards = []
   const required = gridSize * gridSize - (freeCenter ? 1 : 0)
 
@@ -63,7 +64,7 @@ function generateCards(words, gridSize, cardCount, freeCenter) {
       rotated.push(baseWords[(j + i) % required])
     }
 
-    const grid = createGrid(rotated, gridSize, freeCenter)
+    const grid = createGrid(rotated, gridSize, freeCenter, imageMap)
     cards.push(grid)
   }
 
@@ -88,12 +89,12 @@ function generateCardsHTML(cards, title, gridSize, displayMode) {
 
         html += `<tr>`
 
-        row.forEach(word => {
-          if (word === "FREE") {
+        row.forEach(cell => {
+          if (cell.word === "FREE") {
             html += `<td class="free-cell"><div class="cell-content">★ FREE ★</div></td>`
-            } else {
-            html += `<td>${renderCell(word, displayMode)}</td>`
-           }
+          } else {
+            html += `<td>${renderCell(cell, displayMode)}</td>`
+          }
         })
 
         html += `</tr>`
@@ -136,12 +137,12 @@ function renderCell(cell, displayMode) {
 }
 
 function generateBingo(data) {
-    let { words, gridSize, cardCount, freeCenter, uppercase, title, displayMode } = data
+    let { words, gridSize, cardCount, freeCenter, uppercase, title, displayMode , imageMap } = data
     if (uppercase) {
         words = words.map(word => word.toUpperCase())
     }
 
-    const cards = generateCards(words, gridSize, cardCount, freeCenter)
+    const cards = generateCards(words, gridSize, cardCount, freeCenter, imageMap)
 
     let html = `
     <html>

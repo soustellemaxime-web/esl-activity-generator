@@ -1,3 +1,5 @@
+let globalImageMap = {};
+
 function getFormData() {
   const title = document.getElementById("title").value
   const uppercase = document.getElementById("uppercase").checked
@@ -13,10 +15,42 @@ function getFormData() {
   return { words, gridSize, cardCount, freeCenter, uppercase, title, displayMode }
 }
 
+async function loadImages(words, existingMap = {}) {
+  const uniqueWords = [...new Set(words)];
+  const missingWords = uniqueWords.filter(word => !(word in existingMap));
+
+  if (missingWords.length === 0) {
+    return existingMap;
+  }
+
+  const promises = missingWords.map(word =>
+    fetch(`http://localhost:3000/api/images?word=${word}`)
+      .then(res => res.json())
+      .then(data => ({ word, image: data.image }))
+  );
+
+  const results = await Promise.all(promises);
+
+  const newMap = { ...existingMap };
+
+  results.forEach(({ word, image }) => {
+    newMap[word] = image;
+  });
+
+  return newMap;
+}
 
 async function preview() {
 
   const data = getFormData()
+
+  let imageMap = globalImageMap;
+
+  if (data.displayMode !== "text") {
+    globalImageMap = await loadImages(data.words, globalImageMap);
+  }
+
+  data.imageMap = globalImageMap;
 
   const res = await fetch("http://localhost:3000/api/bingo/preview", {
     method: "POST",
@@ -69,7 +103,11 @@ function debounce(func, delay) {
   }
 }
 
-const debouncedPreview = debounce(preview, 500)
+const debouncedPreview = debounce(() => {
+  const displayMode = document.getElementById("displayMode").value;
+  if (displayMode !== "text") return;
+  preview();
+}, 500);
 
 function updateWordRequirement() {
 
