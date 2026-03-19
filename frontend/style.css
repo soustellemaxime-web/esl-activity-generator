@@ -47,6 +47,16 @@ h3 {
   width: 100%;
 }
 
+.placeholder {
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+}
+
 .container {
   max-width: 1200px;
   margin: 0px auto;

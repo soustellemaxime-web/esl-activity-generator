@@ -57,6 +57,7 @@ async function loadImages(words, existingMap = {}) {
 
 async function preview() {
   const previewDiv = document.getElementById("preview");
+  previewDiv.innerHTML = "";
   const scrollY = window.scrollY;
   previewDiv.innerHTML = `
     <div style="text-align:center; padding:20px;">
