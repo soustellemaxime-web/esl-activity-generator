@@ -9,51 +9,52 @@
 
 <body>
 
-<h1>Bingo Generator</h1>
+<div class="container">
 
-<label>Title</label>
-<input id="title" placeholder="___ Bingo">
+  <h1>Bingo Generator</h1>
 
-<label>
-<input type="checkbox" id="freeCenter">Free center square
-</label>
+  <div class="card">
+    <label>Title</label>
+    <input id="title" placeholder="___ Bingo">
 
-<p></p>
+    <div class="checkbox-group">
+      <label><input type="checkbox" id="freeCenter"> Free center square</label>
+      <label><input type="checkbox" id="uppercase"> Convert to UPPERCASE</label>
+    </div>
 
-<label class="checkbox-row">
-  <input type="checkbox" id="uppercase">Convert words to UPPERCASE
-</label>
+    <label for="displayMode">Display mode</label>
+    <select id="displayMode">
+      <option value="text">Text only</option>
+      <option value="image-word">Image + word</option>
+      <option value="image">Image only</option>
+    </select>
 
-<p></p>
+    <label>Grid Size</label>
+    <select id="gridSize">
+      <option value="3">3 x 3</option>
+      <option value="4">4 x 4</option>
+      <option value="5">5 x 5</option>
+    </select>
 
-<label for="displayMode">Display mode</label>
-<select id="displayMode">
-  <option value="text">Text only</option>
-  <option value="image-word">Image + word</option>
-  <option value="image">Image only</option>
-</select>
+    <p id="wordRequirement">Words: 0 / 9</p>
 
-<label>Grid Size</label>
-<select id="gridSize">
-  <option value="3">3 x 3</option>
-  <option value="4">4 x 4</option>
-  <option value="5">5 x 5</option>
-</select>
+    <label>Word List</label>
+    <textarea id="words"></textarea>
 
-<p id="wordRequirement">Words: 0 / 9</p>
+    <label>Number of Cards</label>
+    <input id="cardCount" type="number" value="4">
 
-<label>Word List</label>
-<textarea id="words"></textarea>
+    <div class="button-row">
+      <button class="primary" onclick="preview()">Preview</button>
+      <button onclick="download()">Download PDF</button>
+    </div>
+  </div>
 
-<label>Number of Cards</label>
-<input id="cardCount" type="number" value="5">
+  <div class="card preview-card">
+    <h2>Preview (2 cards)</h2>
+    <div id="preview"></div>
+  </div>
 
-<button onclick="preview()">Preview</button>
-<button onclick="download()">Download PDF</button>
-
-<h2>Preview (2 first cards)</h2>
-<div id="preview">
-  <p id="loading" style="display:none;">Loading...</p>
 </div>
 
 </body>
