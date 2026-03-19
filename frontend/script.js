@@ -42,6 +42,7 @@ async function loadImages(words, existingMap = {}) {
 
 async function preview() {
   const previewDiv = document.getElementById("preview");
+  const scrollY = window.scrollY;
   previewDiv.innerHTML = `
     <div style="text-align:center; padding:20px;">
       ⏳ Generating bingo...
@@ -69,6 +70,7 @@ async function preview() {
   const html = await res.text()
 
   document.getElementById("preview").innerHTML = html
+  window.scrollTo(0, scrollY);
 }
 
 
