@@ -41,6 +41,12 @@ async function loadImages(words, existingMap = {}) {
 }
 
 async function preview() {
+  const previewDiv = document.getElementById("preview");
+  previewDiv.innerHTML = `
+    <div style="text-align:center; padding:20px;">
+      ⏳ Generating bingo...
+    </div>
+  `;
 
   const data = getFormData()
 
