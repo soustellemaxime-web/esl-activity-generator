@@ -47,6 +47,25 @@ td {
     overflow-wrap: anywhere;
 }
 
+.cell span {
+  display: block;
+  text-align: center;
+  word-break: break-word;
+  line-height: 1.1;
+}
+
+.grid-3 .cell span {
+  font-size: 16px;
+}
+
+.grid-4 .cell span {
+  font-size: 14px;
+}
+
+.grid-5 .cell span {
+  font-size: 12px;
+}
+
 .free-cell {
   background-color: #f0f0f0;
 }

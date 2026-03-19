@@ -81,7 +81,7 @@ function generateCardsHTML(cards, title, gridSize, displayMode) {
 
     pageCards.forEach(grid => {
 
-      html += `<div class="card">`
+      html += `<div class="card grid-${gridSize}">`
       html += `<h2>${title}</h2>`
       html += `<table style="--grid-size:${gridSize}">`
 
@@ -91,9 +91,9 @@ function generateCardsHTML(cards, title, gridSize, displayMode) {
 
         row.forEach(cell => {
           if (cell.word === "FREE") {
-            html += `<td class="free-cell"><div class="cell-content">★ FREE ★</div></td>`
+            html += `<td class="free-cell"><div class="cell-content"> FREE </div></td>`
           } else {
-            html += `<td>${renderCell(cell, displayMode)}</td>`
+            html += `<td class="cell">${renderCell(cell, displayMode)}</td>`
           }
         })
 
