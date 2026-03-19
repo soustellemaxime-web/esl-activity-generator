@@ -26,7 +26,22 @@ async function loadImages(words, existingMap = {}) {
   const promises = missingWords.map(word =>
     fetch(`http://localhost:3000/api/images?word=${word}`)
       .then(res => res.json())
-      .then(data => ({ word, image: data.image }))
+      .then(async data => {
+        const imageUrl = data.image;
+
+        if (!imageUrl) return { word, image: null };
+
+        const res = await fetch(imageUrl);
+        const blob = await res.blob();
+
+        const base64 = await new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.readAsDataURL(blob);
+        });
+
+        return { word, image: base64 };
+      })
   );
 
   const results = await Promise.all(promises);
@@ -50,8 +65,6 @@ async function preview() {
   `;
 
   const data = getFormData()
-
-  let imageMap = globalImageMap;
 
   if (data.displayMode !== "text") {
     globalImageMap = await loadImages(data.words, globalImageMap);
@@ -78,6 +91,12 @@ async function download() {
 
   const data = getFormData()
 
+  if (data.displayMode !== "text") {
+    globalImageMap = await loadImages(data.words, globalImageMap);
+  }
+
+  data.imageMap = globalImageMap;
+  
   const res = await fetch("http://localhost:3000/api/bingo/generate", {
     method: "POST",
     headers: {

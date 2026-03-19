@@ -121,7 +121,7 @@ function renderCell(cell, displayMode) {
     return `
       <div class="cell-content">
         <div class="image-container">
-          <img src="${cell.image || ""}">
+          ${cell.image ? `<img src="${cell.image}">` : ""}
         </div>
         <span>${cell.word}</span>
       </div>
@@ -132,7 +132,7 @@ function renderCell(cell, displayMode) {
     return `
       <div class="cell-content">
         <div class="image-container">
-          <img src="${cell.image || ""}">
+          ${cell.image ? `<img src="${cell.image}">` : ""}
         </div>
       </div>
     `
@@ -142,6 +142,7 @@ function renderCell(cell, displayMode) {
 
 function generateBingo(data) {
     let { words, gridSize, cardCount, freeCenter, uppercase, title, displayMode , imageMap } = data
+    //console.log("IMAGE SAMPLE:", data.imageMap && Object.values(data.imageMap)[0]);
     if (uppercase) {
         words = words.map(word => word.toUpperCase())
     }
