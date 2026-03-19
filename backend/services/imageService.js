@@ -1,5 +1,3 @@
-const fetch = require("node-fetch")
-
 const API_KEY = process.env.PIXABAY_API_KEY
 
 async function getImage(word) {

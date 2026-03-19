@@ -18,7 +18,7 @@ async function preview() {
 
   const data = getFormData()
 
-  const res = await fetch("http://localhost:3000/preview-bingo", {
+  const res = await fetch("http://localhost:3000/api/bingo/preview", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -36,7 +36,7 @@ async function download() {
 
   const data = getFormData()
 
-  const res = await fetch("http://localhost:3000/generate-bingo", {
+  const res = await fetch("http://localhost:3000/api/bingo/generate", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
