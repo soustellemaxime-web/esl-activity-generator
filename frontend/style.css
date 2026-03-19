@@ -4,10 +4,28 @@ body {
   margin: 0;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header button {
+  background: none;
+  font-size: 18px;
+  padding: 6px 10px;
+}
+
 .container {
   max-width: 900px;
   margin: 40px auto;
   padding: 0 20px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 h1 {
@@ -21,6 +39,12 @@ h1 {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   margin-bottom: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
 }
 
 .preview-card {
@@ -40,6 +64,7 @@ textarea {
   padding: 8px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  transition: all 0.2s ease;
 }
 
 input:not([type="checkbox"]), select {
@@ -69,7 +94,7 @@ button {
   border: none;
   cursor: pointer;
   background: #e0e0e0;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 
 button:hover {
@@ -85,7 +110,47 @@ button.primary:hover {
   background: #43a047;
 }
 
+button:active {
+  transform: scale(0.97);
+}
+
 #wordRequirement {
   font-weight: bold;
   margin-bottom: 10px;
+}
+
+input, select {
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+body.dark {
+  background: #1e1e1e;
+  color: #eee;
+}
+
+body.dark .card {
+  background: #2a2a2a;
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background: #333;
+  color: #eee;
+  border: 1px solid #555;
+}
+
+body.dark button {
+  background: #444;
+  color: #eee;
+}
+
+body.dark button.primary {
+  background: #66bb6a;
 }

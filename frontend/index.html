@@ -11,10 +11,12 @@
 
 <div class="container">
 
-  <h1>Bingo Generator</h1>
-
+  <div class="header">
+    <h1>Bingo Generator</h1>
+    <button id="toggleTheme">🌙</button>
+  </div>
   <div class="card">
-    <label>Title</label>
+    <label>📝 Title</label>
     <input id="title" placeholder="___ Bingo">
 
     <div class="checkbox-group">
@@ -22,31 +24,37 @@
       <label><input type="checkbox" id="uppercase"> Convert to UPPERCASE</label>
     </div>
 
-    <label for="displayMode">Display mode</label>
-    <select id="displayMode">
-      <option value="text">Text only</option>
-      <option value="image-word">Image + word</option>
-      <option value="image">Image only</option>
-    </select>
+    <div class="grid-2">
+      <div>
+        <label for="displayMode">🖼️ Display mode</label>
+        <select id="displayMode">
+          <option value="text">Text only</option>
+          <option value="image-word">Image + word</option>
+          <option value="image">Image only</option>
+        </select>
+      </div>
 
-    <label>Grid Size</label>
-    <select id="gridSize">
-      <option value="3">3 x 3</option>
-      <option value="4">4 x 4</option>
-      <option value="5">5 x 5</option>
-    </select>
+      <div>
+        <label>🎯 Grid Size</label>
+        <select id="gridSize">
+          <option value="3">3 x 3</option>
+          <option value="4">4 x 4</option>
+          <option value="5">5 x 5</option>
+        </select>
+      </div>
+    </div>
 
     <p id="wordRequirement">Words: 0 / 9</p>
 
-    <label>Word List</label>
+    <label>📋 Word List</label>
     <textarea id="words"></textarea>
 
-    <label>Number of Cards</label>
+    <label>#️⃣ Number of Cards</label>
     <input id="cardCount" type="number" value="4">
 
     <div class="button-row">
-      <button class="primary" onclick="preview()">Preview</button>
-      <button onclick="download()">Download PDF</button>
+      <button class="primary" onclick="preview()">👀 Preview</button>
+      <button onclick="download()">⬇️ Download PDF</button>
     </div>
   </div>
 

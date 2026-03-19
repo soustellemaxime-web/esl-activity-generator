@@ -205,6 +205,10 @@ document.getElementById("uppercase")
 document.getElementById("title")
   .addEventListener("input", debouncedPreview)
 
+document.getElementById("toggleTheme").addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+});
+
 document.getElementById("preview").addEventListener("click", async (e) => {
   const icon = e.target.closest(".reload-icon");
   if (!icon) return;
