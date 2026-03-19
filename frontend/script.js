@@ -236,7 +236,16 @@ document.getElementById("preview").addEventListener("click", async (e) => {
   globalImageMap[word] = base64;
 
   // update image visually
-  img.src = base64;
-});
+  document.querySelectorAll(`img[data-word="${word}"]`)
+    .forEach(el => {
+      el.src = base64;
+
+      // visual feedback
+      el.style.opacity = "0.5";
+      setTimeout(() => {
+        el.style.opacity = "1";
+      }, 200);
+    });
+  });
 
 updateWordRequirement()

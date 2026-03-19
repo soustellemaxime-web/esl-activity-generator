@@ -9,7 +9,7 @@ const router = express.Router()
 router.post("/preview", (req, res) => {
   try {
     const previewData = { ...req.body }
-    previewData.cardCount = Math.min(previewData.cardCount, 4)
+    previewData.cardCount = Math.min(previewData.cardCount, 2)
 
     const html = generateBingo(previewData)
     res.send(html)
