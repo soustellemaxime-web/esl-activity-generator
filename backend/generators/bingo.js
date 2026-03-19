@@ -120,7 +120,9 @@ function renderCell(cell, displayMode) {
   if (displayMode === "image-word") {
     return `
       <div class="cell-content">
-        <img src="${cell.image || ""}">
+        <div class="image-container">
+          <img src="${cell.image || ""}">
+        </div>
         <span>${cell.word}</span>
       </div>
     `
@@ -129,7 +131,9 @@ function renderCell(cell, displayMode) {
   if (displayMode === "image") {
     return `
       <div class="cell-content">
-        <img src="${cell.image || ""}">
+        <div class="image-container">
+          <img src="${cell.image || ""}">
+        </div>
       </div>
     `
   }
