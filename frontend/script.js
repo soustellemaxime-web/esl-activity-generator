@@ -215,7 +215,7 @@ document.getElementById("preview").addEventListener("click", async (e) => {
   if (!img) return;
 
   const word = img.dataset.word;
-
+  icon.classList.add("loading");
   // force new image (ignore cache)
   const res = await fetch(`http://localhost:3000/api/images?word=${word}&t=${Date.now()}`);
   const data = await res.json();
@@ -236,7 +236,7 @@ document.getElementById("preview").addEventListener("click", async (e) => {
   globalImageMap[word] = base64;
 
   // update image visually
-  document.querySelectorAll(`img[data-word="${word}"]`)
+    document.querySelectorAll(`img[data-word="${word}"]`)
     .forEach(el => {
       el.src = base64;
 
@@ -246,6 +246,7 @@ document.getElementById("preview").addEventListener("click", async (e) => {
         el.style.opacity = "1";
       }, 200);
     });
+    icon.classList.remove("loading");
   });
 
 updateWordRequirement()
