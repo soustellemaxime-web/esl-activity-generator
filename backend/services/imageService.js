@@ -17,7 +17,7 @@ async function getImages(word) {
   }
 
   // 2. Fetch from Pixabay
-  const query = `${key} cartoon`; //make it kid-friendly //TODO: let the user choose style
+  const query = `${key}`; //make it kid-friendly //TODO: let the user choose style
   const url = `https://pixabay.com/api/?key=${API_KEY}&q=${encodeURIComponent(query)}&image_type=photo&per_page=3`;
 
   const response = await fetch(url);
