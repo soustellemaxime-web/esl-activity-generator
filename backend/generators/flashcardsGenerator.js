@@ -30,7 +30,12 @@ function generateFlashcards(data) {
 
         html += `
           <div class="flashcard" data-word="${word}">
-            ${displayMode !== "text" && image ? `<img src="${image}">` : ""}
+            ${displayMode !== "text" && image ? `
+              <div class="image-container">
+                <img src="${image}" data-word="${word}">
+                <div class="reload-icon">↻</div>
+              </div>
+            ` : ""}
             ${displayMode !== "image" ? `<p>${word}</p>` : ""}
           </div>
         `;

@@ -18,15 +18,22 @@ async function reloadImage(word, cardElement) {
 }
 
 function attachImageReload() {
-  const cards = document.querySelectorAll(".flashcard");
+  const icons = document.querySelectorAll(".reload-icon");
 
-  cards.forEach(card => {
-    const img = card.querySelector("img");
-    const word = card.dataset.word;
+  icons.forEach(icon => {
+    icon.onclick = async (e) => {
+      e.stopPropagation();
 
-    if (!img || !word) return;
+      const container = icon.closest(".image-container");
+      const img = container.querySelector("img");
+      const word = img.dataset.word;
 
-    img.onclick = () => reloadImage(word, card);
+      icon.classList.add("loading");
+
+      await reloadImage(word, container.closest(".flashcard"));
+
+      icon.classList.remove("loading");
+    };
   });
 }
 
