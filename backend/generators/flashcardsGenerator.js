@@ -18,16 +18,26 @@ function generateFlashcards(data) {
         <div class="flashcards-container">
   `;
 
-  words.forEach(word => {
-    const image = imageMap?.[word];
+  const cardsPerPage = 8;
 
-    html += `
-      <div class="flashcard">
-        ${displayMode !== "text" && image ? `<img src="${image}">` : ""}
-        ${displayMode !== "image" ? `<p>${word}</p>` : ""}
-      </div>
-    `;
-  });
+  for (let i = 0; i < words.length; i += cardsPerPage) {
+      html += `<div class="page">`;
+
+      const pageWords = words.slice(i, i + cardsPerPage);
+
+      pageWords.forEach(word => {
+        const image = imageMap?.[word];
+
+        html += `
+          <div class="flashcard">
+            ${displayMode !== "text" && image ? `<img src="${image}">` : ""}
+            ${displayMode !== "image" ? `<p>${word}</p>` : ""}
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+    }
 
   html += `
         </div>
