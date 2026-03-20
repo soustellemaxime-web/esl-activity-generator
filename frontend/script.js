@@ -1,5 +1,4 @@
 let globalImageMap = {};
-const isFlashcardsPage = window.location.pathname.includes("flashcards");
 
 function getFormData() {
   const title = document.getElementById("title")?.value || "";
@@ -65,7 +64,7 @@ async function preview() {
   const scrollY = window.scrollY;
   previewDiv.innerHTML = `
     <div style="text-align:center; padding:20px;">
-      ⏳ Generating bingo...
+      ⏳ Generating ${window.API_BASE}...
     </div>
   `;
 
@@ -76,8 +75,7 @@ async function preview() {
   }
 
   data.imageMap = globalImageMap;
-  const endpoint = isFlashcardsPage ? "flashcards/preview" : "bingo/preview";
-  const res = await fetch(`http://localhost:3000/api/${endpoint}`, {
+  const res = await fetch(`http://localhost:3000/api/${window.API_BASE}/preview`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -107,8 +105,7 @@ async function download() {
 
       data.imageMap = globalImageMap;
       
-      const endpoint = isFlashcardsPage ? "flashcards/generate" : "bingo/generate";
-      const res = await fetch(`http://localhost:3000/api/${endpoint}`, {
+      const res = await fetch(`http://localhost:3000/api/${window.API_BASE}/generate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -122,7 +119,7 @@ async function download() {
 
       const a = document.createElement("a")
       a.href = url
-      a.download = "bingo.pdf"
+      a.download = `${window.API_BASE}.pdf`
       a.click()
     } catch (err) {
     console.error(err);
@@ -147,45 +144,12 @@ function debounce(func, delay) {
 }
 
 const debouncedPreview = debounce(() => {
-  const displayMode = document.getElementById("displayMode").value;
+  const displayModeEl = document.getElementById("displayMode");
+  if (!displayModeEl) return;
+  const displayMode = displayModeEl.value;
   if (displayMode !== "text") return;
   preview();
 }, 500);
-
-function updateWordRequirement() {
-  if (!document.getElementById("gridSize")) return;
-  const gridSize = Number(document.getElementById("gridSize").value)
-  const freeCenter = document.getElementById("freeCenter").checked
-
-  const words = parseWords(
-    document.getElementById("words").value
-  )
-
-  const currentCount = words.length
-
-  let required = gridSize * gridSize
-
-  if (freeCenter) {
-    required -= 1
-  }
-
-  const remaining = required - currentCount
-
-  const element = document.getElementById("wordRequirement")
-
-  if (remaining > 0) {
-    element.style.color = "red"
-  } else {
-    element.style.color = "green"
-  }
-
-  let message = `Words: ${currentCount} / ${required}`
-  if (remaining > 0) {
-    message += ` (${remaining} more needed)`
-  }
-
-  document.getElementById("wordRequirement").textContent = message
-}
 
 function parseWords(text){
     return text
@@ -194,21 +158,6 @@ function parseWords(text){
     .filter(word => word.length > 0)
 }
 
-function safeListener(id, event, callback) {
-  const el = document.getElementById(id);
-  if (el) el.addEventListener(event, callback);
-}
-  
-safeListener("gridSize", "change", updateWordRequirement);
-safeListener("freeCenter", "change", updateWordRequirement);
-safeListener("words", "input", updateWordRequirement);
-safeListener("words", "input", debouncedPreview);
-safeListener("gridSize", "change", debouncedPreview);
-safeListener("freeCenter", "change", debouncedPreview);
-safeListener("title", "input", debouncedPreview);
-safeListener("uppercase", "change", debouncedPreview);
-safeListener("cardCount", "input", debouncedPreview);
-
 document.getElementById("toggleTheme").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
@@ -216,49 +165,39 @@ document.getElementById("toggleTheme").addEventListener("click", () => {
 const previewEl = document.getElementById("preview");
 if (previewEl) {
   previewEl.addEventListener("click", async (e) => {
-    document.getElementById("preview").addEventListener("click", async (e) => {
-      const icon = e.target.closest(".reload-icon");
-      if (!icon) return;
+    const icon = e.target.closest(".reload-icon");
+    if (!icon) return;
 
-      const container = icon.closest(".image-container");
-      const img = container.querySelector("img");
+    const container = icon.closest(".image-container");
+    const img = container.querySelector("img");
+    if (!img) return;
 
-      if (!img) return;
+    const word = img.dataset.word;
 
-      const word = img.dataset.word;
-      icon.classList.add("loading");
-      // force new image (ignore cache)
-      const res = await fetch(`http://localhost:3000/api/images?word=${word}&t=${Date.now()}`);
-      const data = await res.json();
+    icon.classList.add("loading");
 
-      if (!data.image) return;
+    const res = await fetch(`http://localhost:3000/api/images?word=${word}&t=${Date.now()}`);
+    const data = await res.json();
 
-      // convert to base64 again
-      const imageRes = await fetch(data.image);
-      const blob = await imageRes.blob();
+    if (!data.image) return;
 
-      const base64 = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.readAsDataURL(blob);
-      });
+    const imageRes = await fetch(data.image);
+    const blob = await imageRes.blob();
 
-      // update cache
-      globalImageMap[word] = base64;
-
-      // update image visually
-        document.querySelectorAll(`img[data-word="${word}"]`)
-        .forEach(el => {
-          el.src = base64;
-
-          // visual feedback
-          el.style.opacity = "0.5";
-          setTimeout(() => {
-            el.style.opacity = "1";
-        }, 200);
-      });
-      icon.classList.remove("loading");
+    const base64 = await new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
     });
+
+    globalImageMap[word] = base64;
+
+    document.querySelectorAll(`img[data-word="${word}"]`).forEach(el => {
+      el.src = base64;
+      el.style.opacity = "0.5";
+      setTimeout(() => el.style.opacity = "1", 200);
+    });
+
+    icon.classList.remove("loading");
   });
 }
-updateWordRequirement()
