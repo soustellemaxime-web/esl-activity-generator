@@ -2,10 +2,10 @@ let globalImageMap = {};
 const isFlashcardsPage = window.location.pathname.includes("flashcards");
 
 function getFormData() {
-  const title = document.getElementById("title").value
-  const uppercase = document.getElementById("uppercase").checked
+  const title = document.getElementById("title")?.value || "";
+  const uppercase = document.getElementById("uppercase")?.checked || false;
   const words = parseWords(
-     document.getElementById("words").value
+     document.getElementById("words")?.value || ""
   )
 
   const gridSizeEl = document.getElementById("gridSize")
@@ -13,8 +13,8 @@ function getFormData() {
   const cardCountEl = document.getElementById("cardCount")
   const cardCount = cardCountEl ? Number(cardCountEl.value) : null
   const freeCenterEl = document.getElementById("freeCenter")
-  const freeCenter = freeCenterEl ? freeCenterEl.checked : null
-  const displayMode = document.getElementById("displayMode").value
+  const freeCenter = freeCenterEl ? freeCenterEl.checked : false
+  const displayMode = document.getElementById("displayMode")?.value || "text"
 
   return { words, gridSize, cardCount, freeCenter, uppercase, title, displayMode }
 }
@@ -153,7 +153,7 @@ const debouncedPreview = debounce(() => {
 }, 500);
 
 function updateWordRequirement() {
-
+  if (!document.getElementById("gridSize")) return;
   const gridSize = Number(document.getElementById("gridSize").value)
   const freeCenter = document.getElementById("freeCenter").checked
 
@@ -194,79 +194,71 @@ function parseWords(text){
     .filter(word => word.length > 0)
 }
 
-document.getElementById("gridSize")
-  .addEventListener("change", updateWordRequirement)
-
-document.getElementById("freeCenter")
-  .addEventListener("change", updateWordRequirement)
-
-document.getElementById("words")
-  .addEventListener("input", updateWordRequirement)
-
-document.getElementById("words")
-  .addEventListener("input", debouncedPreview)
-
-document.getElementById("gridSize")
-  .addEventListener("change", debouncedPreview)
-
-document.getElementById("cardCount")
-  .addEventListener("input", debouncedPreview)
-
-document.getElementById("freeCenter")
-  .addEventListener("change", debouncedPreview)
-
-document.getElementById("uppercase")
-  .addEventListener("change", debouncedPreview)
-
-document.getElementById("title")
-  .addEventListener("input", debouncedPreview)
+function safeListener(id, event, callback) {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener(event, callback);
+}
+  
+safeListener("gridSize", "change", updateWordRequirement);
+safeListener("freeCenter", "change", updateWordRequirement);
+safeListener("words", "input", updateWordRequirement);
+safeListener("words", "input", debouncedPreview);
+safeListener("gridSize", "change", debouncedPreview);
+safeListener("freeCenter", "change", debouncedPreview);
+safeListener("title", "input", debouncedPreview);
+safeListener("uppercase", "change", debouncedPreview);
+safeListener("cardCount", "input", debouncedPreview);
 
 document.getElementById("toggleTheme").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-document.getElementById("preview").addEventListener("click", async (e) => {
-  const icon = e.target.closest(".reload-icon");
-  if (!icon) return;
+const previewEl = document.getElementById("preview");
+if (previewEl) {
+  previewEl.addEventListener("click", async (e) => {
+    document.getElementById("preview").addEventListener("click", async (e) => {
+      const icon = e.target.closest(".reload-icon");
+      if (!icon) return;
 
-  const container = icon.closest(".image-container");
-  const img = container.querySelector("img");
+      const container = icon.closest(".image-container");
+      const img = container.querySelector("img");
 
-  if (!img) return;
+      if (!img) return;
 
-  const word = img.dataset.word;
-  icon.classList.add("loading");
-  // force new image (ignore cache)
-  const res = await fetch(`http://localhost:3000/api/images?word=${word}&t=${Date.now()}`);
-  const data = await res.json();
+      const word = img.dataset.word;
+      icon.classList.add("loading");
+      // force new image (ignore cache)
+      const res = await fetch(`http://localhost:3000/api/images?word=${word}&t=${Date.now()}`);
+      const data = await res.json();
 
-  if (!data.image) return;
+      if (!data.image) return;
 
-  // convert to base64 again
-  const imageRes = await fetch(data.image);
-  const blob = await imageRes.blob();
+      // convert to base64 again
+      const imageRes = await fetch(data.image);
+      const blob = await imageRes.blob();
 
-  const base64 = await new Promise(resolve => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result);
-    reader.readAsDataURL(blob);
-  });
+      const base64 = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
+      });
 
-  // update cache
-  globalImageMap[word] = base64;
+      // update cache
+      globalImageMap[word] = base64;
 
-  // update image visually
-    document.querySelectorAll(`img[data-word="${word}"]`)
-    .forEach(el => {
-      el.src = base64;
+      // update image visually
+        document.querySelectorAll(`img[data-word="${word}"]`)
+        .forEach(el => {
+          el.src = base64;
 
-      // visual feedback
-      el.style.opacity = "0.5";
-      setTimeout(() => {
-        el.style.opacity = "1";
-      }, 200);
+          // visual feedback
+          el.style.opacity = "0.5";
+          setTimeout(() => {
+            el.style.opacity = "1";
+        }, 200);
+      });
+      icon.classList.remove("loading");
     });
-    icon.classList.remove("loading");
   });
-
+}
 updateWordRequirement()

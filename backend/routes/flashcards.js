@@ -21,3 +21,5 @@ router.post("/generate", async (req, res) => {
 
   res.send(pdf);
 });
+
+module.exports = router;

@@ -37,3 +37,5 @@ function generateFlashcards(data) {
 
   return html;
 }
+
+module.exports = generateFlashcards;
