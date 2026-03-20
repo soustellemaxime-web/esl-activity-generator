@@ -1,6 +1,6 @@
 const express = require("express");
 
-const generateFlashcards = require("../generators/flashcards");
+const generateFlashcards = require("../generators/flashcardsGenerator");
 const generatePDF = require("../services/pdfService");
 
 const router = express.Router();

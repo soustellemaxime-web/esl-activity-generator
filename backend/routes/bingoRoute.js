@@ -1,6 +1,6 @@
 const express = require("express")
 
-const generateBingo = require("../generators/bingo")
+const generateBingo = require("../generators/bingoGenerator")
 const generatePDF = require("../services/pdfService")
 
 const router = express.Router()

@@ -9,9 +9,9 @@ app.use(cors())
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
-const bingoRoutes = require("./routes/bingo")
-const flashcardRoutes = require("./routes/flashcards")
-const imageRoutes = require("./routes/images")
+const bingoRoutes = require("./routes/bingoRoute")
+const flashcardRoutes = require("./routes/flashcardsRoute")
+const imageRoutes = require("./routes/imagesRoute")
 app.use("/api/bingo", bingoRoutes)
 app.use("/api/flashcards", flashcardRoutes)
 app.use("/api/images", imageRoutes)
