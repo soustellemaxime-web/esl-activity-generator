@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Flashcards Generator</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>Flashcards Generator</h1>
+    <div>
+      <a href="index.html">🏠</a>
+      <button id="toggleTheme">🌙</button>
+    </div>
+  </div>
+  <div class="app-layout">
+    <div class="left-panel">
+      <div class="card">
+        <div class="section">
+          <label>📝 Title</label>
+          <input id="title" placeholder="Flashcards">
+        </div>
+        <div class="section grid-2">
+          <div>
+            <label for="displayMode">🖼️ Display mode</label>
+            <select id="displayMode">
+              <option value="text">Text only</option>
+              <option value="image-word">Image + word</option>
+              <option value="image">Image only</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section">
+          <label>📋 Word List</label>
+          <textarea id="words"></textarea>
+        </div>
+
+        <div class="button-row">
+          <button class="primary" onclick="preview()">👀 Preview</button>
+          <button id="downloadBtn" onclick="download()">⬇️ Download PDF</button>
+        </div>
+      </div>
+    </div>
+    <div class="right-panel">
+      <div class="card preview-card">
+        <h2>Preview (2 cards)</h2>
+        <div id="preview">
+          <div class="placeholder">
+            ⌨️ Start typing your words to generate your flashcards
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -166,6 +166,24 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.nav {
+  display: flex;
+  gap: 10px;
+}
+
+.tab {
+  background: none;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+  border-bottom: 2px solid #4CAF50;
+}
+
 #wordRequirement {
   font-weight: bold;
   margin-bottom: 10px;

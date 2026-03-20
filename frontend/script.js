@@ -1,4 +1,5 @@
 let globalImageMap = {};
+const isFlashcardsPage = window.location.pathname.includes("flashcards");
 
 function getFormData() {
   const title = document.getElementById("title").value
@@ -7,9 +8,12 @@ function getFormData() {
      document.getElementById("words").value
   )
 
-  const gridSize = Number(document.getElementById("gridSize").value)
-  const cardCount = Number(document.getElementById("cardCount").value)
-  const freeCenter = document.getElementById("freeCenter").checked
+  const gridSizeEl = document.getElementById("gridSize")
+  const gridSize = gridSizeEl ? Number(gridSizeEl.value) : null
+  const cardCountEl = document.getElementById("cardCount")
+  const cardCount = cardCountEl ? Number(cardCountEl.value) : null
+  const freeCenterEl = document.getElementById("freeCenter")
+  const freeCenter = freeCenterEl ? freeCenterEl.checked : null
   const displayMode = document.getElementById("displayMode").value
 
   return { words, gridSize, cardCount, freeCenter, uppercase, title, displayMode }
@@ -72,8 +76,8 @@ async function preview() {
   }
 
   data.imageMap = globalImageMap;
-
-  const res = await fetch("http://localhost:3000/api/bingo/preview", {
+  const endpoint = isFlashcardsPage ? "flashcards/preview" : "bingo/preview";
+  const res = await fetch(`http://localhost:3000/api/${endpoint}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -103,7 +107,8 @@ async function download() {
 
       data.imageMap = globalImageMap;
       
-      const res = await fetch("http://localhost:3000/api/bingo/generate", {
+      const endpoint = isFlashcardsPage ? "flashcards/generate" : "bingo/generate";
+      const res = await fetch(`http://localhost:3000/api/${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

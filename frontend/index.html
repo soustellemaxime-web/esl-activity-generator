@@ -2,93 +2,23 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Bingo Generator</title>
+  <title>ESL Activity Generator</title>
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
 </head>
 
 <body>
 
 <div class="container">
-  <div class="header">
-    <h1>Bingo Generator</h1>
-    <button id="toggleTheme">🌙</button>
-  </div>
-  <div class="app-layout">
-    <div class="left-panel">
-        <!--
-        <p>Generate custom bingo cards for your ESL activities! Fill in the title, add your words, and choose your settings. You can preview the cards before downloading them as a PDF.</p>
-        <p><strong>Instructions:</strong></p>
-        <ol>
-          <li>Enter a title for your bingo cards.</li>
-          <li>Add words to the list (one per line).</li>
-          <li>Choose your display mode and grid size.</li>
-          <li>Click "Preview" to see how your cards will look.</li>
-          <li>If you're happy with the preview, click "Download PDF" to get your printable bingo cards.</li>
-        </ol>-->
-      <div class="card">
-        <div class="section">
-          <label>📝 Title</label>
-          <input id="title" placeholder="___ Bingo">
-        </div>
+  <h1>ESL Activity Generator</h1>
 
-        <h3>Options</h3>
-        <div class="section">
-          <div class="checkbox-group">
-            <label><input type="checkbox" id="freeCenter"> Free center square</label>
-            <label><input type="checkbox" id="uppercase"> Convert to UPPERCASE</label>
-          </div>
-        </div>
+  <div class="card" style="text-align:center">
+    <h2>Choose a tool</h2>
 
-        <div class="section grid-2">
-          <div>
-            <label for="displayMode">🖼️ Display mode</label>
-            <select id="displayMode">
-              <option value="text">Text only</option>
-              <option value="image-word">Image + word</option>
-              <option value="image">Image only</option>
-            </select>
-          </div>
-
-          <div>
-            <label>🎯 Grid Size</label>
-            <select id="gridSize">
-              <option value="3">3 x 3</option>
-              <option value="4">4 x 4</option>
-              <option value="5">5 x 5</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="section">
-          <p id="wordRequirement">Words: 0 / 9</p>
-          <label>📋 Word List</label>
-          <textarea id="words"></textarea>
-        </div>
-
-        <div class="section">
-          <label>#️⃣ Number of Cards</label>
-          <input id="cardCount" type="number" value="4">
-        </div>
-
-        <div class="button-row">
-          <button class="primary" onclick="preview()">👀 Preview</button>
-          <button id="downloadBtn" onclick="download()">⬇️ Download PDF</button>
-        </div>
-      </div>
-    </div>
-    <div class="right-panel">
-      <div class="card preview-card">
-        <h2>Preview (2 cards)</h2>
-        <div id="preview">
-          <div class="placeholder">
-            ⌨️ Start typing your words to generate your bingo cards
-          </div>
-        </div>
-      </div>
+    <div style="display:flex; gap:20px; justify-content:center; margin-top:20px;">
+      <a href="bingo.html"><button class="primary">🎯 Bingo Generator</button></a>
+      <a href="flashcards.html"><button>🃏 Flashcards Generator</button></a>
     </div>
   </div>
-
 </div>
 
 </body>
