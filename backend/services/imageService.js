@@ -27,6 +27,11 @@ async function getImages(word) {
   const url = `https://pixabay.com/api/?key=${API_KEY}&q=${encodeURIComponent(query)}&image_type=photo&per_page=3`;
 
   const response = await fetch(url);
+  /*
+  const remaining = response.headers.get("X-RateLimit-Remaining");
+  const limit = response.headers.get("X-RateLimit-Limit");
+  console.log(`📊 Pixabay quota: ${remaining}/${limit} remaining`);
+  */
   const data = await response.json();
 
   const hits = data.hits;
