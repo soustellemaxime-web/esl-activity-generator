@@ -86,6 +86,9 @@ async function preview() {
   const html = await res.text()
 
   document.getElementById("preview").innerHTML = html
+  if (window.API_BASE === "flashcards") {
+    attachImageReload();
+  }
   window.scrollTo(0, scrollY);
 }
 

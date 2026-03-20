@@ -29,7 +29,7 @@ function generateFlashcards(data) {
         const image = imageMap?.[word];
 
         html += `
-          <div class="flashcard">
+          <div class="flashcard" data-word="${word}">
             ${displayMode !== "text" && image ? `<img src="${image}">` : ""}
             ${displayMode !== "image" ? `<p>${word}</p>` : ""}
           </div>
