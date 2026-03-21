@@ -51,7 +51,8 @@ function generateMatching(words, imageMap) {
 }
 
 function generateWorksheet(data) {
-  const { words, imageMap, matching, mcq, fill } = data;
+  const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode } = data;
+  const currentMode = mode || "auto";
 
   let html = `
     <html>
@@ -82,6 +83,24 @@ function generateWorksheet(data) {
     html += `
       <div class="exercise">
         <h2>Fill in the blanks</h2>
+        <p>Coming soon...</p>
+      </div>
+    `;
+  }
+
+  if (wsearch) {
+    html += `
+      <div class="exercise">
+        <h2>Word Search</h2>
+        <p>Coming soon...</p>
+      </div>
+    `;
+  }
+
+  if (sbuilding) {
+    html += `
+      <div class="exercise">
+        <h2>Sentence Building</h2>
         <p>Coming soon...</p>
       </div>
     `;
