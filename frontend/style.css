@@ -157,6 +157,33 @@ button.primary:hover {
   background: #43a047;
 }
 
+button.green {
+  background: #4CAF50;
+  color: white;
+}
+
+button.green:hover {
+  background: #43a047;
+}
+
+button.pink {
+  background: #b6489e;
+  color: white;
+}
+
+button.pink:hover {
+  background: #8e3c7a;
+}
+
+button.blue {
+  background: #4674b9;
+  color: white;
+}
+
+button.blue:hover {
+  background: #3a5ca0;
+}
+
 button:active {
   transform: scale(0.97);
 }
@@ -254,6 +281,6 @@ body.dark button {
   color: #eee;
 }
 
-body.dark button.primary {
+body.dark button.green {
   background: #66bb6a;
 }

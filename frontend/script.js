@@ -70,7 +70,9 @@ async function preview() {
     </div>
   `;
 
-  const data = getFormData()
+  const data = (typeof getPageData === "function")
+    ? getPageData()
+    : getFormData();
 
   if (data.displayMode !== "text") {
     globalImageMap = await loadImages(data.words, globalImageMap);

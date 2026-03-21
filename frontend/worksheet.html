@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Worksheet Generator</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <script src="worksheet.js" defer></script>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>Worksheet Generator</h1>
+    <div>
+      <a href="index.html">🏠</a>
+      <button id="toggleTheme">🌙</button>
+    </div>
+  </div>
+
+  <div class="app-layout">
+    
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+      <div class="card">
+
+        <div class="section">
+          <label>📋 Word List</label>
+          <textarea id="words"></textarea>
+        </div>
+
+        <h3>Exercises</h3>
+
+        <div class="section checkbox-group">
+          <label><input type="checkbox" id="matching"> Matching (word ↔ image)</label>
+          <label><input type="checkbox" id="mcq"> Multiple Choice</label>
+          <label><input type="checkbox" id="fill"> Fill in the blanks</label>
+        </div>
+
+        <div class="button-row">
+          <button class="primary" onclick="preview()">👀 Preview</button>
+          <button id="downloadBtn" onclick="download()">⬇️ Download PDF</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <div class="card preview-card">
+        <h2>Preview</h2>
+        <div id="preview">
+          <div class="placeholder">
+            ⌨️ Enter words and select exercises to generate a worksheet
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
