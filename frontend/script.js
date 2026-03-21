@@ -74,7 +74,8 @@ async function preview() {
     ? getPageData()
     : getFormData();
 
-  if (data.displayMode !== "text") {
+  const needsImages = data.displayMode !== "text" || data.matching || data.mcq;
+  if (needsImages) {
     globalImageMap = await loadImages(data.words, globalImageMap);
   }
 

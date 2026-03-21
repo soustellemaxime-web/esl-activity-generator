@@ -6,8 +6,51 @@ const css = fs.readFileSync(
   "utf8"
 );
 
+function generateMatching(words, imageMap) {
+  // limit number of items (important for layout)
+  const selected = words.slice(0, 6);
+
+  // shuffle images separately
+  const shuffled = [...selected].sort(() => Math.random() - 0.5);
+
+  let html = `
+    <div class="exercise">
+      <h2>Match the words to the pictures</h2>
+
+      <div class="matching">
+  `;
+
+  // LEFT: words
+  html += `<div class="matching-words">`;
+  selected.forEach((word, i) => {
+    html += `<div class="match-item">${i + 1}. ${word}</div>`;
+  });
+  html += `</div>`;
+
+  // RIGHT: images
+  html += `<div class="matching-images">`;
+  shuffled.forEach((word, i) => {
+    const letter = String.fromCharCode(65 + i);
+    const img = imageMap?.[word];
+
+    html += `
+      <div class="match-item">
+        ${letter}. ${img ? `<img src="${img}" />` : ""}
+      </div>
+    `;
+  });
+  html += `</div>`;
+
+  html += `
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
 function generateWorksheet(data) {
-  const { words, matching, mcq, fill } = data;
+  const { words, imageMap, matching, mcq, fill } = data;
 
   let html = `
     <html>
@@ -22,12 +65,7 @@ function generateWorksheet(data) {
   // Add blocks depending on selection
 
   if (matching) {
-    html += `
-      <div class="exercise">
-        <h2>Match the words</h2>
-        <p>Coming soon...</p>
-      </div>
-    `;
+    html += generateMatching(words, imageMap);
   }
 
   if (mcq) {

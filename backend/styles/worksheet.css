@@ -28,3 +28,33 @@ h1 {
     margin: 0 0 8px;
     font-size: 18px;
 }
+
+.matching {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.matching-words,
+.matching-images {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.match-item {
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 6px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.matching-images img {
+  max-width: 100%;
+  max-height: 80px;
+  object-fit: contain;
+}
