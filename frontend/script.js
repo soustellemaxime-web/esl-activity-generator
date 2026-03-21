@@ -32,7 +32,7 @@ async function loadImages(words, existingMap = {}) {
     fetch(`http://localhost:3000/api/images?word=${word}`)
       .then(res => res.json())
       .then(async data => {
-        const imageUrl = data.image;
+        const imageUrl = data.images?.[0];
 
         if (!imageUrl) return { word, image: null };
 
@@ -88,9 +88,6 @@ async function preview() {
   const html = await res.text()
 
   document.getElementById("preview").innerHTML = html
-  if (window.API_BASE === "flashcards") {
-    attachImageReload();
-  }
   window.scrollTo(0, scrollY);
 }
 
@@ -184,25 +181,61 @@ if (previewEl) {
     const res = await fetch(`http://localhost:3000/api/images?word=${word}&t=${Date.now()}`);
     const data = await res.json();
 
-    if (!data.image) return;
+    if (!data.images || data.images.length === 0) {
+      icon.classList.remove("loading");
+      return;
+    }
 
-    const imageRes = await fetch(data.image);
-    const blob = await imageRes.blob();
-
-    const base64 = await new Promise(resolve => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
-      reader.readAsDataURL(blob);
-    });
-
-    globalImageMap[word] = base64;
-
-    document.querySelectorAll(`img[data-word="${word}"]`).forEach(el => {
-      el.src = base64;
-      el.style.opacity = "0.5";
-      setTimeout(() => el.style.opacity = "1", 200);
-    });
-
-    icon.classList.remove("loading");
+    showImagePicker(data.images, word, icon);
   });
+}
+
+function showImagePicker(images, word, icon) {
+  // remove old picker
+  const existing = document.getElementById("image-picker");
+  if (existing) existing.remove();
+
+  const picker = document.createElement("div");
+  picker.id = "image-picker";
+
+  picker.innerHTML = `
+    <div class="picker-content">
+      ${images.map(img => `<img src="${img}" />`).join("")}
+    </div>
+  `;
+
+  document.body.appendChild(picker);
+
+  // click on image
+  picker.querySelectorAll("img").forEach(imgEl => {
+    imgEl.onclick = async () => {
+      const res = await fetch(imgEl.src);
+      const blob = await res.blob();
+
+      const base64 = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
+      });
+
+      globalImageMap[word] = base64;
+
+      document.querySelectorAll(`img[data-word="${word}"]`).forEach(el => {
+        el.src = base64;
+        el.style.opacity = "0.5";
+        setTimeout(() => el.style.opacity = "1", 200);
+      });
+
+      icon.classList.remove("loading");
+      picker.remove();
+    };
+  });
+
+  // click outside closes
+  picker.onclick = (e) => {
+    if (e.target === picker) {
+      icon.classList.remove("loading");
+      picker.remove();
+    }
+  };
 }

@@ -18,7 +18,7 @@ async function getImages(word) {
       const randomIndex = Math.floor(Math.random() * images.length);
       const image = images[randomIndex];
 
-      return { source: "cache", image };
+      return { source: "cache", images };
     }
   }
 
@@ -49,7 +49,7 @@ async function getImages(word) {
     timestamp: Date.now()
   };
 
-  return { source: "api", image };
+  return { source: "api", images: hits.map(img => img.webformatURL) };
 }
 
 module.exports = { getImages };
