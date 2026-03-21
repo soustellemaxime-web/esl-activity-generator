@@ -50,6 +50,48 @@ function generateMatching(words, imageMap) {
   return html;
 }
 
+function generateMCQ(words, imageMap) {
+  const selected = words.slice(0, 5); // number of questions
+
+  let html = `
+    <div class="exercise">
+      <h2>Choose the correct answer</h2>
+  `;
+
+  selected.forEach((word, index) => {
+    // pick 2 wrong answers
+    const others = words.filter(w => w !== word);
+    const shuffled = others.sort(() => Math.random() - 0.5).slice(0, 2);
+
+    const choices = [word, ...shuffled]
+      .sort(() => Math.random() - 0.5);
+
+    const img = imageMap?.[word];
+
+    html += `
+      <div class="mcq-question">
+        <div class="mcq-image">
+          ${img ? `<img src="${img}" />` : ""}
+        </div>
+
+        <div class="mcq-text">
+          <p>${index + 1}. What is this?</p>
+
+          ${choices.map((choice, i) => `
+            <div class="mcq-option">
+              ${String.fromCharCode(97 + i)}) ${choice}
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+
+  return html;
+}
+
 function generateWorksheet(data) {
   const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode } = data;
   const currentMode = mode || "auto";
@@ -71,12 +113,7 @@ function generateWorksheet(data) {
   }
 
   if (mcq) {
-    html += `
-      <div class="exercise">
-        <h2>Multiple Choice</h2>
-        <p>Coming soon...</p>
-      </div>
-    `;
+    html += generateMCQ(words, imageMap);
   }
 
   if (fill) {
