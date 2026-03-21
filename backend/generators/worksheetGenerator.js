@@ -34,10 +34,11 @@ function generateMatching(words, imageMap) {
     const img = imageMap?.[word];
 
     html += `
-      <div class="match-item">
-        ${letter}. ${img ? `<img src="${img}" />` : ""}
-      </div>
-    `;
+        <div class="match-item">
+            <span class="match-label">${letter}.</span>
+            ${img ? `<img src="${img}" />` : ""}
+        </div>
+        `;
   });
   html += `</div>`;
 
