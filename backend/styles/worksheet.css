@@ -1,18 +1,30 @@
 body {
     font-family: Arial;
-    padding: 20px;
+    margin: 0;
 }
 
 .page {
     width: 210mm;
     height: 297mm;
+    padding: 20mm;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 h1 {
     text-align: center;
+    margin-bottom: 10px;
 }
 
-.section {
-    margin-bottom: 20px;
+.exercise {
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.exercise h2 {
+    margin: 0 0 8px;
+    font-size: 18px;
 }

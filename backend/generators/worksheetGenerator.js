@@ -19,10 +19,34 @@ function generateWorksheet(data) {
           <h1>Worksheet</h1>
   `;
 
-  html += `<div class="section">Words: ${words.join(", ")}</div>`;
-  html += `<div class="section">Matching: ${matching}</div>`;
-  html += `<div class="section">MCQ: ${mcq}</div>`;
-  html += `<div class="section">Fill: ${fill}</div>`;
+  // Add blocks depending on selection
+
+  if (matching) {
+    html += `
+      <div class="exercise">
+        <h2>Match the words</h2>
+        <p>Coming soon...</p>
+      </div>
+    `;
+  }
+
+  if (mcq) {
+    html += `
+      <div class="exercise">
+        <h2>Multiple Choice</h2>
+        <p>Coming soon...</p>
+      </div>
+    `;
+  }
+
+  if (fill) {
+    html += `
+      <div class="exercise">
+        <h2>Fill in the blanks</h2>
+        <p>Coming soon...</p>
+      </div>
+    `;
+  }
 
   html += `
         </div>
