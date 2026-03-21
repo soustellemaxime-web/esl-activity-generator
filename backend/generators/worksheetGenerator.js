@@ -92,6 +92,46 @@ function generateMCQ(words, imageMap) {
   return html;
 }
 
+function generateFill(words, imageMap) {
+  const selected = words.slice(0, 5);
+
+  const sentences = [
+    "I see a ______.",
+    "This is a ______.",
+    "It is a ______.",
+    "Look at the ______.",
+    "The picture represents a ______."
+  ];
+
+  let html = `
+    <div class="exercise">
+      <h2>Fill in the blanks</h2>
+  `;
+
+  selected.forEach((word, index) => {
+    const img = imageMap?.[word];
+
+    const sentence =
+      sentences[Math.floor(Math.random() * sentences.length)];
+
+    html += `
+      <div class="fill-question">
+        <div class="fill-image">
+          ${img ? `<img src="${img}" />` : ""}
+        </div>
+
+        <div class="fill-text">
+          <p>${index + 1}. ${sentence}</p>
+        </div>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+
+  return html;
+}
+
 function generateWorksheet(data) {
   const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode } = data;
   const currentMode = mode || "auto";
@@ -117,12 +157,7 @@ function generateWorksheet(data) {
   }
 
   if (fill) {
-    html += `
-      <div class="exercise">
-        <h2>Fill in the blanks</h2>
-        <p>Coming soon...</p>
-      </div>
-    `;
+    html += generateFill(words, imageMap);
   }
 
   if (wsearch) {
