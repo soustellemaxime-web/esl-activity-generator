@@ -12,6 +12,9 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 const bingoRoutes = require("./routes/bingoRoute")
 const flashcardRoutes = require("./routes/flashcardsRoute")
 const imageRoutes = require("./routes/imagesRoute")
+const worksheetRoutes = require("./routes/worksheetRoute")
+
+app.use("/api/worksheet", worksheetRoutes)
 app.use("/api/bingo", bingoRoutes)
 app.use("/api/flashcards", flashcardRoutes)
 app.use("/api/images", imageRoutes)
