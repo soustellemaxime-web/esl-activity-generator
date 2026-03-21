@@ -21,7 +21,7 @@ function generateFlashcards(data) {
   const cardsPerPage = 8;
 
   for (let i = 0; i < words.length; i += cardsPerPage) {
-      html += `<div class="page">`;
+      html += `<div class="page ${data.cutLines ? "cut-lines" : ""}">`;
 
       const pageWords = words.slice(i, i + cardsPerPage);
 

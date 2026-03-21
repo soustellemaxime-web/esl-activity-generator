@@ -14,8 +14,10 @@ function getFormData() {
   const freeCenterEl = document.getElementById("freeCenter")
   const freeCenter = freeCenterEl ? freeCenterEl.checked : false
   const displayMode = document.getElementById("displayMode")?.value || "text"
+  const cutLinesEl = document.getElementById("cutLines");
+  const cutLines = cutLinesEl ? cutLinesEl.checked : false;
 
-  return { words, gridSize, cardCount, freeCenter, uppercase, title, displayMode }
+  return { words, gridSize, cardCount, freeCenter, uppercase, title, displayMode, cutLines }
 }
 
 async function loadImages(words, existingMap = {}) {

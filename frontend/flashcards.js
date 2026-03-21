@@ -20,3 +20,4 @@ async function reloadImage(word, cardElement) {
 document.getElementById("words").addEventListener("input", debounce(preview, 500));
 document.getElementById("title").addEventListener("input", debounce(preview, 500));
 document.getElementById("displayMode").addEventListener("change", debounce(preview, 500));
+document.getElementById("cutLines").addEventListener("change", debounce(preview, 500));

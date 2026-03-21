@@ -14,6 +14,54 @@ body {
   box-sizing: border-box;
   page-break-after: always;
   align-items: stretch;
+  position: relative;
+}
+
+.page.cut-lines::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    black 0px,
+    black 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  transform: translateX(-50%);
+}
+
+.page.cut-lines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      to right,
+      black 0px,
+      black 6px,
+      transparent 6px,
+      transparent 12px
+    ) 0 25% / 100% 1px no-repeat,
+
+    repeating-linear-gradient(
+      to right,
+      black 0px,
+      black 6px,
+      transparent 6px,
+      transparent 12px
+    ) 0 50% / 100% 1px no-repeat,
+
+    repeating-linear-gradient(
+      to right,
+      black 0px,
+      black 6px,
+      transparent 6px,
+      transparent 12px
+    ) 0 75% / 100% 1px no-repeat;
 }
 
 .image-container {
