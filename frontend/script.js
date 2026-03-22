@@ -102,9 +102,12 @@ async function download() {
   btn.textContent = "⏳ Generating PDF...";
 
   try {
-      const data = getFormData()
+      const data = (typeof getPageData === "function")
+        ? getPageData()
+        : getFormData();
 
-      if (data.displayMode !== "text") {
+      const needsImages = data.displayMode !== "text" || data.matching || data.mcq || data.fill;
+      if (needsImages) {
         globalImageMap = await loadImages(data.words, globalImageMap);
       }
 
