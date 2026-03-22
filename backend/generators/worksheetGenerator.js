@@ -6,19 +6,20 @@ const css = fs.readFileSync(
   "utf8"
 );
 
-const EXERCISE_SIZES = {
-  matching: 1,
-  mcq: 1,
-  fill: 1
-};
-
 const LIMITS = {
   matching: 6,
   mcq: 4,
   fill: 4
 };
 
-const MAX_UNITS = 2;
+function wrapCard(content, title) {
+  return `
+    <div class="exercise-card">
+      <h3>${title}</h3>
+      ${content}
+    </div>
+  `;
+}
 
 function generateMatching(words, imageMap) {
   // limit number of items
@@ -28,7 +29,7 @@ function generateMatching(words, imageMap) {
   const shuffled = [...selected].sort(() => Math.random() - 0.5);
 
   let html = `
-    <div class="exercise">
+    <div>
       <h2>Match the words to the pictures</h2>
 
       <div class="matching">
@@ -68,7 +69,7 @@ function generateMCQ(words, imageMap) {
   const selected = words.slice(0, LIMITS.mcq);
 
   let html = `
-    <div class="exercise">
+    <div>
       <h2>Choose the correct answer</h2>
   `;
 
@@ -118,7 +119,7 @@ function generateFill(words, imageMap) {
   ];
 
   let html = `
-    <div class="exercise">
+    <div>
       <h2>Fill in the blanks</h2>
   `;
 
@@ -146,39 +147,9 @@ function generateFill(words, imageMap) {
   return html;
 }
 
-function paginateExercises(exercises) {
-  const pages = [];
-  let currentPage = [];
-  let currentSize = 0;
-
-  exercises.forEach(ex => {
-    if (currentSize + ex.size > MAX_UNITS) {
-      pages.push(currentPage);
-      currentPage = [];
-      currentSize = 0;
-    }
-
-    currentPage.push(ex);
-    currentSize += ex.size;
-  });
-
-  if (currentPage.length > 0) {
-    pages.push(currentPage);
-  }
-
-  return pages;
-}
-
 function generateWorksheet(data) {
   const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode } = data;
   const currentMode = mode || "auto";
-  const exercises = [];
-
-  if (matching) exercises.push({ type: "matching", size: EXERCISE_SIZES.matching });
-  if (mcq) exercises.push({ type: "mcq", size: EXERCISE_SIZES.mcq });
-  if (fill) exercises.push({ type: "fill", size: EXERCISE_SIZES.fill });
-
-  const pages = paginateExercises(exercises);
 
   let html = `
     <html>
@@ -190,30 +161,33 @@ function generateWorksheet(data) {
 
   // Add blocks depending on selection
 
-    pages.forEach(page => {
-    html += `<div class="page">`;
+  html += `<div class="page">`;
+  html += `<div class="page-title">Worksheet</div>`;
 
-    html += `<h1>Worksheet</h1>`;
+  if (matching) {
+    html += wrapCard(
+      generateMatching(words, imageMap),
+      "Match the words"
+    );
+  }
 
-    page.forEach(ex => {
-      if (ex.type === "matching") {
-        html += generateMatching(words, imageMap);
-      }
+  if (mcq) {
+    html += wrapCard(
+      generateMCQ(words, imageMap),
+      "Multiple Choice"
+    );
+  }
 
-      if (ex.type === "mcq") {
-        html += generateMCQ(words, imageMap);
-      }
-
-      if (ex.type === "fill") {
-        html += generateFill(words, imageMap);
-      }
-    });
-    html += `</div>`;
-  });
+  if (fill) {
+    html += wrapCard(
+      generateFill(words, imageMap),
+      "Fill in the blanks"
+    );
+  }
 
   if (wsearch) {
     html += `
-      <div class="exercise">
+      <div>
         <h2>Word Search</h2>
         <p>Coming soon...</p>
       </div>
@@ -222,13 +196,14 @@ function generateWorksheet(data) {
 
   if (sbuilding) {
     html += `
-      <div class="exercise">
+      <div>
         <h2>Sentence Building</h2>
         <p>Coming soon...</p>
       </div>
     `;
   }
 
+  html += `</div>`;
   html += `
       </body>
     </html>
