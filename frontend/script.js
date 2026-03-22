@@ -90,7 +90,17 @@ async function preview() {
 
   const html = await res.text()
 
-  document.getElementById("preview").innerHTML = html
+  document.getElementById("preview").innerHTML = html;
+
+  if (window.API_BASE === "worksheet") {
+    const previewEl = document.getElementById("preview");
+    previewEl.querySelectorAll(".page").forEach(page => {
+      Sortable.create(page, {
+        animation: 150,
+        draggable: ".exercise-card"
+      });
+    });
+  }
   window.scrollTo(0, scrollY);
 }
 
@@ -112,6 +122,15 @@ async function download() {
       }
 
       data.imageMap = globalImageMap;
+
+      if (window.API_BASE === "worksheet") {
+        const previewEl = document.getElementById("preview");
+        const ordered = [];
+        previewEl.querySelectorAll(".exercise-card").forEach(card => {
+          ordered.push(card.dataset.type);
+        });
+        data.exercises = ordered;
+      }
       
       const res = await fetch(`http://localhost:3000/api/${window.API_BASE}/generate`, {
         method: "POST",

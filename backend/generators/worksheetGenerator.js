@@ -12,9 +12,9 @@ const LIMITS = {
   fill: 4
 };
 
-function wrapCard(content, title, sizeClass = "normal") {
+function wrapCard(content, title, sizeClass = "normal", type = "") {
   return `
-    <div class="exercise-card ${sizeClass}">
+    <div class="exercise-card ${sizeClass}" data-type="${type}">
       <h3>${title}</h3>
       ${content}
     </div>
@@ -170,19 +170,46 @@ function generateWorksheet(data) {
 
   const cards = [];
 
-  if (matching) {
-    const match = generateMatching(words, imageMap);
-    cards.push({ html: wrapCard(match.html, "Match the words", match.sizeClass) });
-  }
+  const { exercises } = data;
+  if (exercises && exercises.length > 0) {
+    exercises.forEach(type => {
+      if (type === "matching") {
+        const match = generateMatching(words, imageMap);
+        cards.push({
+          html: wrapCard(match.html, "Match the words", match.sizeClass, "matching")
+        });
+      }
 
-  if (mcq) {
-    const mcq = generateMCQ(words, imageMap);
-    cards.push({ html: wrapCard(mcq.html, "Multiple Choice Questions", mcq.sizeClass) });
-  }
+      if (type === "mcq") {
+        const mcqData = generateMCQ(words, imageMap);
+        cards.push({
+          html: wrapCard(mcqData.html, "Multiple Choice Questions", mcqData.sizeClass, "mcq")
+        });
+      }
 
-  if (fill) {
-    const fill = generateFill(words, imageMap);
-    cards.push({ html: wrapCard(fill.html, "Fill in the blanks", fill.sizeClass) });
+      if (type === "fill") {
+        const fillData = generateFill(words, imageMap);
+        cards.push({
+          html: wrapCard(fillData.html, "Fill in the blanks", fillData.sizeClass, "fill")
+        });
+      }
+    });
+  }
+  else {
+    if (matching) {
+      const match = generateMatching(words, imageMap);
+      cards.push({ html: wrapCard(match.html, "Match the words", match.sizeClass, "matching") });
+    }
+
+    if (mcq) {
+      const mcqData = generateMCQ(words, imageMap);
+      cards.push({ html: wrapCard(mcqData.html, "Multiple Choice Questions", mcqData.sizeClass, "mcq") });
+    }
+
+    if (fill) {
+      const fillData = generateFill(words, imageMap);
+      cards.push({ html: wrapCard(fillData.html, "Fill in the blanks", fillData.sizeClass, "fill") });
+    }
   }
 
   /*
