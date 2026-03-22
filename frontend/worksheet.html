@@ -31,7 +31,10 @@
       <div class="card">
 
         <div class="section">
-          <label data-i18n="wordList">📋 Word List</label>
+          <label>
+            <span class="icon">📋</span>
+            <span data-i18n="wordList">Word List</span>
+          </label>
           <textarea id="words"></textarea>
         </div>
 
@@ -46,7 +49,10 @@
         </div>
 
         <div class="section">
-          <label>📐 Layout</label>
+          <label>
+            <span class="icon">📐</span>
+            <span data-i18n="layout">Layout</span>
+          </label>
           <select id="layout">
             <option value="1">1 card (Full page)</option>
             <option value="2">2 cards</option>
@@ -56,7 +62,10 @@
         </div>
 
         <div class="button-row">
-          <button class="primary" onclick="preview()">👀 Preview</button>
+          <button class="primary" onclick="preview()">
+            <span class="icon">👀</span>
+            <span data-i18n="preview">Preview</span>
+          </button>
           <button id="downloadBtn" onclick="download()">⬇️ Download PDF</button>
         </div>
 
@@ -66,7 +75,7 @@
     <!-- RIGHT PANEL -->
     <div class="right-panel">
       <div class="card preview-card">
-        <h2>Preview</h2>
+        <h2 data-i18n="preview">Preview</h2>
         <div id="preview">
           <div class="placeholder">
             ⌨️ Enter words and select exercises to generate a worksheet
