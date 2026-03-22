@@ -168,38 +168,24 @@ function generateWorksheet(data) {
       <body>
   `;
 
-  // Add blocks depending on selection
-
-  html += `<div class="page layout-${layout || "4"}">`;
-  html += `<div class="page-title">Worksheet</div>`;
+  const cards = [];
 
   if (matching) {
     const match = generateMatching(words, imageMap);
-    html += wrapCard(
-      match.html,
-      "Match the words",
-      match.sizeClass
-    );
+    cards.push({ html: wrapCard(match.html, "Match the words", match.sizeClass) });
   }
 
   if (mcq) {
     const mcq = generateMCQ(words, imageMap);
-    html += wrapCard(
-      mcq.html,
-      "Multiple Choice",
-      mcq.sizeClass
-    );
+    cards.push({ html: wrapCard(mcq.html, "Multiple Choice Questions", mcq.sizeClass) });
   }
 
   if (fill) {
     const fill = generateFill(words, imageMap);
-    html += wrapCard(
-      fill.html,
-      "Fill in the blanks",
-      fill.sizeClass
-    );
+    cards.push({ html: wrapCard(fill.html, "Fill in the blanks", fill.sizeClass) });
   }
 
+  /*
   if (wsearch) {
     html += `
       <div>
@@ -216,9 +202,27 @@ function generateWorksheet(data) {
         <p>Coming soon...</p>
       </div>
     `;
+  } 
+  */
+
+  const layoutNum = Number(layout) || 4;
+  const pages = [];
+  for (let i = 0; i < cards.length; i+= layoutNum) {
+    pages.push(cards.slice(i, i + layoutNum));
   }
 
-  html += `</div>`;
+  pages.forEach((pageCards, index) => {
+    html += `<div class="page layout-${layoutNum}">`;
+    html += `<div class="page-title">Worksheet</div>`;
+
+    pageCards.forEach(card => {
+      html += card.html;
+    });
+
+    //html += `<div class="page-number">Page ${index + 1}</div>`; //TODO Page numbers
+    html += `</div>`;
+  });
+  
   html += `
       </body>
     </html>
