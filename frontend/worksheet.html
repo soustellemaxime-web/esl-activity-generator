@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Worksheet Generator</title>
   <link rel="stylesheet" href="style.css">
+  <script src="translations.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
   <script src="script.js" defer></script>
   <script src="worksheet.js" defer></script>
@@ -13,10 +14,13 @@
 
 <div class="container">
   <div class="header">
-    <h1>Worksheet Generator</h1>
+    <h1 data-i18n="title">Worksheet Generator</h1>
     <div>
       <a href="index.html">🏠</a>
       <button id="toggleTheme">🌙</button>
+      <button id="toggleLang">
+        <img id="langIcon" src="https://flagcdn.com/w20/gb.png" />
+      </button>
     </div>
   </div>
 
@@ -27,11 +31,11 @@
       <div class="card">
 
         <div class="section">
-          <label>📋 Word List</label>
+          <label data-i18n="wordList">📋 Word List</label>
           <textarea id="words"></textarea>
         </div>
 
-        <h3>Exercises</h3>
+        <h3 data-i18n="exercises">Exercises</h3>
 
         <div class="section checkbox-group">
           <label><input type="checkbox" id="matching"> 🔤 Matching (word ↔ image)</label>

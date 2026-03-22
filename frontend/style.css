@@ -4,6 +4,11 @@ body {
   margin: 0;
 }
 
+#toggleLang img {
+  width: 20px;
+  height: auto;
+}
+
 h3 {
   margin: 16px 0 8px;
   font-size: 14px;
