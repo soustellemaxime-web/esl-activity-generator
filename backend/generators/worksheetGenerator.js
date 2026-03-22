@@ -12,9 +12,9 @@ const LIMITS = {
   fill: 4
 };
 
-function wrapCard(content, title) {
+function wrapCard(content, title, sizeClass = "normal") {
   return `
-    <div class="exercise-card">
+    <div class="exercise-card ${sizeClass}">
       <h3>${title}</h3>
       ${content}
     </div>
@@ -24,6 +24,9 @@ function wrapCard(content, title) {
 function generateMatching(words, imageMap) {
   // limit number of items
   const selected = words.slice(0, LIMITS.matching);
+  let sizeClass = "normal";
+  if (selected.length >= 5) sizeClass = "large";
+  else if (selected.length >= 4) sizeClass = "medium";
 
   // shuffle images separately
   const shuffled = [...selected].sort(() => Math.random() - 0.5);
@@ -62,11 +65,14 @@ function generateMatching(words, imageMap) {
     </div>
   `;
 
-  return html;
+  return {html, sizeClass};
 }
 
 function generateMCQ(words, imageMap) {
   const selected = words.slice(0, LIMITS.mcq);
+  let sizeClass = "normal";
+  if (selected.length >= 5) sizeClass = "large";
+  else if (selected.length >= 4) sizeClass = "medium";
 
   let html = `
     <div>
@@ -104,11 +110,14 @@ function generateMCQ(words, imageMap) {
 
   html += `</div>`;
 
-  return html;
+  return {html, sizeClass};
 }
 
 function generateFill(words, imageMap) {
   const selected = words.slice(0, LIMITS.fill);
+  let sizeClass = "normal";
+  if (selected.length >= 5) sizeClass = "large";
+  else if (selected.length >= 4) sizeClass = "medium";
 
   const sentences = [
     "I see a ______.",
@@ -144,7 +153,7 @@ function generateFill(words, imageMap) {
 
   html += `</div>`;
 
-  return html;
+  return {html, sizeClass};
 }
 
 function generateWorksheet(data) {
@@ -165,23 +174,29 @@ function generateWorksheet(data) {
   html += `<div class="page-title">Worksheet</div>`;
 
   if (matching) {
+    const match = generateMatching(words, imageMap);
     html += wrapCard(
-      generateMatching(words, imageMap),
-      "Match the words"
+      match.html,
+      "Match the words",
+      match.sizeClass
     );
   }
 
   if (mcq) {
+    const mcq = generateMCQ(words, imageMap);
     html += wrapCard(
-      generateMCQ(words, imageMap),
-      "Multiple Choice"
+      mcq.html,
+      "Multiple Choice",
+      mcq.sizeClass
     );
   }
 
   if (fill) {
+    const fill = generateFill(words, imageMap);
     html += wrapCard(
-      generateFill(words, imageMap),
-      "Fill in the blanks"
+      fill.html,
+      "Fill in the blanks",
+      fill.sizeClass
     );
   }
 

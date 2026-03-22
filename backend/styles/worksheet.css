@@ -33,13 +33,8 @@ h1 {
   padding: 12px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
   height: 100%;
-}
-
-.exercise-card > div {
-  flex: 1;
-  overflow: hidden;
 }
 
 .exercise-card h2 {
@@ -49,6 +44,33 @@ h1 {
 .exercise-card h3 {
   font-size: 14px;
   margin-bottom: 6px;
+}
+
+.exercise-card.large {
+  grid-column: span 2;
+}
+
+.exercise-card.medium {
+  font-size: 14px;
+}
+
+.exercise-card.medium img {
+  width: 50px;
+  height: 50px;
+}
+
+.exercise-card.large {
+  font-size: 13px;
+}
+
+.exercise-card.large img {
+  width: 45px;
+  height: 45px;
+}
+
+.exercise-card.large .match-item {
+  min-height: 40px;
+  padding: 6px;
 }
 
 .exercise h2 {
