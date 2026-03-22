@@ -3,14 +3,27 @@ body {
     margin: 0;
 }
 
+.layout-4 {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr 1fr;
+}
+
+.layout-2 {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr 1fr;
+}
+
+.layout-6 {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr 1fr 1fr;
+}
+
 .page {
     width: 210mm;
     height: 297mm;
     padding: 20mm;
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr 1fr;
     gap: 20px;
     page-break-after: always;
 }

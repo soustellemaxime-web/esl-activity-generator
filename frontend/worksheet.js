@@ -16,6 +16,7 @@ function getPageData() {
     mcq: document.getElementById("mcq")?.checked || false,
     fill: document.getElementById("fill")?.checked || false,
     wsearch: document.getElementById("wsearch")?.checked || false,
-    sbuilding: document.getElementById("sbuilding")?.checked || false
+    sbuilding: document.getElementById("sbuilding")?.checked || false,
+    layout: document.getElementById("layout")?.value || "4"
   };
 }

@@ -157,7 +157,7 @@ function generateFill(words, imageMap) {
 }
 
 function generateWorksheet(data) {
-  const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode } = data;
+  const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode, layout } = data;
   const currentMode = mode || "auto";
 
   let html = `
@@ -170,7 +170,7 @@ function generateWorksheet(data) {
 
   // Add blocks depending on selection
 
-  html += `<div class="page">`;
+  html += `<div class="page layout-${layout || "4"}">`;
   html += `<div class="page-title">Worksheet</div>`;
 
   if (matching) {
