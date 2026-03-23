@@ -41,11 +41,30 @@
         <h3 data-i18n="exercises">Exercises</h3>
 
         <div class="section checkbox-group">
-          <label><input type="checkbox" id="matching"> 🔤 Matching (word ↔ image)</label>
-          <label><input type="checkbox" id="mcq"> 🧠 Multiple Choice</label>
-          <label><input type="checkbox" id="fill"> 📝 Fill in the blanks</label>
-          <label><input type="checkbox" id="wsearch"> 🧩 Word Search</label>
-          <label><input type="checkbox" id="sbuilding"> 🔗 Sentence Building</label>
+          <label>
+            <input type="checkbox" id="matching">
+            🔤 <span data-i18n="matching">Matching (word ↔ image)</span>
+          </label>
+
+          <label>
+            <input type="checkbox" id="mcq">
+            🧠 <span data-i18n="mcq">Multiple Choice</span>
+          </label>
+
+          <label>
+            <input type="checkbox" id="fill">
+            📝 <span data-i18n="fill">Fill in the blanks</span>
+          </label>
+
+          <label>
+            <input type="checkbox" id="wsearch">
+            🧩 <span data-i18n="wsearch">Word Search</span>
+          </label>
+
+          <label>
+            <input type="checkbox" id="sbuilding">
+            🔗 <span data-i18n="sbuilding">Sentence Building</span>
+          </label>
         </div>
 
         <div class="section">
@@ -66,7 +85,10 @@
             <span class="icon">👀</span>
             <span data-i18n="preview">Preview</span>
           </button>
-          <button id="downloadBtn" onclick="download()">⬇️ Download PDF</button>
+          <button id="downloadBtn" onclick="download()">
+            <span class="icon">⬇️</span>
+            <span data-i18n="download">Download PDF</span>
+          </button>
         </div>
 
       </div>
@@ -78,7 +100,7 @@
         <h2 data-i18n="preview">Preview</h2>
         <div id="preview">
           <div class="placeholder">
-            ⌨️ Enter words and select exercises to generate a worksheet
+            ⌨️ <span data-i18n="placeholder">Enter words and select exercises to generate a worksheet</span>
           </div>
         </div>
       </div>
