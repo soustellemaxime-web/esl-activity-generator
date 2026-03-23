@@ -37,11 +37,3 @@ document.querySelectorAll(".layout-option").forEach(option => {
     preview(); // update instantly
   });
 });
-
-document.querySelectorAll('input[name="mode"]').forEach(radio => {
-  radio.addEventListener("change", () => {
-    const isCustom = document.querySelector('input[name="mode"]:checked').value === "custom";
-
-    document.getElementById("customSection").style.display = isCustom ? "block" : "none";
-  });
-});
