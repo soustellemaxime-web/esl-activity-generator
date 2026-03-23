@@ -36,7 +36,18 @@ async function preview() {
     // make preview editable in custom mode
     if (data.mode === "custom") {
         document.querySelectorAll("[data-editable]").forEach(el => {
-            el.setAttribute("contenteditable", "true");
+            el.setAttribute("contenteditable", "false");
+            el.addEventListener("click", (e) => {
+                e.stopPropagation();
+                el.setAttribute("contenteditable", "true");
+                el.classList.add("editing");
+                el.focus();
+            });
+            el.addEventListener("blur", () => {
+                el.setAttribute("contenteditable", "false");
+                el.classList.remove("editing");
+            });
+
         });
     }
 
