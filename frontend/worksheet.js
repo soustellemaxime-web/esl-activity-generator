@@ -11,9 +11,13 @@ function getPageData() {
   const base = getFormData();
   const selectedLayout =
   document.querySelector(".layout-option.selected")?.dataset.layout || "4";
+  const mode = document.querySelector('input[name="mode"]:checked')?.value || "auto";
+  const customText = document.getElementById("customInput")?.value || "";
 
   return {
     ...base,
+    mode,
+    customText,
     matching: document.getElementById("matching")?.checked || false,
     mcq: document.getElementById("mcq")?.checked || false,
     fill: document.getElementById("fill")?.checked || false,
@@ -31,5 +35,13 @@ document.querySelectorAll(".layout-option").forEach(option => {
     option.classList.add("selected");
 
     preview(); // update instantly
+  });
+});
+
+document.querySelectorAll('input[name="mode"]').forEach(radio => {
+  radio.addEventListener("change", () => {
+    const isCustom = document.querySelector('input[name="mode"]:checked').value === "custom";
+
+    document.getElementById("customSection").style.display = isCustom ? "block" : "none";
   });
 });

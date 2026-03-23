@@ -145,7 +145,7 @@ function generateFill(words, imageMap) {
         </div>
 
         <div class="fill-text">
-          <p>${index + 1}. ${sentence}</p>
+          <p><span data-editable>${index + 1}. ${sentence}</span></p>
         </div>
       </div>
     `;
@@ -157,8 +157,43 @@ function generateFill(words, imageMap) {
 }
 
 function generateWorksheet(data) {
-  const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode, layout } = data;
+  const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode, layout, customContent } = data;
   const currentMode = mode || "auto";
+
+  if (data.mode === "custom" && customContent && customContent.length > 0) {
+    let html = `
+      <html>
+        <head>
+          <style>${css}</style>
+        </head>
+        <body>
+    `;
+
+    const layoutNum = Number(layout) || 4;
+    const pages = [];
+
+    for (let i = 0; i < customContent.length; i += layoutNum) {
+      pages.push(customContent.slice(i, i + layoutNum));
+    }
+
+    pages.forEach((pageCards, index) => {
+      html += `<div class="page layout-${layoutNum}">`;
+      html += `<div class="page-title">Worksheet</div>`;
+
+      pageCards.forEach(cardHTML => {
+        html += `<div class="exercise-card">${cardHTML}</div>`;
+      });
+
+      html += `</div>`;
+    });
+
+    html += `
+        </body>
+      </html>
+    `;
+
+    return html;
+  }
 
   let html = `
     <html>
