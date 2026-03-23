@@ -264,6 +264,85 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
 
+.layout-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.layout-option {
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.2s;
+}
+
+.layout-option:hover {
+  border-color: #4CAF50;
+}
+
+.layout-option.selected {
+  border-color: #4CAF50;
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.layout-preview {
+  width: 60px;
+  height: 60px;
+  border: 2px solid black;
+  margin: 0 auto 6px;
+  display: grid;
+  gap: 4px;
+}
+
+/* Layouts */
+
+.layout-preview {
+  width: 60px;
+  height: 60px;
+  border: 2px solid black;
+  margin: 0 auto 6px;
+  display: grid;
+  gap: 4px;
+}
+
+/* common box style */
+.layout-preview div {
+  border: 2px solid #2196F3;
+  background: rgba(33, 150, 243, 0.1);
+}
+
+/* 1 card */
+.layout-preview.one {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+/* 2 cards (vertical) */
+.layout-preview.two {
+  grid-template-rows: 1fr 1fr;
+}
+
+/* 3 cards (1 top, 2 bottom) */
+.layout-preview.three {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout-preview.three div:nth-child(1) {
+  grid-column: span 2;
+}
+
+/* 4 cards (2x2) */
+.layout-preview.four {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+/* Dark mode */
+
 body.dark {
   background: #1e1e1e;
   color: #eee;

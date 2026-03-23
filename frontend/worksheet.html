@@ -75,12 +75,40 @@
             <span class="icon">📐</span>
             <span data-i18n="layout">Layout</span>
           </label>
-          <select id="layout">
-            <option value="1">1 card (Full page)</option>
-            <option value="2">2 cards</option>
-            <option value="3">3 cards</option>
-            <option value="4" selected>4 cards</option>
-          </select>
+          <div class="layout-selector">
+            <div class="layout-option selected" data-layout="1">
+              <div class="layout-preview one">
+                <div></div>
+              </div>
+              <span>1 card</span>
+            </div>
+
+            <div class="layout-option" data-layout="2">
+              <div class="layout-preview two">
+                <div></div>
+                <div></div>
+              </div>
+              <span>2 cards</span>
+            </div>
+
+            <div class="layout-option" data-layout="3">
+              <div class="layout-preview three">
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <span>3 cards</span>
+            </div>
+
+            <div class="layout-option" data-layout="4">
+              <div class="layout-preview four">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <span>4 cards</span>
+            </div>
         </div>
 
         <div class="button-row">

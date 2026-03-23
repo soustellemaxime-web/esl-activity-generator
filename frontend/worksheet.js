@@ -9,6 +9,8 @@ document.querySelectorAll("#matching, #mcq, #fill, #wsearch, #sbuilding")
 
 function getPageData() {
   const base = getFormData();
+  const selectedLayout =
+  document.querySelector(".layout-option.selected")?.dataset.layout || "4";
 
   return {
     ...base,
@@ -17,6 +19,17 @@ function getPageData() {
     fill: document.getElementById("fill")?.checked || false,
     wsearch: document.getElementById("wsearch")?.checked || false,
     sbuilding: document.getElementById("sbuilding")?.checked || false,
-    layout: document.getElementById("layout")?.value || "4"
+    layout: selectedLayout
   };
 }
+
+document.querySelectorAll(".layout-option").forEach(option => {
+  option.addEventListener("click", () => {
+    document.querySelectorAll(".layout-option")
+      .forEach(o => o.classList.remove("selected"));
+
+    option.classList.add("selected");
+
+    preview(); // update instantly
+  });
+});
