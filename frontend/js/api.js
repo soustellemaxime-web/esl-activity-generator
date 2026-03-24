@@ -2,21 +2,33 @@ function needsImages(data) {
     return data.displayMode !== "text" || data.matching || data.mcq || data.fill;
 }
 
-function buildStateFromDOM() {
+async function renderFromState() {
+  const data = getPageData();
+
+  data.customExercises = window.worksheetState.exercises;
+
+  const res = await fetch(`http://localhost:3000/api/worksheet/preview`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  const html = await res.text();
+  document.getElementById("preview").innerHTML = html;
+}
+
+function initializeStateFromPreview() {
     const state = [];
     document.querySelectorAll(".exercise-card").forEach(card => {
         const type = card.dataset.type;
         if (type === "fill") {
             const questions = [];
-
             card.querySelectorAll(".fill-question").forEach(q => {
-            const sentence = q.querySelector("[data-editable]")?.textContent || "";
-            const img = q.querySelector("img")?.src || null;
-
-            questions.push({
-                sentence,
-                image: img
-            });
+                const sentence = q.querySelector("[data-editable]")?.textContent || "";
+                const img = q.querySelector("img")?.src || null;
+                questions.push({ sentence, image: img });
             });
             state.push({ type, questions });
         }
@@ -24,9 +36,21 @@ function buildStateFromDOM() {
     window.worksheetState.exercises = state;
 }
 
-function syncStateFromDOM() {
-  buildStateFromDOM();
+function updateStateText(flatIndex, newText) {
+    let count = 0;
+    for (const ex of window.worksheetState.exercises) {
+        if (ex.type === "fill") {
+            for (let q of ex.questions) {
+                if (count === flatIndex) {
+                    q.sentence = newText;
+                    return;
+                }
+                count++;
+            }
+        }
+    }
 }
+
 
 async function preview() {
     const previewDiv = document.getElementById("preview");
@@ -61,35 +85,38 @@ async function preview() {
     
     // make preview editable in custom mode
     if (data.mode === "custom") {
-        document.querySelectorAll("[data-editable]").forEach(el => {
-            el.setAttribute("contenteditable", "false");
-            el.addEventListener("click", (e) => {
-                e.stopPropagation();
-                el.setAttribute("contenteditable", "true");
+        document.querySelectorAll("[data-editable]").forEach((el, index) => {
+            el.setAttribute("contenteditable", "true");
+            el.addEventListener("focus", () => {
                 el.classList.add("editing");
-                el.focus();
             });
             el.addEventListener("blur", () => {
-                el.setAttribute("contenteditable", "false");
                 el.classList.remove("editing");
-                syncStateFromDOM();
             });
-
+            el.addEventListener("input", () => {
+                updateStateText(index, el.textContent);
+            });
+            //prevent enter key from creating new lines
+            el.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                }
+            });
         });
     }
 
-    if (data.mode === "custom") {
-        buildStateFromDOM();
+    if (data.mode === "custom" && window.worksheetState.exercises.length === 0) {
+        initializeStateFromPreview();
     }
 
     if (window.API_BASE === "worksheet") {
-    const previewEl = document.getElementById("preview");
-    previewEl.querySelectorAll(".page").forEach(page => {
-        Sortable.create(page, {
-        animation: 150,
-        draggable: ".exercise-card"
+        const previewEl = document.getElementById("preview");
+        previewEl.querySelectorAll(".page").forEach(page => {
+            Sortable.create(page, {
+            animation: 150,
+            draggable: ".exercise-card"
+            });
         });
-    });
     }
     window.scrollTo(0, scrollY);
 }
