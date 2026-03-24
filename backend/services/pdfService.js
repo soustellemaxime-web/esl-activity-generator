@@ -24,7 +24,7 @@ async function generatePDF(html) {
       })
     );
   });
-  await page.emulateMediaType("screen")
+  await page.emulateMediaType("print")
 
   const pdf = await page.pdf({
     format: "A4",

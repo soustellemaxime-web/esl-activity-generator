@@ -12,9 +12,15 @@ const LIMITS = {
   fill: 4
 };
 
-function wrapCard(content, title, sizeClass = "normal", type = "") {
+function wrapCard(content, title, sizeClass = "normal", type = "", index = 0, mode = "auto") {
   return `
-    <div class="exercise-card ${sizeClass}" data-type="${type}">
+    <div class="exercise-card ${sizeClass}" data-type="${type}" data-index="${index}">
+      ${mode === "custom" ? `
+        <div class="card-controls">
+          <button class="delete-card">❌</button>
+          <button class="duplicate-card">📄</button>
+        </div>
+      ` : ""}
       <h3>${title}</h3>
       ${content}
     </div>
@@ -158,7 +164,6 @@ function generateFill(words, imageMap) {
 
 function renderCustomExercises(exercises) {
   const cards = [];
-
   exercises.forEach(ex => {
     if (ex.type === "fill") {
       let html = `<div><h2>Fill in the blanks</h2>`;
@@ -170,20 +175,20 @@ function renderCustomExercises(exercises) {
               ${q.image ? `<img src="${q.image}" />` : ""}
             </div>
             <div class="fill-text">
-              <p>${i + 1}. ${q.sentence}</p>
+              <p>
+                ${i + 1}.
+                <span data-editable>${q.sentence}</span>
+              </p>
             </div>
           </div>
         `;
       });
-
       html += `</div>`;
-
       cards.push({
-        html: wrapCard(html, "Fill in the blanks", "normal", "fill")
+        html: wrapCard(html, "Fill in the blanks", "normal", "fill", cards.length, "custom")
       });
     }
   });
-
   return cards;
 }
 
@@ -243,21 +248,21 @@ function generateWorksheet(data) {
       if (type === "matching") {
         const match = generateMatching(words, imageMap);
         cards.push({
-          html: wrapCard(match.html, "Match the words", match.sizeClass, "matching")
+          html: wrapCard(match.html, "Match the words", match.sizeClass, "matching", cards.length, data.mode)
         });
       }
 
       if (type === "mcq") {
         const mcqData = generateMCQ(words, imageMap);
         cards.push({
-          html: wrapCard(mcqData.html, "Multiple Choice Questions", mcqData.sizeClass, "mcq")
+          html: wrapCard(mcqData.html, "Multiple Choice Questions", mcqData.sizeClass, "mcq", cards.length, data.mode)
         });
       }
 
       if (type === "fill") {
         const fillData = generateFill(words, imageMap);
         cards.push({
-          html: wrapCard(fillData.html, "Fill in the blanks", fillData.sizeClass, "fill")
+          html: wrapCard(fillData.html, "Fill in the blanks", fillData.sizeClass, "fill", cards.length, data.mode)
         });
       }
     });
@@ -265,17 +270,17 @@ function generateWorksheet(data) {
   else {
     if (matching) {
       const match = generateMatching(words, imageMap);
-      cards.push({ html: wrapCard(match.html, "Match the words", match.sizeClass, "matching") });
+      cards.push({ html: wrapCard(match.html, "Match the words", match.sizeClass, "matching", cards.length, data.mode) });
     }
 
     if (mcq) {
       const mcqData = generateMCQ(words, imageMap);
-      cards.push({ html: wrapCard(mcqData.html, "Multiple Choice Questions", mcqData.sizeClass, "mcq") });
+      cards.push({ html: wrapCard(mcqData.html, "Multiple Choice Questions", mcqData.sizeClass, "mcq", cards.length, data.mode) });
     }
 
     if (fill) {
       const fillData = generateFill(words, imageMap);
-      cards.push({ html: wrapCard(fillData.html, "Fill in the blanks", fillData.sizeClass, "fill") });
+      cards.push({ html: wrapCard(fillData.html, "Fill in the blanks", fillData.sizeClass, "fill", cards.length, data.mode) });
     }
   }
 

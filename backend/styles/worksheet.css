@@ -57,6 +57,7 @@ h1 {
   flex-direction: column;
   overflow: visible;
   height: 100%;
+  position: relative;
 }
 
 .exercise-card h2 {
@@ -185,4 +186,32 @@ h1 {
 
 .fill-text p {
   font-size: 18px;
+}
+
+.card-controls {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  gap: 4px;
+}
+
+.card-controls button {
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.card-controls button:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+@media print {
+  .card-controls {
+    display: none !important;
+  }
 }

@@ -2,21 +2,51 @@ function needsImages(data) {
     return data.displayMode !== "text" || data.matching || data.mcq || data.fill;
 }
 
+function attachCardControls() {
+  document.querySelectorAll(".exercise-card").forEach((card) => {
+    const index = Number(card.dataset.index);
+    const delBtn = card.querySelector(".delete-card");
+    const dupBtn = card.querySelector(".duplicate-card");
+    if (delBtn) {
+      delBtn.onclick = () => {
+        window.worksheetState.exercises.splice(index, 1);
+        renderFromState();
+      };
+    }
+    if (dupBtn) {
+      dupBtn.onclick = () => {
+        const copy = JSON.parse(JSON.stringify(window.worksheetState.exercises[index]));
+        window.worksheetState.exercises.splice(index + 1, 0, copy);
+        renderFromState();
+      };
+    }
+  });
+}
+
+function attachEditableHandlers() {
+  document.querySelectorAll("[data-editable]").forEach((el, index) => {
+    el.setAttribute("contenteditable", "true");
+    el.addEventListener("input", () => {
+      updateStateText(index, el.textContent);
+    });
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") e.preventDefault();
+    });
+  });
+}
+
 async function renderFromState() {
   const data = getPageData();
-
   data.customExercises = window.worksheetState.exercises;
-
   const res = await fetch(`http://localhost:3000/api/worksheet/preview`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: {"Content-Type": "application/json"},
     body: JSON.stringify(data)
   });
-
   const html = await res.text();
   document.getElementById("preview").innerHTML = html;
+  attachEditableHandlers();
+  attachCardControls();
 }
 
 function initializeStateFromPreview() {
@@ -51,7 +81,6 @@ function updateStateText(flatIndex, newText) {
     }
 }
 
-
 async function preview() {
     const previewDiv = document.getElementById("preview");
     previewDiv.innerHTML = "";
@@ -85,24 +114,7 @@ async function preview() {
     
     // make preview editable in custom mode
     if (data.mode === "custom") {
-        document.querySelectorAll("[data-editable]").forEach((el, index) => {
-            el.setAttribute("contenteditable", "true");
-            el.addEventListener("focus", () => {
-                el.classList.add("editing");
-            });
-            el.addEventListener("blur", () => {
-                el.classList.remove("editing");
-            });
-            el.addEventListener("input", () => {
-                updateStateText(index, el.textContent);
-            });
-            //prevent enter key from creating new lines
-            el.addEventListener("keydown", (e) => {
-                if (e.key === "Enter") {
-                    e.preventDefault();
-                }
-            });
-        });
+        attachEditableHandlers();
     }
 
     if (data.mode === "custom" && window.worksheetState.exercises.length === 0) {
@@ -117,6 +129,10 @@ async function preview() {
             draggable: ".exercise-card"
             });
         });
+    }
+
+    if (data.mode === "custom") {
+        attachCardControls();
     }
     window.scrollTo(0, scrollY);
 }
