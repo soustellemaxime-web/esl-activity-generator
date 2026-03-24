@@ -166,11 +166,29 @@ h1 {
   margin-left: 10px;
 }
 
+.delete-question {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 2px 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.delete-question:hover {
+  background: rgba(0,0,0,0.8);
+}
+
 .fill-question {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
+  position: relative;
 }
 
 .fill-image img {

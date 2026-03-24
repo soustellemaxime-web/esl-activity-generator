@@ -171,6 +171,7 @@ function renderCustomExercises(exercises) {
       ex.questions.forEach((q, i) => {
         html += `
           <div class="fill-question">
+            <button class="delete-question">❌</button>
             <div class="fill-image">
               ${q.image ? `<img src="${q.image}" />` : ""}
             </div>

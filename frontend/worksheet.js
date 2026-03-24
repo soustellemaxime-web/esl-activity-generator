@@ -82,6 +82,30 @@ function attachEditableHandlers() {
   });
 }
 
+function attachDeleteQuestion() {
+  document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
+    const questions = card.querySelectorAll(".fill-question");
+    questions.forEach((qEl, qIndex) => {
+      const btn = qEl.querySelector(".delete-question");
+      if (btn) {
+        btn.onclick = () => {
+          const ex = window.worksheetState.exercises[cardIndex];
+          if (ex && ex.type === "fill") {
+            ex.questions.splice(qIndex, 1);
+            if (ex.questions.length === 0) {
+              ex.questions.push({
+                sentence: "New sentence ______.",
+                image: null
+              });
+            }
+            renderFromState();
+          }
+        };
+      }
+    });
+  });
+}
+
 function getPageData() {
   const base = getFormData();
   const selectedLayout =

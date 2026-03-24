@@ -15,6 +15,7 @@ async function renderFromState() {
   attachEditableHandlers();
   attachCardControls();
   attachQuestionControls();
+  attachDeleteQuestion();
 }
 
 function initializeStateFromPreview() {
@@ -85,6 +86,7 @@ async function preview() {
         attachEditableHandlers();
         attachQuestionControls();
         attachCardControls();
+        attachDeleteQuestion();
     }
 
     if (data.mode === "custom" && window.worksheetState.exercises.length === 0) {
