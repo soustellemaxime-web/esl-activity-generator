@@ -2,60 +2,6 @@ function needsImages(data) {
     return data.displayMode !== "text" || data.matching || data.mcq || data.fill;
 }
 
-function attachQuestionControls() {
-  document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
-    const addBtn = card.querySelector(".add-question");
-
-    if (addBtn) {
-      addBtn.onclick = () => {
-        const ex = window.worksheetState.exercises[cardIndex];
-
-        if (ex.type === "fill") {
-          ex.questions.push({
-            sentence: "New sentence ______.",
-            image: null
-          });
-        }
-
-        renderFromState();
-      };
-    }
-  });
-}
-
-function attachCardControls() {
-  document.querySelectorAll(".exercise-card").forEach((card) => {
-    const index = Number(card.dataset.index);
-    const delBtn = card.querySelector(".delete-card");
-    const dupBtn = card.querySelector(".duplicate-card");
-    if (delBtn) {
-      delBtn.onclick = () => {
-        window.worksheetState.exercises.splice(index, 1);
-        renderFromState();
-      };
-    }
-    if (dupBtn) {
-      dupBtn.onclick = () => {
-        const copy = JSON.parse(JSON.stringify(window.worksheetState.exercises[index]));
-        window.worksheetState.exercises.splice(index + 1, 0, copy);
-        renderFromState();
-      };
-    }
-  });
-}
-
-function attachEditableHandlers() {
-  document.querySelectorAll("[data-editable]").forEach((el, index) => {
-    el.setAttribute("contenteditable", "true");
-    el.addEventListener("input", () => {
-      updateStateText(index, el.textContent);
-    });
-    el.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") e.preventDefault();
-    });
-  });
-}
-
 async function renderFromState() {
   const data = getPageData();
   data.customExercises = window.worksheetState.exercises;
