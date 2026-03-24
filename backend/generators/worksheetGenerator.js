@@ -183,6 +183,7 @@ function renderCustomExercises(exercises) {
           </div>
         `;
       });
+      html += `<button class="add-question">➕ Add Question</button>`;
       html += `</div>`;
       cards.push({
         html: wrapCard(html, "Fill in the blanks", "normal", "fill", cards.length, "custom")

@@ -2,6 +2,27 @@ function needsImages(data) {
     return data.displayMode !== "text" || data.matching || data.mcq || data.fill;
 }
 
+function attachQuestionControls() {
+  document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
+    const addBtn = card.querySelector(".add-question");
+
+    if (addBtn) {
+      addBtn.onclick = () => {
+        const ex = window.worksheetState.exercises[cardIndex];
+
+        if (ex.type === "fill") {
+          ex.questions.push({
+            sentence: "New sentence ______.",
+            image: null
+          });
+        }
+
+        renderFromState();
+      };
+    }
+  });
+}
+
 function attachCardControls() {
   document.querySelectorAll(".exercise-card").forEach((card) => {
     const index = Number(card.dataset.index);
@@ -47,6 +68,7 @@ async function renderFromState() {
   document.getElementById("preview").innerHTML = html;
   attachEditableHandlers();
   attachCardControls();
+  attachQuestionControls();
 }
 
 function initializeStateFromPreview() {
@@ -115,10 +137,13 @@ async function preview() {
     // make preview editable in custom mode
     if (data.mode === "custom") {
         attachEditableHandlers();
+        attachQuestionControls();
+        attachCardControls();
     }
 
     if (data.mode === "custom" && window.worksheetState.exercises.length === 0) {
         initializeStateFromPreview();
+        renderFromState();
     }
 
     if (window.API_BASE === "worksheet") {
@@ -129,10 +154,6 @@ async function preview() {
             draggable: ".exercise-card"
             });
         });
-    }
-
-    if (data.mode === "custom") {
-        attachCardControls();
     }
     window.scrollTo(0, scrollY);
 }

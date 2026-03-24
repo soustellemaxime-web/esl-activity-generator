@@ -211,7 +211,8 @@ h1 {
 }
 
 @media print {
-  .card-controls {
+  .card-controls,
+  .add-question {
     display: none !important;
   }
 }

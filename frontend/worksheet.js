@@ -21,6 +21,11 @@ function updateModeUI() {
     auto.style.display = "block";
     custom.style.display = "none";
   }
+  if (mode === "custom" && window.worksheetState.exercises.length === 0) {
+    preview().then(() => {
+      initializeStateFromPreview();
+    });
+  }
 }
 
 function getPageData() {
