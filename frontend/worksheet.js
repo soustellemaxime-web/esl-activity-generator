@@ -10,6 +10,19 @@ document.getElementById("words")
 document.querySelectorAll("#matching, #mcq, #fill, #wsearch, #sbuilding")
   .forEach(el => el.addEventListener("change", debounce(preview, 500)));
 
+function updateModeUI() {
+  const mode = document.querySelector('input[name="mode"]:checked')?.value;
+  const auto = document.getElementById("auto-settings");
+  const custom = document.getElementById("custom-settings");
+  if (mode === "custom") {
+    auto.style.display = "none";
+    custom.style.display = "block";
+  } else {
+    auto.style.display = "block";
+    custom.style.display = "none";
+  }
+}
+
 function getPageData() {
   const base = getFormData();
   const selectedLayout =
@@ -34,9 +47,27 @@ document.querySelectorAll(".layout-option").forEach(option => {
   option.addEventListener("click", () => {
     document.querySelectorAll(".layout-option")
       .forEach(o => o.classList.remove("selected"));
-
     option.classList.add("selected");
-
     preview(); // update instantly
   });
+});
+
+document.querySelectorAll('input[name="mode"]').forEach(radio => {
+  radio.addEventListener("change", () => {
+    updateModeUI();
+    preview(); // update instantly
+  });
+});
+
+document.getElementById("addFill").addEventListener("click", () => {
+  window.worksheetState.exercises.push({
+    type: "fill",
+    questions: [
+      {
+        sentence: "I see a ______.",
+        image: null
+      }
+    ]
+  });
+  renderFromState();
 });

@@ -53,32 +53,43 @@
           </label>
         </div>
 
-        <h3 data-i18n="exercises">Exercises</h3>
-        <div class="section checkbox-group">
-          <label>
-            <input type="checkbox" id="matching">
-            🔤 <span data-i18n="matching">Matching (word ↔ image)</span>
-          </label>
+        <div id="auto-settings">
+          <h3 data-i18n="exercises">Exercises</h3>
+          <div class="section checkbox-group">
+            <label>
+              <input type="checkbox" id="matching">
+              🔤 <span data-i18n="matching">Matching (word ↔ image)</span>
+            </label>
 
-          <label>
-            <input type="checkbox" id="mcq">
-            🧠 <span data-i18n="mcq">Multiple Choice</span>
-          </label>
+            <label>
+              <input type="checkbox" id="mcq">
+              🧠 <span data-i18n="mcq">Multiple Choice</span>
+            </label>
 
-          <label>
-            <input type="checkbox" id="fill">
-            📝 <span data-i18n="fill">Fill in the blanks</span>
-          </label>
+            <label>
+              <input type="checkbox" id="fill">
+              📝 <span data-i18n="fill">Fill in the blanks</span>
+            </label>
 
-          <label>
-            <input type="checkbox" id="wsearch">
-            🧩 <span data-i18n="wsearch">Word Search</span>
-          </label>
+            <label>
+              <input type="checkbox" id="wsearch">
+              🧩 <span data-i18n="wsearch">Word Search</span>
+            </label>
 
-          <label>
-            <input type="checkbox" id="sbuilding">
-            🔗 <span data-i18n="sbuilding">Sentence Building</span>
-          </label>
+            <label>
+              <input type="checkbox" id="sbuilding">
+              🔗 <span data-i18n="sbuilding">Sentence Building</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="custom-settings" style="display:none;">
+          <h3>Custom Exercises</h3>
+          <div class="section">
+            <button id="addFill">➕ Add Fill Exercise</button>
+            <button id="addMCQ">➕ Add MCQ</button>
+            <button id="addMatching">➕ Add Matching</button>
+          </div>
         </div>
 
         <div class="section">

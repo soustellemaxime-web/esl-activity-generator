@@ -331,6 +331,8 @@ input:focus, select:focus, textarea:focus {
   opacity: 1;
 }
 
+/* Layouts */
+
 .layout-selector {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -354,8 +356,6 @@ input:focus, select:focus, textarea:focus {
   border-color: #4CAF50;
   background: rgba(76, 175, 80, 0.1);
 }
-
-/* Layouts */
 
 .layout-preview {
   width: 60px;
