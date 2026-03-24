@@ -1,4 +1,7 @@
 window.API_BASE = "worksheet";
+window.worksheetState = {
+  exercises: []
+};
 
 // trigger preview
 document.getElementById("words")

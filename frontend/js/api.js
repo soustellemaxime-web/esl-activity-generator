@@ -2,6 +2,32 @@ function needsImages(data) {
     return data.displayMode !== "text" || data.matching || data.mcq || data.fill;
 }
 
+function buildStateFromDOM() {
+    const state = [];
+    document.querySelectorAll(".exercise-card").forEach(card => {
+        const type = card.dataset.type;
+        if (type === "fill") {
+            const questions = [];
+
+            card.querySelectorAll(".fill-question").forEach(q => {
+            const sentence = q.querySelector("[data-editable]")?.textContent || "";
+            const img = q.querySelector("img")?.src || null;
+
+            questions.push({
+                sentence,
+                image: img
+            });
+            });
+            state.push({ type, questions });
+        }
+    });
+    window.worksheetState.exercises = state;
+}
+
+function syncStateFromDOM() {
+  buildStateFromDOM();
+}
+
 async function preview() {
     const previewDiv = document.getElementById("preview");
     previewDiv.innerHTML = "";
@@ -46,9 +72,14 @@ async function preview() {
             el.addEventListener("blur", () => {
                 el.setAttribute("contenteditable", "false");
                 el.classList.remove("editing");
+                syncStateFromDOM();
             });
 
         });
+    }
+
+    if (data.mode === "custom") {
+        buildStateFromDOM();
     }
 
     if (window.API_BASE === "worksheet") {
@@ -91,12 +122,9 @@ async function download() {
         }
 
         if (data.mode === "custom") {
-            const edited = [];
-            document.querySelectorAll(".exercise-card").forEach(card => {
-                edited.push(card.innerHTML);
-        });
-        data.customContent = edited;
-    }
+            data.customExercises = window.worksheetState.exercises;
+            data.exercises = [];
+        }
             
         const res = await fetch(`http://localhost:3000/api/${window.API_BASE}/generate`, {
         method: "POST",

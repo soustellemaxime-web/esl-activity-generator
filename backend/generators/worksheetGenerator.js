@@ -156,11 +156,42 @@ function generateFill(words, imageMap) {
   return {html, sizeClass};
 }
 
+function renderCustomExercises(exercises) {
+  const cards = [];
+
+  exercises.forEach(ex => {
+    if (ex.type === "fill") {
+      let html = `<div><h2>Fill in the blanks</h2>`;
+
+      ex.questions.forEach((q, i) => {
+        html += `
+          <div class="fill-question">
+            <div class="fill-image">
+              ${q.image ? `<img src="${q.image}" />` : ""}
+            </div>
+            <div class="fill-text">
+              <p>${i + 1}. ${q.sentence}</p>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+
+      cards.push({
+        html: wrapCard(html, "Fill in the blanks", "normal", "fill")
+      });
+    }
+  });
+
+  return cards;
+}
+
 function generateWorksheet(data) {
-  const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode, layout, customContent } = data;
+  const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode, layout } = data;
   const currentMode = mode || "auto";
 
-  if (data.mode === "custom" && customContent && customContent.length > 0) {
+  if (data.mode === "custom" && data.customExercises) {
     let html = `
       <html>
         <head>
@@ -169,19 +200,21 @@ function generateWorksheet(data) {
         <body>
     `;
 
+    const cards = renderCustomExercises(data.customExercises || []);
+
     const layoutNum = Number(layout) || 4;
     const pages = [];
 
-    for (let i = 0; i < customContent.length; i += layoutNum) {
-      pages.push(customContent.slice(i, i + layoutNum));
+    for (let i = 0; i < cards.length; i += layoutNum) {
+      pages.push(cards.slice(i, i + layoutNum));
     }
 
-    pages.forEach((pageCards, index) => {
+    pages.forEach(pageCards => {
       html += `<div class="page layout-${layoutNum}">`;
       html += `<div class="page-title">Worksheet</div>`;
 
-      pageCards.forEach(cardHTML => {
-        html += `<div class="exercise-card">${cardHTML}</div>`;
+      pageCards.forEach(card => {
+        html += card.html;
       });
 
       html += `</div>`;
@@ -203,8 +236,7 @@ function generateWorksheet(data) {
       <body>
   `;
 
-  const cards = [];
-
+  let cards = [];
   const { exercises } = data;
   if (exercises && exercises.length > 0) {
     exercises.forEach(type => {
