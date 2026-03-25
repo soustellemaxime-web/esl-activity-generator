@@ -20,6 +20,28 @@ async function renderFromState() {
   attachImagePicker();
   attachMCQControls();
   attachMCQSorting();
+  if (window.API_BASE === "worksheet") {
+        const previewEl = document.getElementById("preview");
+        previewEl.querySelectorAll(".page").forEach(page => {
+            Sortable.create(page, {
+            animation: 150,
+            draggable: ".exercise-card",
+            onEnd: () => {
+                const newOrder = [];
+                const temp = [...window.worksheetState.exercises];
+                document.querySelectorAll(".exercise-card").forEach(card => {
+                const type = card.dataset.type;
+                const index = temp.findIndex(ex => ex.type === type);
+                if (index !== -1) {
+                    newOrder.push(temp[index]);
+                    temp.splice(index, 1);
+                }
+                });
+                window.worksheetState.exercises = newOrder;
+            }
+            });
+        });
+    }
 }
 
 function initializeStateFromPreview() {
@@ -115,13 +137,6 @@ async function preview() {
         attachMCQSorting();
     }
 
-    if (data.mode === "custom") {
-        if (window.worksheetState.exercises.length === 0) {
-            initializeStateFromPreview();
-        }
-        renderFromState();
-    }
-
     if (window.API_BASE === "worksheet") {
         const previewEl = document.getElementById("preview");
         previewEl.querySelectorAll(".page").forEach(page => {
@@ -130,6 +145,13 @@ async function preview() {
             draggable: ".exercise-card"
             });
         });
+    }
+
+    if (data.mode === "custom") {
+        if (window.worksheetState.exercises.length === 0) {
+            initializeStateFromPreview();
+        }
+        renderFromState();
     }
     window.scrollTo(0, scrollY);
 }
