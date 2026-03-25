@@ -50,8 +50,8 @@ function attachQuestionControls() {
 }
 
 function attachCardControls() {
-  document.querySelectorAll(".exercise-card").forEach((card) => {
-    const index = Number(card.dataset.index);
+  const cards = Array.from(document.querySelectorAll(".exercise-card"));
+  cards.forEach((card, index) => {
     const delBtn = card.querySelector(".delete-card");
     const dupBtn = card.querySelector(".duplicate-card");
     if (delBtn) {
