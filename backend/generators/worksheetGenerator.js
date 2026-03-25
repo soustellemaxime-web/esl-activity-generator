@@ -167,7 +167,7 @@ function renderCustomExercises(exercises) {
   exercises.forEach(ex => {
     if (ex.type === "fill") {
       let html = `<div><h2>Fill in the blanks</h2>`;
-
+      html += `<div class="questions-container">`;
       ex.questions.forEach((q, i) => {
         html += `
           <div class="fill-question">
@@ -176,14 +176,12 @@ function renderCustomExercises(exercises) {
               ${q.image ? `<img src="${q.image}" />` : ""}
             </div>
             <div class="fill-text">
-              <p>
-                ${i + 1}.
-                <span data-editable>${q.sentence}</span>
-              </p>
+              <p>${i + 1}.<span data-editable>${q.sentence}</span></p>
             </div>
           </div>
         `;
       });
+      html += `</div>`;
       html += `<button class="add-question">➕ Add Question</button>`;
       html += `</div>`;
       cards.push({

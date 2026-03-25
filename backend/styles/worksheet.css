@@ -189,6 +189,11 @@ h1 {
   gap: 10px;
   margin-bottom: 10px;
   position: relative;
+  cursor: grab;
+}
+
+.fill-question:active {
+  cursor: grabbing;
 }
 
 .fill-image img {

@@ -106,6 +106,24 @@ function attachDeleteQuestion() {
   });
 }
 
+function attachQuestionSorting() {
+  document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
+    const container = card.querySelector(".questions-container");
+    if (!container) return;
+    Sortable.create(container, {
+      animation: 150,
+      draggable: ".fill-question",
+      onEnd: (evt) => {
+        const ex = window.worksheetState.exercises[cardIndex];
+        if (!ex || ex.type !== "fill") return;
+        const moved = ex.questions.splice(evt.oldIndex, 1)[0];
+        ex.questions.splice(evt.newIndex, 0, moved);
+        renderFromState();
+      }
+    });
+  });
+}
+
 function getPageData() {
   const base = getFormData();
   const selectedLayout =
