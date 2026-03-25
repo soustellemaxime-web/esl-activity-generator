@@ -251,7 +251,10 @@ h1 {
 
 @media print {
   .card-controls,
-  .add-question {
+  .add-question,
+  .delete-question {
     display: none !important;
   }
 }
+
+/*TODO editor-only class

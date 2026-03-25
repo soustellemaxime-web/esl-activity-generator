@@ -40,38 +40,50 @@ async function loadImages(words, existingMap = {}) {
   return newMap;
 }
 
-function showImagePicker(images, word, icon, onSelect) {
-  // remove old picker
+function showImagePicker(images, word = "", icon, onSelect, options = {}) {
+  const { allowSearch = false, allowUpload = false } = options;
   const existing = document.getElementById("image-picker");
   if (existing) existing.remove();
-
   const picker = document.createElement("div");
   picker.id = "image-picker";
-
   picker.innerHTML = `
     <div class="picker-content">
-      ${images.map(img => `<img src="${img}" />`).join("")}
+      ${allowSearch || allowUpload ? `
+        <div class="picker-toolbar">
+          ${allowSearch ? `
+            <input type="text" id="picker-search" placeholder="Search..." value="${word}" />
+            <button id="picker-search-btn">🔍</button>
+          ` : ""}
+          ${allowUpload ? `
+            <input type="file" id="picker-upload" accept="image/*" hidden />
+            <button id="picker-upload-btn">📁 Upload</button>
+          ` : ""}
+        </div>
+      ` : ""}
+      <div class="image-grid">
+        ${images.length > 0 
+          ? images.map(img => `<img src="${img}" />`).join("")
+          : `<div class="empty-picker">Type a word to search images 🔍</div>`
+        }
+      </div>
     </div>
   `;
-
   document.body.appendChild(picker);
-
-  // click on image
-  picker.querySelectorAll("img").forEach(imgEl => {
+  const grid = picker.querySelector(".image-grid");
+  function bindImageClick(imgEl) {
     imgEl.onclick = async () => {
       const res = await fetch(imgEl.src);
       const blob = await res.blob();
-
       const base64 = await new Promise(resolve => {
         const reader = new FileReader();
         reader.onloadend = () => resolve(reader.result);
         reader.readAsDataURL(blob);
       });
-
       if (onSelect) {
+        // worksheet custom
         onSelect(base64);
-      }
-      else {
+      } else {
+        // bingo / flashcards / worksheets auto
         globalImageMap[word] = base64;
         document.querySelectorAll(`img[data-word="${word}"]`).forEach(el => {
           el.src = base64;
@@ -79,15 +91,53 @@ function showImagePicker(images, word, icon, onSelect) {
           setTimeout(() => el.style.opacity = "1", 200);
         });
       }
-      icon.classList.remove("loading");
+      if (icon) icon.classList.remove("loading");
       picker.remove();
     };
-  });
-
+  }
+  // bind initial images
+  grid.querySelectorAll("img").forEach(bindImageClick);
+  // SEARCH (only if enabled)
+  if (allowSearch) {
+    const searchInput = picker.querySelector("#picker-search");
+    const searchBtn = picker.querySelector("#picker-search-btn");
+    searchBtn.onclick = async () => {
+      const newWord = searchInput.value.trim();
+      if (!newWord) return;
+      word = newWord;
+      const res = await fetch(`http://localhost:3000/api/images?word=${newWord}&t=${Date.now()}`);
+      const data = await res.json();
+      if (!data.images) return;
+      grid.innerHTML = data.images.map(img => `<img src="${img}" />`).join("");
+      // rebind clicks
+      grid.querySelectorAll("img").forEach(bindImageClick);
+    };
+  }
+  // UPLOAD (only if enabled)
+  if (allowUpload) {
+    const uploadBtn = picker.querySelector("#picker-upload-btn");
+    const uploadInput = picker.querySelector("#picker-upload");
+    uploadBtn.onclick = () => uploadInput.click();
+    uploadInput.onchange = () => {
+      const file = uploadInput.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result;
+        if (onSelect) {
+          onSelect(base64);
+        } else {
+          globalImageMap[word] = base64;
+        }
+        picker.remove();
+      };
+      reader.readAsDataURL(file);
+    };
+  }
   // click outside closes
   picker.onclick = (e) => {
     if (e.target === picker) {
-      icon.classList.remove("loading");
+      if (icon) icon.classList.remove("loading");
       picker.remove();
     }
   };

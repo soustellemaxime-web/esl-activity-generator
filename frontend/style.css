@@ -232,6 +232,18 @@ button:disabled {
   z-index: 999;
 }
 
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.image-grid img {
+  width: 100%;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
 .picker-content {
   background: white;
   padding: 20px;
@@ -251,6 +263,24 @@ button:disabled {
 
 .picker-content img:hover {
   transform: scale(1.1);
+}
+
+.picker-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.picker-toolbar input[type="text"] {
+  flex: 1;
+  padding: 6px;
+}
+
+.empty-picker {
+  padding: 20px;
+  text-align: center;
+  color: #888;
+  font-style: italic;
 }
 
 .nav {

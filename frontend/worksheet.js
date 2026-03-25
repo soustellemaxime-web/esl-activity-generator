@@ -134,19 +134,10 @@ function attachImagePicker() {
         const ex = window.worksheetState.exercises[cardIndex];
         const question = ex?.questions[qIndex];
         if (!question) return;
-        // extract a basic word (temporary solution)
-        let word = question.sentence
-          .replace(/\d+\.\s*/, "")   // remove "1. "
-          .replace("______", "")     // remove blank
-          .trim();
-        if (!word) word = "object";
-        const res = await fetch(`http://localhost:3000/api/images?word=${word}&t=${Date.now()}`);
-        const data = await res.json();
-        if (!data.images || data.images.length === 0) return;
-        showImagePicker(data.images, word, imgContainer, (selectedImage) => {
+        showImagePicker([], "", imgContainer, (selectedImage) => {
           question.image = selectedImage;
           renderFromState();
-        });
+        }, {allowSearch: true, allowUpload: true});
       };
     });
   });
