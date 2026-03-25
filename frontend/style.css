@@ -320,6 +320,49 @@ input:focus, select:focus, textarea:focus {
 
 /* Custom mode */
 
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  background: #f1f3f5;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.action-btn:hover {
+  background: #e2e6ea;
+  transform: translateY(-1px);
+}
+
+.action-btn:active {
+  transform: translateY(0);
+}
+
+.custom-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+#addFill {
+  background: #e7f5ff;
+}
+
+#addMCQ {
+  background: #fff3bf;
+}
+
+#addMatching {
+  background: #e6fcf5;
+}
+
 [data-editable] {
   cursor: text;
   padding: 2px 4px;
