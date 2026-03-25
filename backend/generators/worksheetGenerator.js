@@ -172,8 +172,8 @@ function renderCustomExercises(exercises) {
         html += `
           <div class="fill-question">
             <button class="delete-question">❌</button>
-            <div class="fill-image">
-              ${q.image ? `<img src="${q.image}" />` : ""}
+            <div class="fill-image" data-image>
+              ${q.image ? `<img src="${q.image}" />` : `<div class="image-placeholder">➕</div>`}
             </div>
             <div class="fill-text">
               <p>${i + 1}.<span data-editable>${q.sentence}</span></p>

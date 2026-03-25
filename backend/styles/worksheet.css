@@ -211,6 +211,22 @@ h1 {
   font-size: 18px;
 }
 
+.image-placeholder {
+  width: 80px;
+  height: 80px;
+  border: 2px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 8px;
+}
+
+.image-placeholder:hover {
+  border-color: #4CAF50;
+}
+
 .card-controls {
   position: absolute;
   top: 6px;

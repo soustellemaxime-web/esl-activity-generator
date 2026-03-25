@@ -124,6 +124,27 @@ function attachQuestionSorting() {
   });
 }
 
+function attachImagePicker() {
+  document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
+    const questions = card.querySelectorAll(".fill-question");
+    questions.forEach((qEl, qIndex) => {
+      const imgContainer = qEl.querySelector("[data-image]");
+      if (!imgContainer) return;
+      imgContainer.onclick = async () => {
+        const word = prompt("Search image for word:"); // simple version first
+        if (!word) return;
+        const images = await loadImages([word], window.globalImageMap);
+        const selected = images[word]?.[0]; // take first result
+        if (!selected) return;
+        // update state
+        const ex = window.worksheetState.exercises[cardIndex];
+        ex.questions[qIndex].image = selected;
+        renderFromState();
+      };
+    });
+  });
+}
+
 function getPageData() {
   const base = getFormData();
   const selectedLayout =

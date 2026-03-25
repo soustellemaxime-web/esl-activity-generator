@@ -17,6 +17,7 @@ async function renderFromState() {
   attachQuestionControls();
   attachDeleteQuestion();
   attachQuestionSorting();
+  attachImagePicker();
 }
 
 function initializeStateFromPreview() {
@@ -89,6 +90,7 @@ async function preview() {
         attachCardControls();
         attachDeleteQuestion();
         attachQuestionSorting();
+        attachImagePicker();
     }
 
     if (data.mode === "custom" && window.worksheetState.exercises.length === 0) {
