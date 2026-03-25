@@ -115,8 +115,10 @@ async function preview() {
         attachMCQSorting();
     }
 
-    if (data.mode === "custom" && window.worksheetState.exercises.length === 0) {
-        initializeStateFromPreview();
+    if (data.mode === "custom") {
+        if (window.worksheetState.exercises.length === 0) {
+            initializeStateFromPreview();
+        }
         renderFromState();
     }
 
