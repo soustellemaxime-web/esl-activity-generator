@@ -166,6 +166,33 @@ h1 {
   margin-left: 10px;
 }
 
+.mcq-choice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  cursor: grab;
+}
+
+.mcq-choice:active {
+  cursor: grabbing;
+}
+
+.sortable-ghost {
+  opacity: 0.4;
+}
+
+.delete-choice {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.delete-choice:hover {
+  opacity: 1;
+}
+
 .delete-question {
   position: absolute;
   top: 4px;
@@ -253,7 +280,9 @@ h1 {
   .card-controls,
   .add-question,
   .delete-question,
-  .image-placeholder {
+  .image-placeholder,
+  .delete-choice,
+  .add-choice {
     display: none !important;
   }
 }

@@ -165,6 +165,7 @@ function generateFill(words, imageMap) {
 function renderCustomExercises(exercises) {
   const cards = [];
   exercises.forEach(ex => {
+    // Fill exercise
     if (ex.type === "fill") {
       let html = `<div><h2>Fill in the blanks</h2>`;
       html += `<div class="questions-container">`;
@@ -186,6 +187,39 @@ function renderCustomExercises(exercises) {
       html += `</div>`;
       cards.push({
         html: wrapCard(html, "Fill in the blanks", "normal", "fill", cards.length, "custom")
+      });
+    }
+    //MCQ exercise
+    if (ex.type === "mcq") {
+      let html = `<div class="questions-container">`;
+      ex.questions.forEach((q, i) => {
+        html += `
+          <div class="mcq-question">
+            <button class="delete-question">❌</button>
+            <div class="mcq-image" data-image>
+              ${q.image 
+                ? `<img src="${q.image}" />`
+                : `<div class="image-placeholder">➕</div>`
+              }
+            </div>
+            <div class="mcq-text">
+              <p><span data-editable>${q.question}</span></p>
+              <ul class="mcq-choices">
+                ${q.choices.map(choice => `
+                  <li class="mcq-choice">
+                    <span data-editable>${choice}</span>
+                    <button class="delete-choice">❌</button>
+                  </li>
+                `).join("")}
+              </ul>
+              <button class="add-choice">➕ Add choice</button>
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      cards.push({
+        html: wrapCard(html, "Multiple Choice", "normal", "mcq")
       });
     }
   });

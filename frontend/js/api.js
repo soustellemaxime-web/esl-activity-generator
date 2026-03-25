@@ -18,6 +18,8 @@ async function renderFromState() {
   attachDeleteQuestion();
   attachQuestionSorting();
   attachImagePicker();
+  attachMCQControls();
+  attachMCQSorting();
 }
 
 function initializeStateFromPreview() {
@@ -40,6 +42,7 @@ function initializeStateFromPreview() {
 function updateStateText(flatIndex, newText) {
     let count = 0;
     for (const ex of window.worksheetState.exercises) {
+        //Fill exercise
         if (ex.type === "fill") {
             for (let q of ex.questions) {
                 if (count === flatIndex) {
@@ -47,6 +50,23 @@ function updateStateText(flatIndex, newText) {
                     return;
                 }
                 count++;
+            }
+        }
+        //MCQ exercise
+        if (ex.type === "mcq") {
+            for (let q of ex.questions) {
+                if (count === flatIndex) {
+                    q.question = newText;
+                    return;
+                }
+                count++;
+                for (let i = 0; i < q.choices.length; i++) {
+                    if (count === flatIndex) {
+                        q.choices[i] = newText;
+                        return;
+                    }
+                    count++;
+                }
             }
         }
     }
@@ -91,6 +111,8 @@ async function preview() {
         attachDeleteQuestion();
         attachQuestionSorting();
         attachImagePicker();
+        attachMCQControls();
+        attachMCQSorting();
     }
 
     if (data.mode === "custom" && window.worksheetState.exercises.length === 0) {

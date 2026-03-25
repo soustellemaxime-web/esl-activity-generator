@@ -126,7 +126,7 @@ function attachQuestionSorting() {
 
 function attachImagePicker() {
   document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
-    const questions = card.querySelectorAll(".fill-question");
+    const questions = card.querySelectorAll(".fill-question, .mcq-question");
     questions.forEach((qEl, qIndex) => {
       const imgContainer = qEl.querySelector("[data-image]");
       if (!imgContainer) return;
@@ -139,6 +139,62 @@ function attachImagePicker() {
           renderFromState();
         }, {allowSearch: true, allowUpload: true});
       };
+    });
+  });
+}
+
+function attachMCQControls() {
+  document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
+    const ex = window.worksheetState.exercises[cardIndex];
+    if (!ex || ex.type !== "mcq") return;
+    const questions = card.querySelectorAll(".mcq-question");
+    questions.forEach((qEl, qIndex) => {
+      // ADD CHOICE
+      const addBtn = qEl.querySelector(".add-choice");
+      if (addBtn) {
+        addBtn.onclick = () => {
+          ex.questions[qIndex].choices.push("New choice");
+          renderFromState();
+        };
+      }
+      // DELETE CHOICE
+      const choiceEls = qEl.querySelectorAll(".mcq-choice");
+      choiceEls.forEach((choiceEl, choiceIndex) => {
+        const delBtn = choiceEl.querySelector(".delete-choice");
+        if (delBtn) {
+          delBtn.onclick = () => {
+            const choices = ex.questions[qIndex].choices;
+            choices.splice(choiceIndex, 1);
+            // prevent empty list
+            if (choices.length === 0) {
+              choices.push("New choice");
+            }
+            renderFromState();
+          };
+        }
+      });
+    });
+  });
+}
+
+function attachMCQSorting() {
+  document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
+    const ex = window.worksheetState.exercises[cardIndex];
+    if (!ex || ex.type !== "mcq") return;
+    const questionEls = card.querySelectorAll(".mcq-question");
+    questionEls.forEach((qEl, qIndex) => {
+      const container = qEl.querySelector(".mcq-choices");
+      if (!container) return;
+      Sortable.create(container, {
+        animation: 150,
+        draggable: ".mcq-choice",
+        onEnd: (evt) => {
+          const choices = ex.questions[qIndex].choices;
+          const moved = choices.splice(evt.oldIndex, 1)[0];
+          choices.splice(evt.newIndex, 0, moved);
+          renderFromState();
+        }
+      });
     });
   });
 }
@@ -179,6 +235,7 @@ document.querySelectorAll('input[name="mode"]').forEach(radio => {
   });
 });
 
+// Events for adding the custom exercises
 document.getElementById("addFill").addEventListener("click", () => {
   window.worksheetState.exercises.push({
     type: "fill",
@@ -189,5 +246,20 @@ document.getElementById("addFill").addEventListener("click", () => {
       }
     ]
   });
+  renderFromState();
+});
+
+document.getElementById("addMCQ").addEventListener("click", () => {
+  window.worksheetState.exercises.push({
+    type: "mcq",
+    questions: [
+      {
+        question: "What is this?",
+        choices: ["dog", "cat", "bird"],
+        image: null
+      }
+    ]
+  });
+
   renderFromState();
 });
