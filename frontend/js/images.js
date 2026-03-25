@@ -40,7 +40,7 @@ async function loadImages(words, existingMap = {}) {
   return newMap;
 }
 
-function showImagePicker(images, word, icon) {
+function showImagePicker(images, word, icon, onSelect) {
   // remove old picker
   const existing = document.getElementById("image-picker");
   if (existing) existing.remove();
@@ -68,14 +68,17 @@ function showImagePicker(images, word, icon) {
         reader.readAsDataURL(blob);
       });
 
-      globalImageMap[word] = base64;
-
-      document.querySelectorAll(`img[data-word="${word}"]`).forEach(el => {
-        el.src = base64;
-        el.style.opacity = "0.5";
-        setTimeout(() => el.style.opacity = "1", 200);
-      });
-
+      if (onSelect) {
+        onSelect(base64);
+      }
+      else {
+        globalImageMap[word] = base64;
+        document.querySelectorAll(`img[data-word="${word}"]`).forEach(el => {
+          el.src = base64;
+          el.style.opacity = "0.5";
+          setTimeout(() => el.style.opacity = "1", 200);
+        });
+      }
       icon.classList.remove("loading");
       picker.remove();
     };

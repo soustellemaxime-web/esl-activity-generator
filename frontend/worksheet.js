@@ -131,15 +131,22 @@ function attachImagePicker() {
       const imgContainer = qEl.querySelector("[data-image]");
       if (!imgContainer) return;
       imgContainer.onclick = async () => {
-        const word = prompt("Search image for word:"); // simple version first
-        if (!word) return;
-        const images = await loadImages([word], window.globalImageMap);
-        const selected = images[word]?.[0]; // take first result
-        if (!selected) return;
-        // update state
         const ex = window.worksheetState.exercises[cardIndex];
-        ex.questions[qIndex].image = selected;
-        renderFromState();
+        const question = ex?.questions[qIndex];
+        if (!question) return;
+        // extract a basic word (temporary solution)
+        let word = question.sentence
+          .replace(/\d+\.\s*/, "")   // remove "1. "
+          .replace("______", "")     // remove blank
+          .trim();
+        if (!word) word = "object";
+        const res = await fetch(`http://localhost:3000/api/images?word=${word}&t=${Date.now()}`);
+        const data = await res.json();
+        if (!data.images || data.images.length === 0) return;
+        showImagePicker(data.images, word, imgContainer, (selectedImage) => {
+          question.image = selectedImage;
+          renderFromState();
+        });
       };
     });
   });
