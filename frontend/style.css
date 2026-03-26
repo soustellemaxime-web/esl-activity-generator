@@ -127,14 +127,13 @@ input[type="radio"] {
 
 .mode-group {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: space-around;
+  margin-bottom: inherit;
 }
 
 .mode-group label {
   display: flex;
   align-items: center;
-  gap: 8px;
   font-weight: normal;
 }
 

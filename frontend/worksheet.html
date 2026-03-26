@@ -32,15 +32,6 @@
     <!-- LEFT PANEL -->
     <div class="left-panel">
       <div class="card">
-
-        <div class="section">
-          <label>
-            <span class="icon">📋</span>
-            <span data-i18n="wordList">Word List</span>
-          </label>
-          <textarea id="words"></textarea>
-        </div>
-
         <div class="mode-group">
           <label>
             <input type="radio" name="mode" value="auto" checked>
@@ -51,6 +42,13 @@
             <input type="radio" name="mode" value="custom">
             ✍️ Custom mode
           </label>
+        </div>
+        <div class="section" id="auto-settings-words">
+          <label>
+            <span class="icon">📋</span>
+            <span data-i18n="wordList">Word List</span>
+          </label>
+          <textarea id="words"></textarea>
         </div>
 
         <div id="auto-settings">
