@@ -1,6 +1,7 @@
 const translations = {
   en: {
-    title: "Worksheet Generator",
+    worksheetGenerator: "Worksheet Generator",
+    worksheetTitle: "Worksheet Title",
     wordList: "Word List",
     exercises: "Exercises",
     matching: "Matching (word ↔ image)",
@@ -11,11 +12,18 @@ const translations = {
     preview: "Preview",
     download: "Download PDF",
     layout: "Layout",
-    placeholder: "Enter words and select exercises to generate a worksheet"
+    placeholder: "Enter words and select exercises to generate a worksheet",
+    auto: "Auto mode",
+    custom: "Custom mode",
+    onecard: "1 card",
+    twocards: "2 cards",
+    threecards: "3 cards",
+    fourcards: "4 cards",
   },
 
   th: {
-    title: "เครื่องสร้างแบบฝึกหัด",
+    worksheetGenerator: "เครื่องสร้างแบบฝึกหัด",
+    worksheetTitle: "ชื่อใบงาน",
     wordList: "รายการคำศัพท์",
     exercises: "แบบฝึกหัด",
     matching: "จับคู่ (คำ ↔ รูปภาพ)",
@@ -26,6 +34,12 @@ const translations = {
     preview: "ดูตัวอย่าง",
     download: "ดาวน์โหลด PDF",
     layout: "รูปแบบหน้า",
-    placeholder: "พิมพ์คำศัพท์และเลือกแบบฝึกหัดเพื่อสร้างใบงาน"
+    placeholder: "พิมพ์คำศัพท์และเลือกแบบฝึกหัดเพื่อสร้างใบงาน",
+    auto: "โหมดอัตโนมัติ",
+    custom: "โหมดกำหนดเอง",
+    onecard: "1 หน้า",
+    twocards: "2 หน้า",
+    threecards: "3 หน้า",
+    fourcards: "4 หน้า",
   }
 };
