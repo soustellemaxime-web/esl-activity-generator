@@ -189,6 +189,32 @@ function renderCustomExercises(exercises) {
         html: wrapCard(html, "Fill in the blanks", "normal", "fill", cards.length, "custom")
       });
     }
+    //Matching exercise
+    if (ex.type === "matching") {
+      let html = `<div class="matching-container">`;
+      ex.pairs.forEach((p, i) => {
+        html += `
+          <div class="matching-row">
+            <button class="delete-pair">❌</button>
+            <div class="match-left">
+              ${i + 1}. <span data-editable>${p.word}</span>
+            </div>
+            <div class="match-right" data-image>
+              ${p.image 
+                ? `<img src="${p.image}" />`
+                : `<div class="image-placeholder">➕</div>`
+              }
+            </div>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+      html += `<button class="add-pair">➕ Add pair</button>`;
+      cards.push({
+        html: wrapCard(html, "Matching", "normal", "matching", cards.length, "custom")
+      });
+    }
     //MCQ exercise
     if (ex.type === "mcq") {
       let html = `<div class="questions-container">`;

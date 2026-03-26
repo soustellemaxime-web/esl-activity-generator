@@ -132,7 +132,7 @@ function attachImagePicker() {
       if (!imgContainer) return;
       imgContainer.onclick = async () => {
         const ex = window.worksheetState.exercises[cardIndex];
-        const question = ex?.questions[qIndex];
+        const question = ex?.questions[qIndex] || ex?.pairs[qIndex];
         if (!question) return;
         showImagePicker([], "", imgContainer, (selectedImage) => {
           question.image = selectedImage;
@@ -140,6 +140,23 @@ function attachImagePicker() {
         }, {allowSearch: true, allowUpload: true});
       };
     });
+    // MATCHING EXERCISE IMAGE PICKER
+    const ex = window.worksheetState.exercises[cardIndex];
+    if (ex?.type === "matching") {
+      const rows = card.querySelectorAll(".matching-row");
+      rows.forEach((row, pairIndex) => {
+        const imgContainer = row.querySelector("[data-image]");
+        if (!imgContainer) return;
+        imgContainer.onclick = () => {
+          const pair = ex.pairs?.[pairIndex];
+          if (!pair) return;
+          showImagePicker([], "", imgContainer, (selectedImage) => {
+            pair.image = selectedImage;
+            renderFromState();
+          }, { allowSearch: true, allowUpload: true });
+        };
+      });
+    }
   });
 }
 
@@ -195,6 +212,53 @@ function attachMCQSorting() {
           renderFromState();
         }
       });
+    });
+  });
+}
+
+function attachMatchingControls() {
+  document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
+    const ex = window.worksheetState.exercises[cardIndex];
+    if (!ex || ex.type !== "matching") return;
+    const rows = card.querySelectorAll(".matching-row");
+    // ADD PAIR
+    const addBtn = card.querySelector(".add-pair");
+    if (addBtn) {
+      addBtn.onclick = () => {
+        ex.pairs.push({ word: "New", image: null });
+        renderFromState();
+      };
+    }
+    // DELETE PAIR
+    rows.forEach((row, pairIndex) => {
+      const btn = row.querySelector(".delete-pair");
+      if (btn) {
+        btn.onclick = () => {
+          ex.pairs.splice(pairIndex, 1);
+          if (ex.pairs.length === 0) {
+            ex.pairs.push({ word: "New", image: null });
+          }
+          renderFromState();
+        };
+      }
+    });
+  });
+}
+
+function attachMatchingSorting() {
+  document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
+    const ex = window.worksheetState.exercises[cardIndex];
+    if (!ex || ex.type !== "matching") return;
+    const container = card.querySelector(".matching-container");
+    if (!container) return;
+    Sortable.create(container, {
+      animation: 150,
+      draggable: ".matching-row",
+      onEnd: (evt) => {
+        const moved = ex.pairs.splice(evt.oldIndex, 1)[0];
+        ex.pairs.splice(evt.newIndex, 0, moved);
+        renderFromState();
+      }
     });
   });
 }
@@ -260,6 +324,16 @@ document.getElementById("addMCQ").addEventListener("click", () => {
       }
     ]
   });
+  renderFromState();
+});
 
+document.getElementById("addMatching").addEventListener("click", () => {
+  window.worksheetState.exercises.push({
+    type: "matching",
+    pairs: [
+      { word: "dog", image: null },
+      { word: "cat", image: null }
+    ]
+  });
   renderFromState();
 });

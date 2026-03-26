@@ -144,6 +144,22 @@ h1 {
   min-width: 20px;
 }
 
+.matching-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.match-left {
+  flex: 1;
+}
+
+.match-right {
+  width: 80px;
+  height: 80px;
+}
+
 .mcq-question {
   display: flex;
   align-items: center;
@@ -237,6 +253,8 @@ h1 {
 .fill-text p {
   font-size: 18px;
 }
+
+
 
 .image-placeholder {
   width: 80px;

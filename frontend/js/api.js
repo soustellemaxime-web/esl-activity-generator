@@ -20,6 +20,8 @@ async function renderFromState() {
   attachImagePicker();
   attachMCQControls();
   attachMCQSorting();
+  attachMatchingControls();
+  attachMatchingSorting();
   if (window.API_BASE === "worksheet") {
         const previewEl = document.getElementById("preview");
         previewEl.querySelectorAll(".page").forEach(page => {
@@ -91,6 +93,16 @@ function updateStateText(flatIndex, newText) {
                 }
             }
         }
+        //Matching exercise
+        if (ex.type === "matching") {
+            for (let p of ex.pairs) {
+                if (count === flatIndex) {
+                p.word = newText;
+                return;
+                }
+                count++;
+            }
+        }
     }
 }
 
@@ -135,6 +147,8 @@ async function preview() {
         attachImagePicker();
         attachMCQControls();
         attachMCQSorting();
+        attachMatchingControls();
+        attachMatchingSorting();
     }
 
     if (window.API_BASE === "worksheet") {
