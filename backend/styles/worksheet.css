@@ -153,6 +153,7 @@ h1 {
 .match-label {
   font-weight: bold;
   min-width: 20px;
+  text-align: right;
 }
 
 .matching-row {
@@ -171,6 +172,9 @@ h1 {
 .match-right {
   height: 80px;
   flex-shrink: 0;
+  align-items: center;
+  display: flex;
+  gap: 10px;
 }
 
 .match-right img {

@@ -200,6 +200,7 @@ function renderCustomExercises(exercises) {
               ${i + 1}. <span data-editable>${p.word}</span>
             </div>
             <div class="match-right" data-image>
+              <span class="match-label">${String.fromCharCode(65 + i)}.</span>
               ${p.image 
                 ? `<img src="${p.image}" />`
                 : `<div class="image-placeholder">➕</div>`
