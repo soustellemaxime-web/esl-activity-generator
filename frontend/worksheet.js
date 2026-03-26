@@ -132,7 +132,7 @@ function attachImagePicker() {
       if (!imgContainer) return;
       imgContainer.onclick = async () => {
         const ex = window.worksheetState.exercises[cardIndex];
-        const question = ex?.questions[qIndex] || ex?.pairs[qIndex];
+        const question = ex?.questions[qIndex];
         if (!question) return;
         showImagePicker([], "", imgContainer, (selectedImage) => {
           question.image = selectedImage;

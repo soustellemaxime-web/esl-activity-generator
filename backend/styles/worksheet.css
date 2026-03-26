@@ -55,7 +55,7 @@ h1 {
   padding: 12px;
   display: flex;
   flex-direction: column;
-  overflow: visible;
+  overflow: hidden;
   height: 100%;
   position: relative;
 }
@@ -101,10 +101,21 @@ h1 {
     font-size: 18px;
 }
 
+.add-pair {
+  margin-top: 15px;
+  margin-inline: auto;
+}
+
 .matching {
   display: flex;
   justify-content: space-between;
   gap: 20px;
+}
+
+.matching-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .matching-words,
@@ -148,16 +159,26 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
 }
 
 .match-left {
   flex: 1;
+  font-size: 18px;
+  min-width: 0;
 }
 
 .match-right {
-  width: 80px;
   height: 80px;
+  flex-shrink: 0;
+}
+
+.match-right img {
+  width: 100px;
+  height: inherit;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
 }
 
 .mcq-question {
@@ -254,8 +275,6 @@ h1 {
   font-size: 18px;
 }
 
-
-
 .image-placeholder {
   width: 80px;
   height: 80px;
@@ -300,7 +319,9 @@ h1 {
   .delete-question,
   .image-placeholder,
   .delete-choice,
-  .add-choice {
+  .add-choice,
+  .delete-pair,
+  .add-pair {
     display: none !important;
   }
 }
