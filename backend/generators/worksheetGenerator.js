@@ -253,7 +253,7 @@ function renderCustomExercises(exercises) {
 }
 
 function generateWorksheet(data) {
-  const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode, layout } = data;
+  const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode, layout, title } = data;
   const currentMode = mode || "auto";
 
   if (data.mode === "custom" && data.customExercises) {
@@ -276,7 +276,7 @@ function generateWorksheet(data) {
 
     pages.forEach(pageCards => {
       html += `<div class="page layout-${layoutNum}">`;
-      html += `<div class="page-title">Worksheet</div>`;
+      html += `<div class="page-title">${title || "Worksheet"}</div>`;
 
       pageCards.forEach(card => {
         html += card.html;
@@ -372,7 +372,7 @@ function generateWorksheet(data) {
 
   pages.forEach((pageCards, index) => {
     html += `<div class="page layout-${layoutNum}">`;
-    html += `<div class="page-title">Worksheet</div>`;
+    html += `<div class="page-title">${title || "Worksheet"}</div>`;
 
     pageCards.forEach(card => {
       html += card.html;

@@ -7,6 +7,9 @@ window.worksheetState = {
 document.getElementById("words")
   .addEventListener("input", debounce(preview, 500));
 
+document.getElementById("title")
+  .addEventListener("input", debounce(preview, 500));
+
 document.querySelectorAll("#matching, #mcq, #fill, #wsearch, #sbuilding")
   .forEach(el => el.addEventListener("change", debounce(preview, 500)));
 
