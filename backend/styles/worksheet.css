@@ -81,11 +81,10 @@ h1 {
   background: white;
   border: 1px solid #ccc;
   border-radius: 50%;
-  width: 18px;
-  height: 18px;
   font-size: 12px;
   display: none;
   cursor: pointer;
+  padding: 6px 6px;
 }
 
 .sticker:hover .sticker-delete {
