@@ -363,6 +363,10 @@ input:focus, select:focus, textarea:focus {
   background: #e6fcf5;
 }
 
+#addSticker {
+  background: #ffe3ff;
+}
+
 [data-editable] {
   cursor: text;
   padding: 2px 4px;

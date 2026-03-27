@@ -396,15 +396,6 @@ const STICKERS = [
 // Add sticker button event
 document.getElementById("addSticker").addEventListener("click", () => {
   showStickerPicker();
-  /*
-  const sticker = STICKERS[Math.floor(Math.random() * STICKERS.length)];
-  window.worksheetState.stickers.push({
-    src: sticker,
-    x: 100,
-    y: 100,
-  });
-  renderFromState();
-  */
 });
 
 function showStickerPicker() {
