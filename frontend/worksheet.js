@@ -5,18 +5,29 @@ window.worksheetState = {
 const BASE_URL = "http://localhost:3000";
 
 const STICKERS = {
-  all: [
+  People: [
     `${BASE_URL}/assets/stickers/teacher.png`,
     `${BASE_URL}/assets/stickers/studentboy.png`,
     `${BASE_URL}/assets/stickers/studentgirl.png`,
   ],
-  people: [
-    `${BASE_URL}/assets/stickers/teacher.png`,
-    `${BASE_URL}/assets/stickers/studentboy.png`,
-    `${BASE_URL}/assets/stickers/studentgirl.png`,
+  Animals: [
+    `${BASE_URL}/assets/stickers/panda.png`,
+    `${BASE_URL}/assets/stickers/rabbit.png`,
+    `${BASE_URL}/assets/stickers/koala.png`,
+    `${BASE_URL}/assets/stickers/dog.png`,
   ],
-  animals: [],
-  fruits: []
+  Fruits: [
+    `${BASE_URL}/assets/stickers/apple.png`,
+    `${BASE_URL}/assets/stickers/banana.png`,
+    `${BASE_URL}/assets/stickers/grapes.png`,
+    `${BASE_URL}/assets/stickers/pineapple.png`,
+    `${BASE_URL}/assets/stickers/strawberry.png`,
+    `${BASE_URL}/assets/stickers/watermelon.png`,
+  ],
+  Vehicles: [
+    `${BASE_URL}/assets/stickers/helicopter.png`,
+    `${BASE_URL}/assets/stickers/airplane.png`,
+  ]
 };
 
 // trigger preview
@@ -417,7 +428,7 @@ function showStickerPicker() {
     }
     document.body.appendChild(picker);
   }
-  let currentCategory = "all";
+  let currentCategory = "People";
   function renderPicker() {
     picker.innerHTML = `
       <div class="sticker-tabs">
