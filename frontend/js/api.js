@@ -3,26 +3,30 @@ function needsImages(data) {
 }
 
 async function renderFromState() {
-  const data = getPageData();
-  data.customExercises = window.worksheetState.exercises;
-  const res = await fetch(`http://localhost:3000/api/worksheet/preview`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(data)
-  });
-  const html = await res.text();
-  document.getElementById("preview").innerHTML = html;
-  attachEditableHandlers();
-  attachCardControls();
-  attachQuestionControls();
-  attachDeleteQuestion();
-  attachQuestionSorting();
-  attachImagePicker();
-  attachMCQControls();
-  attachMCQSorting();
-  attachMatchingControls();
-  attachMatchingSorting();
-  if (window.API_BASE === "worksheet") {
+    if (!window.worksheetState.stickers) {
+        window.worksheetState.stickers = [];
+    }
+    const data = getPageData();
+    data.customExercises = window.worksheetState.exercises;
+    data.stickers = window.worksheetState.stickers;
+    const res = await fetch(`http://localhost:3000/api/worksheet/preview`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    });
+    const html = await res.text();
+    document.getElementById("preview").innerHTML = html;
+    attachEditableHandlers();
+    attachCardControls();
+    attachQuestionControls();
+    attachDeleteQuestion();
+    attachQuestionSorting();
+    attachImagePicker();
+    attachMCQControls();
+    attachMCQSorting();
+    attachMatchingControls();
+    attachMatchingSorting();
+    if (window.API_BASE === "worksheet") {
         const previewEl = document.getElementById("preview");
         previewEl.querySelectorAll(".page").forEach(page => {
             Sortable.create(page, {

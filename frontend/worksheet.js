@@ -343,3 +343,19 @@ document.getElementById("addMatching").addEventListener("click", () => {
   });
   renderFromState();
 });
+
+const STICKERS = [
+  "/frontend/assets/stickers/teacher.png",
+  "/frontend/assets/stickers/studentboy.png",
+  "/frontend/assets/stickers/studentgirl.png",
+];
+
+document.getElementById("addSticker").addEventListener("click", () => {
+  const sticker = STICKERS[Math.floor(Math.random() * STICKERS.length)];
+  window.worksheetState.stickers.push({
+    src: sticker,
+    x: 100,
+    y: 100,
+  });
+  renderFromState();
+});

@@ -276,6 +276,15 @@ function generateWorksheet(data) {
 
     pages.forEach(pageCards => {
       html += `<div class="page layout-${layoutNum}">`;
+      const stickersHTML = (data.stickers || []).map((s, i) => `
+        <img 
+          src="${s.src}" 
+          class="sticker"
+          data-index="${i}"
+          style="left:${s.x}px; top:${s.y}px; width:${s.size}px;"
+        />
+      `).join("");
+      html += stickersHTML;
       html += `<div class="page-title">${title || "Worksheet"}</div>`;
 
       pageCards.forEach(card => {
