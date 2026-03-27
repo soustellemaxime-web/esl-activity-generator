@@ -421,4 +421,15 @@ function showStickerPicker() {
       renderFromState();
     };
   });
+  setTimeout(() => {
+    function handleOutsideClick(e) {
+      const picker = document.getElementById("stickerPicker");
+      const button = document.getElementById("addSticker");
+      if (!picker.contains(e.target) && !button.contains(e.target)) {
+        picker.style.display = "none";
+        document.removeEventListener("click", handleOutsideClick);
+      }
+    }
+    document.addEventListener("click", handleOutsideClick);
+  }, 0);
 }
