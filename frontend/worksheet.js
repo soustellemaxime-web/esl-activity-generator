@@ -269,6 +269,35 @@ function attachMatchingSorting() {
   });
 }
 
+function attachStickerDrag() {
+  document.querySelectorAll(".sticker").forEach(sticker => {
+    sticker.onmousedown = (e) => {
+      e.preventDefault();
+      const startX = e.clientX;
+      const startY = e.clientY;
+      const initialLeft = sticker.offsetLeft;
+      const initialTop = sticker.offsetTop;
+      function onMouseMove(e) {
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        const x = initialLeft + dx;
+        const y = initialTop + dy;
+        sticker.style.left = x + "px";
+        sticker.style.top = y + "px";
+      }
+      function onMouseUp() {
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+        const index = sticker.dataset.index;
+        window.worksheetState.stickers[index].x = parseInt(sticker.style.left);
+        window.worksheetState.stickers[index].y = parseInt(sticker.style.top);
+      }
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
+    };
+  });
+}
+
 function getPageData() {
   const base = getFormData();
   const selectedLayout =

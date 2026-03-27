@@ -26,6 +26,7 @@ async function renderFromState() {
     attachMCQSorting();
     attachMatchingControls();
     attachMatchingSorting();
+    attachStickerDrag();
     if (window.API_BASE === "worksheet") {
         const previewEl = document.getElementById("preview");
         previewEl.querySelectorAll(".page").forEach(page => {
@@ -153,6 +154,7 @@ async function preview() {
         attachMCQSorting();
         attachMatchingControls();
         attachMatchingSorting();
+        attachStickerDrag();
     }
 
     if (window.API_BASE === "worksheet") {
