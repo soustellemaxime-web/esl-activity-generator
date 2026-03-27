@@ -14,6 +14,7 @@ const flashcardRoutes = require("./routes/flashcardsRoute")
 const imageRoutes = require("./routes/imagesRoute")
 const worksheetRoutes = require("./routes/worksheetRoute")
 
+app.use("/assets", express.static("../frontend/assets"))
 app.use("/api/worksheet", worksheetRoutes)
 app.use("/api/bingo", bingoRoutes)
 app.use("/api/flashcards", flashcardRoutes)

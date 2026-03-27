@@ -374,9 +374,9 @@ document.getElementById("addMatching").addEventListener("click", () => {
 });
 
 const STICKERS = [
-  "/frontend/assets/stickers/teacher.png",
-  "/frontend/assets/stickers/studentboy.png",
-  "/frontend/assets/stickers/studentgirl.png",
+  "/assets/stickers/teacher.png",
+  "/assets/stickers/studentboy.png",
+  "/assets/stickers/studentgirl.png",
 ];
 
 document.getElementById("addSticker").addEventListener("click", () => {

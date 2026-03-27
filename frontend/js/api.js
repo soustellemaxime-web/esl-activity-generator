@@ -178,11 +178,9 @@ async function preview() {
 
 
 async function download() {
-
     const btn = document.getElementById("downloadBtn");
     btn.disabled = true;
     btn.textContent = "⏳ Generating PDF...";
-
     try {
         const data = (typeof getPageData === "function")
         ? getPageData()
@@ -191,9 +189,7 @@ async function download() {
         if (needsImages(data)) {
         window.globalImageMap = await loadImages(data.words, window.globalImageMap);
         }
-
         data.imageMap = window.globalImageMap;
-
         if (window.API_BASE === "worksheet") {
             const previewEl = document.getElementById("preview");
             const ordered = [];
@@ -202,12 +198,13 @@ async function download() {
             });
             data.exercises = ordered;
         }
-
+        
         if (data.mode === "custom") {
             data.customExercises = window.worksheetState.exercises;
             data.exercises = [];
-        }
-            
+            data.stickers = window.worksheetState.stickers;
+        }  
+        console.log("Data sent to backend for PDF generation:", data.mode, data.stickers); 
         const res = await fetch(`http://localhost:3000/api/${window.API_BASE}/generate`, {
         method: "POST",
         headers: {
@@ -215,11 +212,8 @@ async function download() {
         },
         body: JSON.stringify(data)
         })
-
         const blob = await res.blob()
-
         const url = window.URL.createObjectURL(blob)
-
         const a = document.createElement("a")
         a.href = url
         a.download = `${window.API_BASE}.pdf`

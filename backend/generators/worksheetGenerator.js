@@ -278,7 +278,7 @@ function generateWorksheet(data) {
       html += `<div class="page layout-${layoutNum}">`;
       const stickersHTML = (data.stickers || []).map((s, i) => `
         <img 
-          src="${s.src}" 
+          src="http://localhost:3000${s.src}" 
           class="sticker"
           data-index="${i}"
           style="left:${s.x}px; top:${s.y}px; width:${s.size}px;"
