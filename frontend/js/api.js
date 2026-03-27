@@ -27,6 +27,7 @@ async function renderFromState() {
     attachMatchingControls();
     attachMatchingSorting();
     attachStickerDrag();
+    attachStickerDelete();
     if (window.API_BASE === "worksheet") {
         const previewEl = document.getElementById("preview");
         previewEl.querySelectorAll(".page").forEach(page => {
@@ -155,6 +156,7 @@ async function preview() {
         attachMatchingControls();
         attachMatchingSorting();
         attachStickerDrag();
+        attachStickerDelete();
     }
 
     if (window.API_BASE === "worksheet") {

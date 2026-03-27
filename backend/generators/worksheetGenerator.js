@@ -277,12 +277,13 @@ function generateWorksheet(data) {
     pages.forEach(pageCards => {
       html += `<div class="page layout-${layoutNum}">`;
       const stickersHTML = (data.stickers || []).map((s, i) => `
-        <img 
-          src="http://localhost:3000${s.src}" 
-          class="sticker"
+        <div class="sticker"
           data-index="${i}"
           style="left:${s.x}px; top:${s.y}px; width:${s.size}px;"
-        />
+        >
+        <img src="http://localhost:3000${s.src}" />
+        <button class="sticker-delete">❌</button>
+        </div>
       `).join("");
       html += stickersHTML;
       html += `<div class="page-title">${title || "Worksheet"}</div>`;

@@ -298,6 +298,19 @@ function attachStickerDrag() {
   });
 }
 
+function attachStickerDelete() {
+  document.querySelectorAll(".sticker").forEach(sticker => {
+    const btn = sticker.querySelector(".sticker-delete");
+    if (!btn) return;
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      const index = sticker.dataset.index;
+      window.worksheetState.stickers.splice(index, 1);
+      renderFromState();
+    };
+  });
+}
+
 function getPageData() {
   const base = getFormData();
   const selectedLayout =

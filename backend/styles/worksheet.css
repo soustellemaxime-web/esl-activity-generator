@@ -68,6 +68,30 @@ h1 {
   z-index: 10;
 }
 
+.sticker img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.sticker-delete {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  display: none;
+  cursor: pointer;
+}
+
+.sticker:hover .sticker-delete {
+  display: block;
+}
+
 .exercise-card h2 {
   font-size: 16px;
 }
