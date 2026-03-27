@@ -281,7 +281,7 @@ function generateWorksheet(data) {
           data-index="${i}"
           style="left:${s.x}px; top:${s.y}px; width:${s.size}px;"
         >
-        <img src="http://localhost:3000${s.src}" />
+        <img src="${s.src}" />
         <button class="sticker-delete">❌</button>
         </div>
       `).join("");

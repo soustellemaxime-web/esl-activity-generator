@@ -2,6 +2,7 @@ window.API_BASE = "worksheet";
 window.worksheetState = {
   exercises: []
 };
+const BASE_URL = "http://localhost:3000";
 
 // trigger preview
 document.getElementById("words")
@@ -387,12 +388,15 @@ document.getElementById("addMatching").addEventListener("click", () => {
 });
 
 const STICKERS = [
-  "/assets/stickers/teacher.png",
-  "/assets/stickers/studentboy.png",
-  "/assets/stickers/studentgirl.png",
+  `${BASE_URL}/assets/stickers/teacher.png`,
+  `${BASE_URL}/assets/stickers/studentboy.png`,
+  `${BASE_URL}/assets/stickers/studentgirl.png`,
 ];
 
+// Add sticker button event
 document.getElementById("addSticker").addEventListener("click", () => {
+  showStickerPicker();
+  /*
   const sticker = STICKERS[Math.floor(Math.random() * STICKERS.length)];
   window.worksheetState.stickers.push({
     src: sticker,
@@ -400,4 +404,30 @@ document.getElementById("addSticker").addEventListener("click", () => {
     y: 100,
   });
   renderFromState();
+  */
 });
+
+function showStickerPicker() {
+  let picker = document.getElementById("stickerPicker");
+  if (!picker) {
+    picker = document.createElement("div");
+    picker.id = "stickerPicker";
+    document.body.appendChild(picker);
+  }
+  picker.innerHTML = STICKERS.map(src => `
+    <img src="${src}" class="sticker-option"/>
+  `).join("");
+  picker.style.display = "grid";
+  // click to select
+  picker.querySelectorAll(".sticker-option").forEach(img => {
+    img.onclick = () => {
+      window.worksheetState.stickers.push({
+        src: img.src,
+        x: 100,
+        y: 100,
+      });
+      picker.style.display = "none";
+      renderFromState();
+    };
+  });
+}

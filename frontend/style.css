@@ -471,6 +471,35 @@ input:focus, select:focus, textarea:focus {
   grid-template-rows: 1fr 1fr;
 }
 
+/* Sticker Picker */
+#stickerPicker {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 260px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 10px;
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 999;
+}
+
+.sticker-option {
+  width: 100%;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.sticker-option:hover {
+  transform: scale(1.1);
+}
+
 /* Dark mode */
 
 body.dark {
