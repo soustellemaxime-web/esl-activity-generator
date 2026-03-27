@@ -504,6 +504,33 @@ input:focus, select:focus, textarea:focus {
   transform: scale(1.1);
 }
 
+.sticker-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.sticker-tab {
+  flex: 1;
+  padding: 4px;
+  border: none;
+  background: #eee;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.sticker-tab.active {
+  background: #ddd;
+  font-weight: bold;
+}
+
+.sticker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
 /* Dark mode */
 
 body.dark {

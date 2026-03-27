@@ -4,6 +4,21 @@ window.worksheetState = {
 };
 const BASE_URL = "http://localhost:3000";
 
+const STICKERS = {
+  all: [
+    `${BASE_URL}/assets/stickers/teacher.png`,
+    `${BASE_URL}/assets/stickers/studentboy.png`,
+    `${BASE_URL}/assets/stickers/studentgirl.png`,
+  ],
+  people: [
+    `${BASE_URL}/assets/stickers/teacher.png`,
+    `${BASE_URL}/assets/stickers/studentboy.png`,
+    `${BASE_URL}/assets/stickers/studentgirl.png`,
+  ],
+  animals: [],
+  fruits: []
+};
+
 // trigger preview
 document.getElementById("words")
   .addEventListener("input", debounce(preview, 500));
@@ -387,12 +402,6 @@ document.getElementById("addMatching").addEventListener("click", () => {
   renderFromState();
 });
 
-const STICKERS = [
-  `${BASE_URL}/assets/stickers/teacher.png`,
-  `${BASE_URL}/assets/stickers/studentboy.png`,
-  `${BASE_URL}/assets/stickers/studentgirl.png`,
-];
-
 // Add sticker button event
 document.getElementById("addSticker").addEventListener("click", () => {
   showStickerPicker();
@@ -403,27 +412,53 @@ function showStickerPicker() {
   if (!picker) {
     picker = document.createElement("div");
     picker.id = "stickerPicker";
+    picker.onclick = (e) => {
+      e.stopPropagation();
+    }
     document.body.appendChild(picker);
   }
-  picker.innerHTML = STICKERS.map(src => `
-    <img src="${src}" class="sticker-option"/>
-  `).join("");
-  picker.style.display = "grid";
-  // click to select
-  picker.querySelectorAll(".sticker-option").forEach(img => {
-    img.onclick = () => {
-      window.worksheetState.stickers.push({
-        src: img.src,
-        x: 100,
-        y: 100,
-      });
-      picker.style.display = "none";
-      renderFromState();
-    };
-  });
+  let currentCategory = "all";
+  function renderPicker() {
+    picker.innerHTML = `
+      <div class="sticker-tabs">
+        ${Object.keys(STICKERS).map(cat => `
+          <button class="sticker-tab ${cat === currentCategory ? "active" : ""}" data-cat="${cat}">
+            ${cat}
+          </button>
+        `).join("")}
+      </div>
+      <div class="sticker-grid">
+        ${STICKERS[currentCategory].map(src => `
+          <img src="${src}" class="sticker-option"/>
+        `).join("")}
+      </div>
+    `;
+    // Tab click
+    picker.querySelectorAll(".sticker-tab").forEach(btn => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        currentCategory = btn.dataset.cat;
+        renderPicker();
+      };
+    });
+    // Sticker click
+    picker.querySelectorAll(".sticker-option").forEach(img => {
+      img.onclick = (e) => {
+        e.stopPropagation();
+        window.worksheetState.stickers.push({
+          src: img.src,
+          x: 100,
+          y: 100,
+        });
+        picker.style.display = "none";
+        renderFromState();
+      };
+    });
+  }
+  renderPicker();
+  picker.style.display = "block";
   setTimeout(() => {
     function handleOutsideClick(e) {
-      const picker = document.getElementById("stickerPicker");
       const button = document.getElementById("addSticker");
       if (!picker.contains(e.target) && !button.contains(e.target)) {
         picker.style.display = "none";
