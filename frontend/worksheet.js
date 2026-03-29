@@ -2,6 +2,10 @@ window.API_BASE = "worksheet";
 window.worksheetState = {
   exercises: []
 };
+window.borderMode = {
+  active: false,
+  style: null
+};
 const BASE_URL = "http://localhost:3000";
 
 const STICKERS = {
@@ -40,6 +44,40 @@ document.getElementById("title")
 document.querySelectorAll("#matching, #mcq, #fill, #wsearch, #sbuilding")
   .forEach(el => el.addEventListener("change", debounce(preview, 500)));
 
+function showBorderPicker() {
+  const styles = [
+    "border-classic",
+    "border-dashed",
+    "border-rounded",
+    "border-fun",
+    "border-soft",
+    "border-magic"
+  ];
+  const picker = document.createElement("div");
+  picker.id = "borderPicker";
+  picker.innerHTML = styles.map(style => `
+    <div class="border-option ${style}" data-style="${style}">Aa</div>
+  `).join("");
+  document.body.appendChild(picker);
+  picker.querySelectorAll(".border-option").forEach(opt => {
+    opt.onclick = () => {
+      window.borderMode.active = true;
+      window.borderMode.style = opt.dataset.style;
+      //picker.remove();
+      //renderFromState();
+    }
+  });
+  function handleOutsideClick(e) {
+    if (!picker.contains(e.target)) {
+      picker.remove();
+      document.removeEventListener("click", handleOutsideClick);
+    }
+  }
+  setTimeout(() => {
+    document.addEventListener("click", handleOutsideClick);
+  }, 0);
+}     
+
 function updateModeUI() {
   const mode = document.querySelector('input[name="mode"]:checked')?.value;
   const auto = document.getElementById("auto-settings");
@@ -63,6 +101,34 @@ function updateModeUI() {
       initializeStateFromPreview();
     });
   }
+}
+
+function attachBorderHover() {
+  document.querySelectorAll(".exercise-card").forEach((card, index) => {
+    card.onmouseenter = () => {
+      if (!window.borderMode.active) return;
+      const style = window.borderMode.style || "border-classic";
+      card.classList.add("border-preview", style);
+    };
+    card.onmouseleave = () => {
+      if (!window.borderMode.active) return;
+      const style = window.borderMode.style || "border-classic";
+      card.classList.remove("border-preview", style);
+    };
+  });
+}
+
+function attachBorderApply() {
+  document.querySelectorAll(".exercise-card").forEach((card, index) => {
+    card.onclick = (e) => {
+      if (!window.borderMode.active) return;
+      e.stopPropagation();
+      const style = window.borderMode.style || "border-classic";
+      window.worksheetState.exercises[index].borderStyle = style;
+      window.borderMode.active = false;
+      renderFromState();
+    };
+  });
 }
 
 function attachQuestionControls() {
@@ -488,6 +554,11 @@ document.getElementById("addMatching").addEventListener("click", () => {
 // Add sticker button event
 document.getElementById("addSticker").addEventListener("click", () => {
   showStickerPicker();
+});
+
+//Add border button event
+document.getElementById("addBorder").addEventListener("click", () => {
+  showBorderPicker();
 });
 
 function showStickerPicker() {

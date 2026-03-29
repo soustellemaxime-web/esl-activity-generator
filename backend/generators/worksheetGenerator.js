@@ -186,7 +186,7 @@ function renderCustomExercises(exercises) {
       html += `<button class="add-question">➕ Add Question</button>`;
       html += `</div>`;
       cards.push({
-        html: wrapCard(html, "Fill in the blanks", "normal", "fill", cards.length, "custom")
+        html: wrapCard(html, "Fill in the blanks", "normal", "fill", cards.length, "custom", ex.borderStyle || "border-classic")
       });
     }
     //Matching exercise
@@ -213,7 +213,7 @@ function renderCustomExercises(exercises) {
       html += `</div>`;
       html += `<button class="add-pair">➕ Add pair</button>`;
       cards.push({
-        html: wrapCard(html, "Matching", "normal", "matching", cards.length, "custom")
+        html: wrapCard(html, "Matching", "normal", "matching", cards.length, "custom", ex.borderStyle || "border-classic")
       });
     }
     //MCQ exercise
@@ -245,7 +245,7 @@ function renderCustomExercises(exercises) {
       });
       html += `</div>`;
       cards.push({
-        html: wrapCard(html, "Multiple Choice", "normal", "mcq", cards.length, "custom")
+        html: wrapCard(html, "Multiple Choice", "normal", "mcq", cards.length, "custom", ex.borderStyle || "border-classic")
       });
     }
   });

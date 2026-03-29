@@ -18,6 +18,8 @@ function attachAllHandlers() {
     attachStickerDelete();
     attachStickerResize();
     attachStickerRotate();
+    attachBorderHover();
+    attachBorderApply();
 }
 
 

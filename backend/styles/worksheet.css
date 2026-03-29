@@ -448,6 +448,10 @@ h1 {
   background: linear-gradient(135deg, #f3e5f5, #e1bee7);
 }
 
+.border-preview {
+  opacity: 0.6;
+}
+
 @media print {
   .card-controls,
   .add-question,
