@@ -15,6 +15,7 @@ const imageRoutes = require("./routes/imagesRoute")
 const worksheetRoutes = require("./routes/worksheetRoute")
 
 app.use(express.static(path.join(__dirname, "../frontend")))
+app.use("/styles", express.static(path.join(__dirname, "styles")))
 app.use("/assets", express.static(path.join(__dirname, "../frontend/assets")))
 app.use("/api/worksheet", worksheetRoutes)
 app.use("/api/bingo", bingoRoutes)

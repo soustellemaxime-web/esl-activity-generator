@@ -260,7 +260,7 @@ function generateWorksheet(data) {
     let html = `
       <html>
         <head>
-          <style>${css}</style>
+          <link rel="stylesheet" href="http://localhost:3000/styles/worksheet.css">
         </head>
         <body>
     `;
