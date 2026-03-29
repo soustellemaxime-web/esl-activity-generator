@@ -44,6 +44,12 @@ document.getElementById("title")
 document.querySelectorAll("#matching, #mcq, #fill, #wsearch, #sbuilding")
   .forEach(el => el.addEventListener("change", debounce(preview, 500)));
 
+function exitBorderMode() {
+  window.borderMode.active = false;
+  window.borderMode.style = null;
+  document.body.classList.remove("border-mode");
+}
+
 function showBorderPicker() {
   const styles = [
     "border-classic",
@@ -63,13 +69,16 @@ function showBorderPicker() {
     opt.onclick = () => {
       window.borderMode.active = true;
       window.borderMode.style = opt.dataset.style;
-      //picker.remove();
-      //renderFromState();
+      //highlight selection
+      picker.querySelectorAll(".border-option").forEach(o => o.classList.remove("active"));
+      opt.classList.add("active");
+      document.body.classList.add("border-mode");
     }
   });
   function handleOutsideClick(e) {
     if (!picker.contains(e.target)) {
       picker.remove();
+      exitBorderMode();
       document.removeEventListener("click", handleOutsideClick);
     }
   }
@@ -125,7 +134,7 @@ function attachBorderApply() {
       e.stopPropagation();
       const style = window.borderMode.style || "border-classic";
       window.worksheetState.exercises[index].borderStyle = style;
-      window.borderMode.active = false;
+      exitBorderMode();
       renderFromState();
     };
   });

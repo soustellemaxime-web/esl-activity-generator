@@ -450,6 +450,35 @@ h1 {
 
 .border-preview {
   opacity: 0.6;
+  transition: all 0.1s ease;
+}
+
+.border-option {
+  width: 80px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.border-option:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.border-option:active {
+  transform: scale(0.95);
+}
+
+.border-option.active {
+  transform: scale(1.05);
+}
+
+body.border-mode,
+body.border-mode * {
+  cursor: url('/frontend/assets/cursors/brush.png') 8 8, auto !important;
 }
 
 @media print {
