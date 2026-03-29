@@ -369,7 +369,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 #addMatching {
-  background: #e6fcf5;
+  background: #e6fced;
 }
 
 #addBorder {
@@ -378,6 +378,10 @@ input:focus, select:focus, textarea:focus {
 
 #addSticker {
   background: #ffe3ff;
+}
+
+#addFont {
+  background: #e3ffff;
 }
 
 [data-editable] {
