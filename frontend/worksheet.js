@@ -385,7 +385,7 @@ function attachStickerRotate() {
         document.removeEventListener("mousemove", onMouseMove);
         document.removeEventListener("mouseup", onMouseUp);
         document.body.style.userSelect = "";
-        window.worksheetState.stickers[index].rotation = currentRotation; // ✅ now defined
+        window.worksheetState.stickers[index].rotation = currentRotation;
       }
       document.addEventListener("mousemove", onMouseMove);
       document.addEventListener("mouseup", onMouseUp);

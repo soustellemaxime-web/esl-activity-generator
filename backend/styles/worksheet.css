@@ -123,7 +123,7 @@ h1 {
 
 .rotate-handle {
   position: absolute;
-  top: -20px;
+  top: -5px;
   left: 50%;
   transform: translateX(-50%);
   width: 12px;
@@ -133,8 +133,21 @@ h1 {
   cursor: grab;
 }
 
+.resize-handle,
+.rotate-handle {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
 .rotate-handle:active {
   cursor: grabbing;
+}
+
+.sticker-wrapper:hover .resize-handle,
+.sticker-wrapper:hover .rotate-handle {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .exercise-card h2 {
