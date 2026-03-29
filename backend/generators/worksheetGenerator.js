@@ -12,9 +12,9 @@ const LIMITS = {
   fill: 4
 };
 
-function wrapCard(content, title, sizeClass = "normal", type = "", index = 0, mode = "auto") {
+function wrapCard(content, title, sizeClass = "normal", type = "", index = 0, mode = "auto", borderStyle = "border-classic") {
   return `
-    <div class="exercise-card ${sizeClass}" data-type="${type}" data-index="${index}">
+    <div class="exercise-card ${sizeClass} ${borderStyle}" data-type="${type}" data-index="${index}">
       ${mode === "custom" ? `
         <div class="card-controls">
           <button class="delete-card">❌</button>

@@ -55,7 +55,7 @@ h1 {
 }
 
 .exercise-card {
-  border: 2px solid #ddd;
+  border: none;
   border-radius: 10px;
   padding: 12px;
   display: flex;
@@ -413,6 +413,39 @@ h1 {
 
 .card-controls button:hover {
   background: rgba(0,0,0,0.8);
+}
+
+/* 🎨 BORDER STYLES */
+
+.border-classic {
+  border: 2px solid #ddd;
+}
+
+.border-dashed {
+  border: 2px dashed #4CAF50;
+}
+
+.border-rounded {
+  border: 2px solid #2196F3;
+  border-radius: 20px;
+}
+
+.border-fun {
+  border: 3px solid #ff9800;
+  border-radius: 16px;
+  background: #fff8e1;
+}
+
+.border-soft {
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+.border-magic {
+  border: 2px solid #9c27b0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f3e5f5, #e1bee7);
 }
 
 @media print {
