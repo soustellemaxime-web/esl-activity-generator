@@ -2,6 +2,23 @@ function needsImages(data) {
     return data.displayMode !== "text" || data.matching || data.mcq || data.fill;
 }
 
+//Function to attach all handlers
+function attachAllHandlers() {
+    attachEditableHandlers();
+    attachCardControls();
+    attachQuestionControls();
+    attachDeleteQuestion();
+    attachQuestionSorting();
+    attachImagePicker();
+    attachMCQControls();
+    attachMCQSorting();
+    attachMatchingControls();
+    attachMatchingSorting();
+    attachStickerDrag();
+    attachStickerDelete();
+}
+
+
 async function renderFromState() {
     if (!window.worksheetState.stickers) {
         window.worksheetState.stickers = [];
@@ -16,18 +33,7 @@ async function renderFromState() {
     });
     const html = await res.text();
     document.getElementById("preview").innerHTML = html;
-    attachEditableHandlers();
-    attachCardControls();
-    attachQuestionControls();
-    attachDeleteQuestion();
-    attachQuestionSorting();
-    attachImagePicker();
-    attachMCQControls();
-    attachMCQSorting();
-    attachMatchingControls();
-    attachMatchingSorting();
-    attachStickerDrag();
-    attachStickerDelete();
+    attachAllHandlers();
     if (window.API_BASE === "worksheet") {
         const previewEl = document.getElementById("preview");
         previewEl.querySelectorAll(".page").forEach(page => {
@@ -145,18 +151,7 @@ async function preview() {
     
     // make preview editable in custom mode
     if (data.mode === "custom") {
-        attachEditableHandlers();
-        attachQuestionControls();
-        attachCardControls();
-        attachDeleteQuestion();
-        attachQuestionSorting();
-        attachImagePicker();
-        attachMCQControls();
-        attachMCQSorting();
-        attachMatchingControls();
-        attachMatchingSorting();
-        attachStickerDrag();
-        attachStickerDelete();
+        attachAllHandlers();
     }
 
     if (window.API_BASE === "worksheet") {
@@ -206,7 +201,6 @@ async function download() {
             data.exercises = [];
             data.stickers = window.worksheetState.stickers;
         }  
-        console.log("Data sent to backend for PDF generation:", data.mode, data.stickers); 
         const res = await fetch(`http://localhost:3000/api/${window.API_BASE}/generate`, {
         method: "POST",
         headers: {
