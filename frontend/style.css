@@ -351,6 +351,15 @@ input:focus, select:focus, textarea:focus {
   flex-direction: column;
 }
 
+.custom-decorations {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  align-content: flex-start;
+  flex-direction: column;
+}
+
 #addFill {
   background: #e7f5ff;
 }
@@ -361,6 +370,10 @@ input:focus, select:focus, textarea:focus {
 
 #addMatching {
   background: #e6fcf5;
+}
+
+#addBorder {
+  background: #ffe3e3;
 }
 
 #addSticker {

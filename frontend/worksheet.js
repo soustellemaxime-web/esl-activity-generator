@@ -45,14 +45,18 @@ function updateModeUI() {
   const auto = document.getElementById("auto-settings");
   const autoWords = document.getElementById("auto-settings-words");
   const custom = document.getElementById("custom-settings");
+  const decorations = document.getElementById("decorations");
   if (mode === "custom") {
     auto.style.display = "none";
     autoWords.style.display = "none";
     custom.style.display = "block";
+    decorations.style.display = "block";
+
   } else {
     auto.style.display = "block";
     autoWords.style.display = "block";
     custom.style.display = "none";
+    decorations.style.display = "none";
   }
   if (mode === "custom" && window.worksheetState.exercises.length === 0) {
     preview().then(() => {
