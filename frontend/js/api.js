@@ -17,6 +17,7 @@ function attachAllHandlers() {
     attachStickerDrag();
     attachStickerDelete();
     attachStickerResize();
+    attachStickerRotate();
 }
 
 

@@ -359,6 +359,40 @@ function attachStickerResize() {
   });
 }
 
+function attachStickerRotate() {
+  document.querySelectorAll(".sticker-wrapper").forEach(sticker => {
+    const handle = sticker.querySelector(".rotate-handle");
+    if (!handle) return;
+    handle.onmousedown = (e) => {
+      e.stopPropagation();
+      document.body.style.userSelect = "none";
+      const rect = sticker.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const startAngle = Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI;
+      const index = sticker.dataset.index;
+      const initialRotation = window.worksheetState.stickers[index].rotation || 0;
+      let currentRotation = initialRotation;
+      function onMouseMove(e) {
+        const currentAngle = Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI;
+        currentRotation = initialRotation + (currentAngle - startAngle);
+        // normalize
+        if (currentRotation > 180) currentRotation -= 360;
+        if (currentRotation < -180) currentRotation += 360;
+        sticker.style.transform = `rotate(${currentRotation}deg)`;
+      }
+      function onMouseUp() {
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+        document.body.style.userSelect = "";
+        window.worksheetState.stickers[index].rotation = currentRotation; // ✅ now defined
+      }
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
+    };
+  });
+}   
+
 function attachStickerDelete() {
   document.querySelectorAll(".sticker-wrapper").forEach(sticker => {
     const btn = sticker.querySelector(".sticker-delete");
