@@ -2,7 +2,7 @@ require("dotenv").config()
 
 const express = require("express")
 const cors = require("cors")
-
+const path = require("path")
 const app = express()
 
 app.use(cors())
@@ -14,7 +14,8 @@ const flashcardRoutes = require("./routes/flashcardsRoute")
 const imageRoutes = require("./routes/imagesRoute")
 const worksheetRoutes = require("./routes/worksheetRoute")
 
-app.use("/assets", express.static("../frontend/assets"))
+app.use(express.static(path.join(__dirname, "../frontend")))
+app.use("/assets", express.static(path.join(__dirname, "../frontend/assets")))
 app.use("/api/worksheet", worksheetRoutes)
 app.use("/api/bingo", bingoRoutes)
 app.use("/api/flashcards", flashcardRoutes)

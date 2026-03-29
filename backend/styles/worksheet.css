@@ -448,6 +448,31 @@ h1 {
   background: linear-gradient(135deg, #f3e5f5, #e1bee7);
 }
 
+.border-flowers {
+  position: relative;
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* TOP + BOTTOM */
+.border-flowers::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    url('/assets/borders/flowersH.png') top repeat-x,
+    url('/assets/borders/flowersH.png') bottom repeat-x,
+    url('/assets/borders/flowersV.png') left repeat-y,
+    url('/assets/borders/flowersV.png') right repeat-y;
+  background-size:
+    auto 20px,   /* top */
+    auto 20px,   /* bottom */
+    20px auto,   /* left */
+    20px auto;   /* right */
+  pointer-events: none;
+}
+
 .border-preview {
   opacity: 0.6;
   transition: all 0.1s ease;

@@ -57,7 +57,8 @@ function showBorderPicker() {
     "border-rounded",
     "border-fun",
     "border-soft",
-    "border-magic"
+    "border-magic",
+    "border-flowers"
   ];
   const picker = document.createElement("div");
   picker.id = "borderPicker";
