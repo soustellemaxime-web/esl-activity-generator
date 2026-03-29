@@ -562,6 +562,18 @@ input:focus, select:focus, textarea:focus {
   display: grid;
   grid-template-columns: repeat(2, 80px);
   gap: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+#borderPicker::-webkit-scrollbar {
+  width: 6px;
+}
+
+#borderPicker::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
 }
 
 /* Dark mode */

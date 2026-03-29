@@ -436,12 +436,6 @@ h1 {
   background: #fff8e1;
 }
 
-.border-soft {
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  background: #fafafa;
-}
-
 .border-magic {
   border: 2px solid #9c27b0;
   border-radius: 12px;
@@ -455,7 +449,6 @@ h1 {
   overflow: hidden;
 }
 
-/* TOP + BOTTOM */
 .border-flowers::before {
   content: "";
   position: absolute;
@@ -465,6 +458,198 @@ h1 {
     url('/assets/borders/flowersH.png') bottom repeat-x,
     url('/assets/borders/flowersV.png') left repeat-y,
     url('/assets/borders/flowersV.png') right repeat-y;
+  background-size:
+    auto 20px,   /* top */
+    auto 20px,   /* bottom */
+    20px auto,   /* left */
+    20px auto;   /* right */
+  pointer-events: none;
+}
+
+.border-stars {
+  position: relative;
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.border-stars::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    url('/assets/borders/starsH.png') top repeat-x,
+    url('/assets/borders/starsH.png') bottom repeat-x,
+    url('/assets/borders/starsV.png') left repeat-y,
+    url('/assets/borders/starsV.png') right repeat-y;
+  background-size:
+    auto 20px,   /* top */
+    auto 20px,   /* bottom */
+    20px auto,   /* left */
+    20px auto;   /* right */
+  pointer-events: none;
+}
+
+.border-school {
+  position: relative;
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.border-school::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    url('/assets/borders/schoolH.png') top repeat-x,
+    url('/assets/borders/schoolH.png') bottom repeat-x,
+    url('/assets/borders/schoolV.png') left repeat-y,
+    url('/assets/borders/schoolV.png') right repeat-y;
+  background-size:
+    auto 20px,   /* top */
+    auto 20px,   /* bottom */
+    20px auto,   /* left */
+    20px auto;   /* right */
+  pointer-events: none;
+}
+
+.border-ocean {
+  position: relative;
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.border-ocean::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    url('/assets/borders/oceanH.png') top repeat-x,
+    url('/assets/borders/oceanH.png') bottom repeat-x,
+    url('/assets/borders/oceanV.png') left repeat-y,
+    url('/assets/borders/oceanV.png') right repeat-y;
+  background-size:
+    auto 20px,   /* top */
+    auto 20px,   /* bottom */
+    20px auto,   /* left */
+    20px auto;   /* right */
+  pointer-events: none;
+}
+
+.border-rainbows {
+  position: relative;
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.border-rainbows::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    url('/assets/borders/rainbowsH.png') top repeat-x,
+    url('/assets/borders/rainbowsH.png') bottom repeat-x,
+    url('/assets/borders/rainbowsV.png') left repeat-y,
+    url('/assets/borders/rainbowsV.png') right repeat-y;
+  background-size:
+    auto 20px,   /* top */
+    auto 20px,   /* bottom */
+    20px auto,   /* left */
+    20px auto;   /* right */
+  pointer-events: none;
+}
+
+.border-candies {
+  position: relative;
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.border-candies::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    url('/assets/borders/candiesH.png') top repeat-x,
+    url('/assets/borders/candiesH.png') bottom repeat-x,
+    url('/assets/borders/candiesV.png') left repeat-y,
+    url('/assets/borders/candiesV.png') right repeat-y;
+  background-size:
+    auto 20px,   /* top */
+    auto 20px,   /* bottom */
+    20px auto,   /* left */
+    20px auto;   /* right */
+  pointer-events: none;
+}
+
+.border-party {
+  position: relative;
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.border-party::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    url('/assets/borders/partyH.png') top repeat-x,
+    url('/assets/borders/partyH.png') bottom repeat-x,
+    url('/assets/borders/partyV.png') left repeat-y,
+    url('/assets/borders/partyV.png') right repeat-y;
+  background-size:
+    auto 20px,   /* top */
+    auto 20px,   /* bottom */
+    20px auto,   /* left */
+    20px auto;   /* right */
+  pointer-events: none;
+}
+
+.border-dinosaurs {
+  position: relative;
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.border-dinosaurs::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    url('/assets/borders/dinosaursH.png') top repeat-x,
+    url('/assets/borders/dinosaursH.png') bottom repeat-x,
+    url('/assets/borders/dinosaursV.png') left repeat-y,
+    url('/assets/borders/dinosaursV.png') right repeat-y;
+  background-size:
+    auto 20px,   /* top */
+    auto 20px,   /* bottom */
+    20px auto,   /* left */
+    20px auto;   /* right */
+  pointer-events: none;
+}
+
+.border-vehicles {
+  position: relative;
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.border-vehicles::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    url('/assets/borders/vehiclesH.png') top repeat-x,
+    url('/assets/borders/vehiclesH.png') bottom repeat-x,
+    url('/assets/borders/vehiclesV.png') left repeat-y,
+    url('/assets/borders/vehiclesV.png') right repeat-y;
   background-size:
     auto 20px,   /* top */
     auto 20px,   /* bottom */

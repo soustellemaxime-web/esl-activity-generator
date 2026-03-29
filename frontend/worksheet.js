@@ -56,9 +56,16 @@ function showBorderPicker() {
     "border-dashed",
     "border-rounded",
     "border-fun",
-    "border-soft",
     "border-magic",
-    "border-flowers"
+    "border-flowers",
+    "border-stars",
+    "border-school",
+    "border-ocean",
+    "border-rainbows",
+    "border-candies",
+    "border-party",
+    "border-dinosaurs",
+    "border-vehicles",
   ];
   const picker = document.createElement("div");
   picker.id = "borderPicker";
