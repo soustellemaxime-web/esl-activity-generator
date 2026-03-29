@@ -297,9 +297,12 @@ function attachMatchingSorting() {
 }
 
 function attachStickerDrag() {
-  document.querySelectorAll(".sticker").forEach(sticker => {
+  document.querySelectorAll(".sticker-wrapper").forEach(sticker => {
     sticker.onmousedown = (e) => {
       e.preventDefault();
+      if (e.target.closest(".resize-handle") || e.target.closest(".rotate-handle")) {
+        return;
+      }
       const startX = e.clientX;
       const startY = e.clientY;
       const initialLeft = sticker.offsetLeft;
@@ -325,8 +328,39 @@ function attachStickerDrag() {
   });
 }
 
+function attachStickerResize() {
+  document.querySelectorAll(".sticker-wrapper").forEach(sticker => {
+    const handle = sticker.querySelector(".resize-handle");
+    if (!handle) return;
+    handle.onmousedown = (e) => {
+      e.stopPropagation();
+      document.body.style.userSelect = "none";
+      const startX = e.clientX;
+      const startWidth = sticker.offsetWidth;
+      function onMouseMove(e) {
+        const dx = e.clientX - startX;
+        let newWidth = startWidth + dx;
+        // Set limits
+        newWidth = Math.max(30, Math.min(300, newWidth));
+        sticker.style.width = newWidth + "px";
+        sticker.style.height = newWidth + "px"; //keep square
+      }
+      function onMouseUp() {
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+        document.body.style.userSelect = "";
+        const index = sticker.dataset.index;
+        window.worksheetState.stickers[index].width = parseInt(sticker.style.width);
+        window.worksheetState.stickers[index].height = parseInt(sticker.style.height);
+      }
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
+    };
+  });
+}
+
 function attachStickerDelete() {
-  document.querySelectorAll(".sticker").forEach(sticker => {
+  document.querySelectorAll(".sticker-wrapper").forEach(sticker => {
     const btn = sticker.querySelector(".sticker-delete");
     if (!btn) return;
     btn.onclick = (e) => {
@@ -457,9 +491,13 @@ function showStickerPicker() {
       img.onclick = (e) => {
         e.stopPropagation();
         window.worksheetState.stickers.push({
+          id: crypto.randomUUID(),
           src: img.src,
           x: 100,
           y: 100,
+          width: 80,
+          height: 80,
+          rotation: 0
         });
         picker.style.display = "none";
         renderFromState();

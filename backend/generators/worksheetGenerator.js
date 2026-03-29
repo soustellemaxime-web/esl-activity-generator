@@ -277,12 +277,20 @@ function generateWorksheet(data) {
     pages.forEach(pageCards => {
       html += `<div class="page layout-${layoutNum}">`;
       const stickersHTML = (data.stickers || []).map((s, i) => `
-        <div class="sticker"
+        <div class="sticker-wrapper"
+          data-id="${s.id}"
           data-index="${i}"
-          style="left:${s.x}px; top:${s.y}px; width:${s.size}px;"
+          style="
+            left:${s.x}px;
+            top:${s.y}px; 
+            width:${s.width}px; 
+            height:${s.height}px; 
+            transform: rotate(${s.rotation}deg);"
         >
-        <img src="${s.src}" />
-        <button class="sticker-delete">❌</button>
+          <img class="sticker-img" src="${s.src}" />
+          <div class="resize-handle"></div>
+          <div class="rotate-handle"></div>
+          <button class="sticker-delete">❌</button>
         </div>
       `).join("");
       html += stickersHTML;

@@ -16,6 +16,7 @@ function attachAllHandlers() {
     attachMatchingSorting();
     attachStickerDrag();
     attachStickerDelete();
+    attachStickerResize();
 }
 
 
