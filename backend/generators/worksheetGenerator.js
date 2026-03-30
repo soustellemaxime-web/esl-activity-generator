@@ -256,13 +256,14 @@ function generateWorksheet(data) {
   const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode, layout, title } = data;
   const currentMode = mode || "auto";
 
+  // CUSTOM MODE
   if (data.mode === "custom" && data.customExercises) {
     let html = `
       <html>
         <head>
           <link rel="stylesheet" href="http://localhost:3000/styles/worksheet.css">
         </head>
-        <body>
+        <body class="${data.font || "font-default"}">
     `;
 
     const cards = renderCustomExercises(data.customExercises || []);
@@ -311,6 +312,7 @@ function generateWorksheet(data) {
     return html;
   }
 
+  // AUTO MODE
   let html = `
     <html>
       <head>
@@ -361,27 +363,6 @@ function generateWorksheet(data) {
       cards.push({ html: wrapCard(fillData.html, "Fill in the blanks", fillData.sizeClass, "fill", cards.length, data.mode) });
     }
   }
-
-  /*
-  if (wsearch) {
-    html += `
-      <div>
-        <h2>Word Search</h2>
-        <p>Coming soon...</p>
-      </div>
-    `;
-  }
-
-  if (sbuilding) {
-    html += `
-      <div>
-        <h2>Sentence Building</h2>
-        <p>Coming soon...</p>
-      </div>
-    `;
-  } 
-  */
-
   const layoutNum = Number(layout) || 4;
   const pages = [];
   for (let i = 0; i < cards.length; i+= layoutNum) {
@@ -395,8 +376,6 @@ function generateWorksheet(data) {
     pageCards.forEach(card => {
       html += card.html;
     });
-
-    //html += `<div class="page-number">Page ${index + 1}</div>`; //TODO Page numbers
     html += `</div>`;
   });
   

@@ -693,6 +693,49 @@ body.border-mode * {
   cursor: url('/assets/cursors/brush.png') 8 8, auto !important;
 }
 
+/* Fonts */
+.font-default {
+  font-family: Arial, sans-serif;
+}
+
+.font-handwriting {
+  font-family: "Comic Sans MS", cursive;
+}
+
+.font-school {
+  font-family: "Trebuchet MS", sans-serif;
+}
+
+.font-kid {
+  font-family: "Verdana", sans-serif;
+}
+
+.font-fun {
+  font-family: "Marker Felt", cursive;
+}
+
+.font-option {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.font-option:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.font-option:active {
+  transform: scale(0.95);
+}
+
+.font-option.active {
+  transform: scale(1.05);
+}
+
 @media print {
   .card-controls,
   .add-question,

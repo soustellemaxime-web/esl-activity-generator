@@ -1,6 +1,7 @@
 window.API_BASE = "worksheet";
 window.worksheetState = {
-  exercises: []
+  exercises: [],
+  font: "font-default",
 };
 window.borderMode = {
   active: false,
@@ -43,6 +44,40 @@ document.getElementById("title")
 
 document.querySelectorAll("#matching, #mcq, #fill, #wsearch, #sbuilding")
   .forEach(el => el.addEventListener("change", debounce(preview, 500)));
+
+function showFontPicker() {
+  const fonts = [
+    "font-default", 
+    "font-handwriting", 
+    "font-school", 
+    "font-kid",
+    "font-fun",
+  ];
+  const picker = document.createElement("div");
+  picker.id = "fontPicker";
+  picker.innerHTML = fonts.map(font => `
+    <div class="font-option ${font}" data-font="${font}">Example</div>
+  `).join("");
+  document.body.appendChild(picker);
+  picker.querySelectorAll(".font-option").forEach(opt => {
+    opt.onclick = () => {
+      window.worksheetState.font = opt.dataset.font;
+      //highlight selection
+      picker.querySelectorAll(".font-option").forEach(o => o.classList.remove("active"));
+      opt.classList.add("active");
+      document.body.className = opt.dataset.font;
+    }
+  });
+  function handleOutsideClick(e) {
+    if (!picker.contains(e.target)) {
+      picker.remove();
+      document.removeEventListener("click", handleOutsideClick);
+    }
+  }
+  setTimeout(() => {
+    document.addEventListener("click", handleOutsideClick);
+  }, 0);
+}
 
 function exitBorderMode() {
   window.borderMode.active = false;
@@ -576,6 +611,11 @@ document.getElementById("addSticker").addEventListener("click", () => {
 //Add border button event
 document.getElementById("addBorder").addEventListener("click", () => {
   showBorderPicker();
+});
+
+// Add font button event
+document.getElementById("addFont").addEventListener("click", () => {
+  showFontPicker();
 });
 
 function showStickerPicker() {

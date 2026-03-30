@@ -20,7 +20,8 @@ const translations = {
     threecards: "3 cards",
     fourcards: "4 cards",
     sticker: "Stickers",
-    borders: "Borders"
+    borders: "Borders",
+    fonts: "Fonts"
   },
 
   th: {
@@ -44,6 +45,7 @@ const translations = {
     threecards: "3 หน้า",
     fourcards: "4 หน้า",
     sticker: "สติ๊กเกอร์",
-    borders: "กรอบ"
+    borders: "กรอบ",
+    fonts: "แบบอักษร"
   }
 };

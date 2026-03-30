@@ -577,6 +577,21 @@ input:focus, select:focus, textarea:focus {
   border-radius: 4px;
 }
 
+/* Font Picker */
+#fontPicker {
+  position: fixed;
+  top: 120px;
+  left: 40px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 2000;
+  display: grid;
+  grid-template-columns: repeat(2, 120px);
+  gap: 10px;
+}
+
 /* Dark mode */
 
 body.dark {
