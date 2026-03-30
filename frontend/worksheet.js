@@ -56,7 +56,7 @@ function showFontPicker() {
   const picker = document.createElement("div");
   picker.id = "fontPicker";
   picker.innerHTML = fonts.map(font => `
-    <div class="font-option ${font}" data-font="${font}">Example</div>
+    <div class="font-option ${font}" data-font="${font}">Aa Bb Cc</div>
   `).join("");
   document.body.appendChild(picker);
   picker.querySelectorAll(".font-option").forEach(opt => {
