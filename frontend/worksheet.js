@@ -547,7 +547,8 @@ function getPageData() {
     fill: document.getElementById("fill")?.checked || false,
     wsearch: document.getElementById("wsearch")?.checked || false,
     sbuilding: document.getElementById("sbuilding")?.checked || false,
-    layout: selectedLayout
+    layout: selectedLayout,
+    font: window.worksheetState.font,
   };
 }
 
