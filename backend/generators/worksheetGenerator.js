@@ -242,6 +242,7 @@ function renderCustomExercises(exercises) {
         `;
       });
       html += `</div>`;
+      html += `<button class="add-question">➕ Add Question</button>`;
       cards.push({
         html: wrapCard(html, "Multiple Choice", "normal", "mcq", cards.length, "custom", ex.borderStyle || "border-classic")
       });

@@ -192,7 +192,8 @@ function attachQuestionControls() {
 
     if (addBtn) {
       addBtn.onclick = () => {
-        const ex = window.worksheetState.exercises[cardIndex];
+        const realIndex = parseInt(card.dataset.index);
+        const ex = window.worksheetState.exercises[realIndex];
 
         if (ex.type === "fill") {
           ex.questions.push({
@@ -201,6 +202,12 @@ function attachQuestionControls() {
           });
         }
 
+        if (ex.type === "mcq") {
+          ex.questions.push({
+            question: "New question?",
+            choices: ["Option 1", "Option 2", "Option 3"]
+          });
+        }
         renderFromState();
       };
     }
