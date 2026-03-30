@@ -290,6 +290,7 @@ h1 {
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
+  position: relative;
 }
 
 .mcq-image img {

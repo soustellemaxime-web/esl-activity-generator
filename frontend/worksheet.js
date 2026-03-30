@@ -187,7 +187,7 @@ function attachBorderApply() {
 }
 
 function attachQuestionControls() {
-  document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
+  document.querySelectorAll(".exercise-card").forEach((card) => {
     const addBtn = card.querySelector(".add-question");
 
     if (addBtn) {
@@ -204,7 +204,7 @@ function attachQuestionControls() {
 
         if (ex.type === "mcq") {
           ex.questions.push({
-            question: "New question?",
+            question: `Question ${ex.questions.length + 1}`,
             choices: ["Option 1", "Option 2", "Option 3"]
           });
         }
@@ -248,23 +248,31 @@ function attachEditableHandlers() {
 }
 
 function attachDeleteQuestion() {
-  document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
-    const questions = card.querySelectorAll(".fill-question");
+  document.querySelectorAll(".exercise-card").forEach((card) => {
+    const realIndex = parseInt(card.dataset.index);
+    const ex = window.worksheetState.exercises[realIndex];
+    const questions = card.querySelectorAll(".fill-question, .mcq-question");
     questions.forEach((qEl, qIndex) => {
       const btn = qEl.querySelector(".delete-question");
       if (btn) {
         btn.onclick = () => {
-          const ex = window.worksheetState.exercises[cardIndex];
-          if (ex && ex.type === "fill") {
-            ex.questions.splice(qIndex, 1);
-            if (ex.questions.length === 0) {
+          if (!ex) return;
+          ex.questions.splice(qIndex, 1);
+          if (ex.questions.length === 0) {
+            if (ex.type === "fill") {
               ex.questions.push({
                 sentence: "New sentence ______.",
                 image: null
               });
             }
-            renderFromState();
+            if (ex.type === "mcq") {
+              ex.questions.push({
+                question: `Question 1`,
+                choices: ["Option 1", "Option 2", "Option 3"]
+              });
+            }
           }
+          renderFromState();
         };
       }
     });
