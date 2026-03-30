@@ -167,8 +167,7 @@ function renderCustomExercises(exercises) {
   exercises.forEach(ex => {
     // Fill exercise
     if (ex.type === "fill") {
-      let html = `<div><h2>Fill in the blanks</h2>`;
-      html += `<div class="questions-container">`;
+      let html =`<div class="questions-container">`;
       ex.questions.forEach((q, i) => {
         html += `
           <div class="fill-question">
@@ -184,7 +183,6 @@ function renderCustomExercises(exercises) {
       });
       html += `</div>`;
       html += `<button class="add-question">➕ Add Question</button>`;
-      html += `</div>`;
       cards.push({
         html: wrapCard(html, "Fill in the blanks", "normal", "fill", cards.length, "custom", ex.borderStyle || "border-classic")
       });
