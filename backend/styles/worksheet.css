@@ -721,6 +721,7 @@ body.border-mode * {
   border-radius: 6px;
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
 }
 
 .font-option:hover {

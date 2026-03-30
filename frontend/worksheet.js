@@ -65,7 +65,10 @@ function showFontPicker() {
       //highlight selection
       picker.querySelectorAll(".font-option").forEach(o => o.classList.remove("active"));
       opt.classList.add("active");
-      document.body.className = opt.dataset.font;
+      const previewEl = document.getElementById("preview");
+      previewEl.classList.remove(...fonts);
+      previewEl.classList.add(opt.dataset.font);
+      //document.body.removeChild(picker);
     }
   });
   function handleOutsideClick(e) {
