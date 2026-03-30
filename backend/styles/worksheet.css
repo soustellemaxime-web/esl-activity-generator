@@ -446,7 +446,7 @@ h1 {
 
 .border-flowers {
   position: relative;
-  padding: 20px;
+  padding: 20px 30px;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -470,7 +470,7 @@ h1 {
 
 .border-stars {
   position: relative;
-  padding: 20px;
+  padding: 20px 30px;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -494,7 +494,7 @@ h1 {
 
 .border-school {
   position: relative;
-  padding: 20px;
+  padding: 20px 30px;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -518,7 +518,7 @@ h1 {
 
 .border-ocean {
   position: relative;
-  padding: 20px;
+  padding: 20px 30px;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -542,7 +542,7 @@ h1 {
 
 .border-rainbows {
   position: relative;
-  padding: 20px;
+  padding: 20px 30px;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -566,7 +566,7 @@ h1 {
 
 .border-candies {
   position: relative;
-  padding: 20px;
+  padding: 20px 30px;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -590,7 +590,7 @@ h1 {
 
 .border-party {
   position: relative;
-  padding: 20px;
+  padding: 20px 30px;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -614,7 +614,7 @@ h1 {
 
 .border-dinosaurs {
   position: relative;
-  padding: 20px;
+  padding: 20px 30px;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -638,7 +638,7 @@ h1 {
 
 .border-vehicles {
   position: relative;
-  padding: 20px;
+  padding: 20px 30px;
   border-radius: 12px;
   overflow: hidden;
 }
