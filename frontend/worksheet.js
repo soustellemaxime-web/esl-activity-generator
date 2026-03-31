@@ -35,6 +35,13 @@ const STICKERS = {
   ]
 };
 
+const LIMITS = {
+  "1": { fill: 9, match: 9, mcq: [{ questions: 4, choices: 2 }, { questions: 3, choices: 3 }, { questions: 3, choices: 4 }] },
+  "2": { fill: 4, match: 4, mcq: [{ questions: 1, choices: 8 }, { questions: 2, choices: 2 }] },
+  "3": { fill: 2, match: 2, mcq: [{ questions: 1, choices: 4 }] },
+  "4": { fill: 4, match: 4, mcq: [{ questions: 2, choices: 2 }] }
+};
+
 // trigger preview
 document.getElementById("words")
   .addEventListener("input", debounce(preview, 500));
@@ -44,6 +51,35 @@ document.getElementById("title")
 
 document.querySelectorAll("#matching, #mcq, #fill, #wsearch, #sbuilding")
   .forEach(el => el.addEventListener("change", debounce(preview, 500)));
+
+function getCurrentLayout() {
+  return document.querySelector(".layout-option.selected")?.dataset.layout || "4";
+}
+
+function checkLimits(ex) {
+  const layout = getCurrentLayout();
+  const limits = LIMITS[layout];
+  if (!limits) return null;
+  if (ex.type === "fill" && ex.questions.length > limits.fill) {
+    return `For the selected layout, you can only have up to ${limits.fill} fill-in-the-blank questions.`;
+  }
+  if (ex.type === "matching" && ex.pairs.length > limits.match) {
+    return `For the selected layout, you can only have up to ${limits.match} matching pairs.`;
+  }
+  if (ex.type === "mcq") {
+    const maxQuestions = limits.mcq[0].questions;
+    const maxChoices = limits.mcq[0].choices;
+    if (ex.questions.length > maxQuestions) {
+      return `For the selected layout, you can only have up to ${maxQuestions} multiple choice questions.`;
+    }
+    for (let q of ex.questions) {
+      if (q.choices.length > maxChoices) {
+        return `For the selected layout, each multiple choice question can only have up to ${maxChoices} choices.`;
+      }
+    }
+  }
+  return null;
+}
 
 function showFontPicker() {
   const fonts = [
@@ -189,24 +225,29 @@ function attachBorderApply() {
 function attachQuestionControls() {
   document.querySelectorAll(".exercise-card").forEach((card) => {
     const addBtn = card.querySelector(".add-question");
-
     if (addBtn) {
       addBtn.onclick = () => {
         const realIndex = parseInt(card.dataset.index);
         const ex = window.worksheetState.exercises[realIndex];
-
         if (ex.type === "fill") {
           ex.questions.push({
             sentence: "New sentence ______.",
             image: null
           });
         }
-
         if (ex.type === "mcq") {
           ex.questions.push({
             question: `Question ${ex.questions.length + 1}`,
             choices: ["Option 1", "Option 2", "Option 3"]
           });
+        }
+        //Check limits
+        const warning = checkLimits(ex);
+        if (warning) {
+          alert(warning);
+          //revert changes
+          ex.questions.pop();
+          return;
         }
         renderFromState();
       };
@@ -399,6 +440,13 @@ function attachMatchingControls() {
     if (addBtn) {
       addBtn.onclick = () => {
         ex.pairs.push({ word: "New", image: null });
+        //Check limits
+        const warning = checkLimits(ex);
+        if (warning) {
+          alert(warning);
+          ex.pairs.pop();
+          return;
+        }
         renderFromState();
       };
     }
