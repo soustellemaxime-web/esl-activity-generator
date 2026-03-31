@@ -82,6 +82,16 @@ function initializeStateFromPreview() {
 function updateStateText(flatIndex, newText) {
     let count = 0;
     for (const ex of window.worksheetState.exercises) {
+        //Open question exercise
+        if (ex.type === "open") {
+            for (let q of ex.questions) {
+                if (count === flatIndex) {
+                    q.question = newText;
+                    return;
+                }
+                count++;
+            }
+        }
         //Fill exercise
         if (ex.type === "fill") {
             for (let q of ex.questions) {

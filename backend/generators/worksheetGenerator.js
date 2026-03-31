@@ -226,9 +226,7 @@ function renderCustomExercises(exercises) {
               <p>${i + 1}. <span data-editable>${q.question}</span></p>
             </div>
             <div class="open-answer">
-              <div class="answer-line"></div>
-              <div class="answer-line"></div>
-              <div class="answer-line"></div>
+              <div class="answer-line">A:</div>
             </div>
           </div>
         `;
