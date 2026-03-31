@@ -67,15 +67,15 @@ function checkLimits(ex) {
     return `For the selected layout, you can only have up to ${limits.match} matching pairs.`;
   }
   if (ex.type === "mcq") {
-    const maxQuestions = limits.mcq[0].questions;
-    const maxChoices = limits.mcq[0].choices;
-    if (ex.questions.length > maxQuestions) {
-      return `For the selected layout, you can only have up to ${maxQuestions} multiple choice questions.`;
-    }
-    for (let q of ex.questions) {
-      if (q.choices.length > maxChoices) {
-        return `For the selected layout, each multiple choice question can only have up to ${maxChoices} choices.`;
-      }
+    const configs = limits.mcq;
+    const isValid = configs.some(config => {
+      //check questions
+      if (ex.questions.length > config.questions) return false;
+      //check choices for each question
+      return ex.questions.every(q => q.choices.length <= config.choices);
+    });
+    if (!isValid) {
+      return `For the selected layout, your MCQ questions must fit one of these configurations: ${configs.map(c => `${c.questions} questions x ${c.choices} choices`).join(" OR ")}`;
     }
   }
   return null;
@@ -238,7 +238,7 @@ function attachQuestionControls() {
         if (ex.type === "mcq") {
           ex.questions.push({
             question: `Question ${ex.questions.length + 1}`,
-            choices: ["Option 1", "Option 2", "Option 3"]
+            choices: ["Option 1", "Option 2"]
           });
         }
         //Check limits
@@ -309,7 +309,7 @@ function attachDeleteQuestion() {
             if (ex.type === "mcq") {
               ex.questions.push({
                 question: `Question 1`,
-                choices: ["Option 1", "Option 2", "Option 3"]
+                choices: ["Option 1", "Option 2"]
               });
             }
           }
@@ -385,6 +385,13 @@ function attachMCQControls() {
       if (addBtn) {
         addBtn.onclick = () => {
           ex.questions[qIndex].choices.push("New choice");
+          //Check limits
+          const warning = checkLimits(ex);
+          if (warning) {
+            alert(warning);
+            ex.questions[qIndex].choices.pop();
+            return;
+          }
           renderFromState();
         };
       }
@@ -651,7 +658,7 @@ document.getElementById("addMCQ").addEventListener("click", () => {
     questions: [
       {
         question: "What is this?",
-        choices: ["dog", "cat", "bird"],
+        choices: ["dog", "cat"],
         image: null
       }
     ]
