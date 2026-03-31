@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const API_KEY = process.env.PIXABAY_API_KEY
 const cache = {};
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24h
