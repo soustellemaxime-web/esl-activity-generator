@@ -724,19 +724,35 @@ body.border-mode * {
 }
 
 .font-handwriting {
-  font-family: "Comic Sans MS", cursive;
+  font-family: 'Patrick Hand', cursive;
 }
 
 .font-school {
-  font-family: "Trebuchet MS", sans-serif;
-}
-
-.font-kid {
-  font-family: "Verdana", sans-serif;
+  font-family: 'Schoolbell', cursive;
 }
 
 .font-fun {
-  font-family: "Marker Felt", cursive;
+  font-family: 'Comic Neue', cursive;
+}
+
+.font-round {
+  font-family: 'Nunito', sans-serif;
+}
+
+.font-soft {
+  font-family: 'Quicksand', sans-serif;
+}
+
+.font-bubble {
+  font-family: 'Fredoka', sans-serif;
+}
+
+.font-playful {
+  font-family: 'Baloo 2', cursive;
+}
+
+.font-crazy {
+  font-family: 'Gloria Hallelujah', cursive;
 }
 
 .font-option {

@@ -87,16 +87,20 @@ function checkLimits(ex) {
 
 function showFontPicker() {
   const fonts = [
-    "font-default", 
-    "font-handwriting", 
-    "font-school", 
-    "font-kid",
+    "font-default",
+    "font-handwriting",
+    "font-school",
     "font-fun",
+    "font-round",
+    "font-soft",
+    "font-bubble",
+    "font-playful",
+    "font-crazy"
   ];
   const picker = document.createElement("div");
   picker.id = "fontPicker";
   picker.innerHTML = fonts.map(font => `
-    <div class="font-option ${font}" data-font="${font}">Aa Bb Cc</div>
+    <div class="font-option ${font}" data-font="${font}">The cat is big.</div>
   `).join("");
   document.body.appendChild(picker);
   picker.querySelectorAll(".font-option").forEach(opt => {

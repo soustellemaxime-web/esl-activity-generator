@@ -333,6 +333,7 @@ function generateWorksheet(data) {
     let html = `
       <html>
         <head>
+          <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Schoolbell&family=Gloria+Hallelujah&family=Comic+Neue&family=Baloo+2&family=Nunito&family=Quicksand&family=Fredoka&display=swap" rel="stylesheet">
           <link rel="stylesheet" href="http://localhost:3000/styles/worksheet.css">
         </head>
         <body class="${data.font || "font-default"}">
