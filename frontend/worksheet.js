@@ -36,10 +36,10 @@ const STICKERS = {
 };
 
 const LIMITS = {
-  "1": { fill: 9, match: 9, mcq: [{ questions: 4, choices: 2 }, { questions: 3, choices: 3 }, { questions: 3, choices: 4 }] },
-  "2": { fill: 4, match: 4, mcq: [{ questions: 1, choices: 8 }, { questions: 2, choices: 2 }] },
-  "3": { fill: 2, match: 2, mcq: [{ questions: 1, choices: 4 }] },
-  "4": { fill: 4, match: 4, mcq: [{ questions: 2, choices: 2 }] }
+  "1": { fill: 9, match: 9, mcq: [{ questions: 4, choices: 2 }, { questions: 3, choices: 3 }, { questions: 3, choices: 4 }], open: 3 },
+  "2": { fill: 4, match: 4, mcq: [{ questions: 1, choices: 8 }, { questions: 2, choices: 2 }], open: 1 },
+  "3": { fill: 2, match: 2, mcq: [{ questions: 1, choices: 4 }], open: 1 },
+  "4": { fill: 4, match: 4, mcq: [{ questions: 2, choices: 2 }], open: 2 }
 };
 
 // trigger preview
@@ -78,6 +78,10 @@ function checkLimits(ex) {
       return `For the selected layout, your MCQ questions must fit one of these configurations: ${configs.map(c => `${c.questions} questions x ${c.choices} choices`).join(" OR ")}`;
     }
   }
+  if (ex.type === "open" && ex.questions.length > limits.open) {
+    return `For the selected layout, you can only have up to ${limits.open} open questions.`;
+  }
+
   return null;
 }
 
@@ -243,6 +247,12 @@ function attachQuestionControls() {
             choices: Array.from({ length: defaultChoices }, (_, i) => `Option ${i + 1}`)
           });
         }
+        if (ex.type === "open") {
+          ex.questions.push({
+            question: `Question ${ex.questions.length + 1}`,
+            image: null
+          });
+        }
         //Check limits
         const warning = checkLimits(ex);
         if (warning) {
@@ -294,7 +304,7 @@ function attachDeleteQuestion() {
   document.querySelectorAll(".exercise-card").forEach((card) => {
     const realIndex = parseInt(card.dataset.index);
     const ex = window.worksheetState.exercises[realIndex];
-    const questions = card.querySelectorAll(".fill-question, .mcq-question");
+    const questions = card.querySelectorAll(".fill-question, .mcq-question, .open-question");
     questions.forEach((qEl, qIndex) => {
       const btn = qEl.querySelector(".delete-question");
       if (btn) {
@@ -312,6 +322,12 @@ function attachDeleteQuestion() {
               ex.questions.push({
                 question: `Question 1`,
                 choices: ["Option 1", "Option 2"]
+              });
+            }
+            if (ex.type === "open") {
+              ex.questions.push({
+                question: `Question 1`,
+                image: null
               });
             }
           }
@@ -674,6 +690,19 @@ document.getElementById("addMatching").addEventListener("click", () => {
     pairs: [
       { word: "dog", image: null },
       { word: "cat", image: null }
+    ]
+  });
+  renderFromState();
+});
+
+document.getElementById("addOpenQuestion").addEventListener("click", () => {
+  window.worksheetState.exercises.push({
+    type: "open",
+    questions: [
+      { 
+        question: "Write your question here.",
+        image: null 
+      }
     ]
   });
   renderFromState();

@@ -201,6 +201,21 @@ h1 {
     font-size: 18px;
 }
 
+.open-question {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.open-answer {
+  margin-top: 8px;
+}
+
+.answer-line {
+  border-bottom: 1px solid #000;
+  height: 20px;
+  margin-bottom: 5px;
+}
+
 .add-pair {
   margin-top: 15px;
   margin-inline: auto;

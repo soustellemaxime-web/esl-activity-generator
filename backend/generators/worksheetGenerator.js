@@ -208,6 +208,37 @@ function generateFill(words, imageMap, layout) {
 function renderCustomExercises(exercises) {
   const cards = [];
   exercises.forEach(ex => {
+    // Open questions exercise
+    if (ex.type === "open") {
+      let html = `<div class="questions-container">`;
+      ex.questions.forEach((q, i) => {
+        html += `
+          <div class="open-question">
+            <button class="delete-question">❌</button>
+
+            <div class="open-image" data-image>
+              ${q.image 
+                ? `<img src="${q.image}" />`
+                : `<div class="image-placeholder">➕</div>`
+              }
+            </div>
+            <div class="open-text">
+              <p>${i + 1}. <span data-editable>${q.question}</span></p>
+            </div>
+            <div class="open-answer">
+              <div class="answer-line"></div>
+              <div class="answer-line"></div>
+              <div class="answer-line"></div>
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      html += `<button class="add-question">➕ Add Question</button>`;
+      cards.push({
+        html: wrapCard(html, "Open Questions", "normal", "open", cards.length, "custom", ex.borderStyle || "border-classic")
+      });
+    }
     // Fill exercise
     if (ex.type === "fill") {
       let html =`<div class="questions-container">`;

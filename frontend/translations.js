@@ -21,7 +21,8 @@ const translations = {
     fourcards: "4 cards",
     sticker: "Stickers",
     borders: "Borders",
-    fonts: "Fonts"
+    fonts: "Fonts",
+    openQuestion: "Open question"
   },
 
   th: {
@@ -46,6 +47,7 @@ const translations = {
     fourcards: "4 หน้า",
     sticker: "สติ๊กเกอร์",
     borders: "กรอบ",
-    fonts: "แบบอักษร"
+    fonts: "แบบอักษร",
+    openQuestion: "คำถามเปิด"
   }
 };
