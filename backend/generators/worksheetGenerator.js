@@ -7,10 +7,51 @@ const css = fs.readFileSync(
 );
 
 const LIMITS = {
-  matching: 6,
-  mcq: 4,
-  fill: 4
+  "1": {
+    fill: 9,
+    match: 9,
+    mcq: [
+      { questions: 4, choices: 2 },
+      { questions: 3, choices: 3 },
+      { questions: 3, choices: 4 }
+    ]
+  },
+
+  "2": {
+    fill: 4,
+    match: 4,
+    mcq: [
+      { questions: 1, choices: 8 },
+      { questions: 2, choices: 2 }
+    ]
+  },
+
+  "3": {
+    fill: 2,
+    match: 2,
+    mcq: [
+      { questions: 1, choices: 4 }
+    ]
+  },
+
+  "4": {
+    fill: 4,
+    match: 4,
+    mcq: [
+      { questions: 2, choices: 2 }
+    ]
+  }
 };
+
+function getMCQLimit(layout, questionCount) {
+  const configs = LIMITS[layout]?.mcq || [];
+  for (const config of configs) {
+    if (questionCount <= config.questions) {
+      return config;
+    }
+  }
+  return configs[configs.length - 1];
+}
 
 function wrapCard(content, title, sizeClass = "normal", type = "", index = 0, mode = "auto", borderStyle = "border-classic") {
   return `
@@ -27,9 +68,9 @@ function wrapCard(content, title, sizeClass = "normal", type = "", index = 0, mo
   `;
 }
 
-function generateMatching(words, imageMap) {
+function generateMatching(words, imageMap, layout) {
   // limit number of items
-  const selected = words.slice(0, LIMITS.matching);
+  const selected = words.slice(0, LIMITS[layout]?.match || 1);
   let sizeClass = "normal";
   if (selected.length >= 5) sizeClass = "large";
   else if (selected.length >= 4) sizeClass = "medium";
@@ -74,8 +115,9 @@ function generateMatching(words, imageMap) {
   return {html, sizeClass};
 }
 
-function generateMCQ(words, imageMap) {
-  const selected = words.slice(0, LIMITS.mcq);
+function generateMCQ(words, imageMap, layout) {
+  const config = getMCQLimit(layout, words.length);
+  const selected = words.slice(0, config?.questions || 1);
   let sizeClass = "normal";
   if (selected.length >= 5) sizeClass = "large";
   else if (selected.length >= 4) sizeClass = "medium";
@@ -86,12 +128,13 @@ function generateMCQ(words, imageMap) {
   `;
 
   selected.forEach((word, index) => {
-    // pick 2 wrong answers
+    // pick wrong answers based on config
     const others = words.filter(w => w !== word);
-    const shuffled = others.sort(() => Math.random() - 0.5).slice(0, 2);
+    const shuffled = others.sort(() => Math.random() - 0.5).slice(0, config.choices - 1);
 
     const choices = [word, ...shuffled]
-      .sort(() => Math.random() - 0.5);
+      .sort(() => Math.random() - 0.5)
+      .slice(0, config.choices);
 
     const img = imageMap?.[word];
 
@@ -119,8 +162,8 @@ function generateMCQ(words, imageMap) {
   return {html, sizeClass};
 }
 
-function generateFill(words, imageMap) {
-  const selected = words.slice(0, LIMITS.fill);
+function generateFill(words, imageMap, layout) {
+  const selected = words.slice(0, LIMITS[layout]?.fill || 1);
   let sizeClass = "normal";
   if (selected.length >= 5) sizeClass = "large";
   else if (selected.length >= 4) sizeClass = "medium";
@@ -326,21 +369,21 @@ function generateWorksheet(data) {
   if (exercises && exercises.length > 0) {
     exercises.forEach(type => {
       if (type === "matching") {
-        const match = generateMatching(words, imageMap);
+        const match = generateMatching(words, imageMap, layout);
         cards.push({
           html: wrapCard(match.html, "Match the words", match.sizeClass, "matching", cards.length, data.mode)
         });
       }
 
       if (type === "mcq") {
-        const mcqData = generateMCQ(words, imageMap);
+        const mcqData = generateMCQ(words, imageMap, layout);
         cards.push({
           html: wrapCard(mcqData.html, "Multiple Choice Questions", mcqData.sizeClass, "mcq", cards.length, data.mode)
         });
       }
 
       if (type === "fill") {
-        const fillData = generateFill(words, imageMap);
+        const fillData = generateFill(words, imageMap, layout);
         cards.push({
           html: wrapCard(fillData.html, "Fill in the blanks", fillData.sizeClass, "fill", cards.length, data.mode)
         });
@@ -349,17 +392,17 @@ function generateWorksheet(data) {
   }
   else {
     if (matching) {
-      const match = generateMatching(words, imageMap);
+      const match = generateMatching(words, imageMap, layout);
       cards.push({ html: wrapCard(match.html, "Match the words", match.sizeClass, "matching", cards.length, data.mode) });
     }
 
     if (mcq) {
-      const mcqData = generateMCQ(words, imageMap);
+      const mcqData = generateMCQ(words, imageMap, layout);
       cards.push({ html: wrapCard(mcqData.html, "Multiple Choice Questions", mcqData.sizeClass, "mcq", cards.length, data.mode) });
     }
 
     if (fill) {
-      const fillData = generateFill(words, imageMap);
+      const fillData = generateFill(words, imageMap, layout);
       cards.push({ html: wrapCard(fillData.html, "Fill in the blanks", fillData.sizeClass, "fill", cards.length, data.mode) });
     }
   }
