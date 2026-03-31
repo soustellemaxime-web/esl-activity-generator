@@ -14,6 +14,7 @@ function attachAllHandlers() {
     attachMCQSorting();
     attachMatchingControls();
     attachMatchingSorting();
+    attachOpenSorting();
     attachStickerDrag();
     attachStickerDelete();
     attachStickerResize();

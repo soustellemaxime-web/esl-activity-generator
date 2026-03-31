@@ -509,6 +509,24 @@ function attachMatchingSorting() {
   });
 }
 
+function attachOpenSorting() {
+  document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
+    const ex = window.worksheetState.exercises[cardIndex];
+    if (!ex || ex.type !== "open") return;
+    const container = card.querySelector(".questions-container");
+    if (!container) return;
+    Sortable.create(container, {
+      animation: 150,
+      draggable: ".open-question",
+      onEnd: (evt) => {
+        const moved = ex.questions.splice(evt.oldIndex, 1)[0];
+        ex.questions.splice(evt.newIndex, 0, moved);
+        renderFromState();
+      }
+    });
+  });
+}
+
 function attachStickerDrag() {
   document.querySelectorAll(".sticker-wrapper").forEach(sticker => {
     sticker.onmousedown = (e) => {
