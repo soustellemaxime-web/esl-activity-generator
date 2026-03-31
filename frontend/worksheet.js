@@ -358,7 +358,7 @@ function attachQuestionSorting() {
 
 function attachImagePicker() {
   document.querySelectorAll(".exercise-card").forEach((card, cardIndex) => {
-    const questions = card.querySelectorAll(".fill-question, .mcq-question");
+    const questions = card.querySelectorAll(".fill-question, .mcq-question, .open-question");
     questions.forEach((qEl, qIndex) => {
       const imgContainer = qEl.querySelector("[data-image]");
       if (!imgContainer) return;
