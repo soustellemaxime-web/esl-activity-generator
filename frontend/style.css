@@ -497,55 +497,69 @@ input:focus, select:focus, textarea:focus {
   position: fixed;
   bottom: 20px;
   left: 20px;
-  width: 260px;
-  max-height: 300px;
+  width: 300px;
+  max-height: 340px;
   overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 10px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  border: 1px solid #eee;
   display: none;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   z-index: 999;
+  scrollbar-width: thin;
 }
 
 .sticker-option {
   width: 100%;
+  padding: 6px;
+  border-radius: 12px;
+  background: #fafafa;
   cursor: pointer;
-  transition: transform 0.15s;
+  transition: all 0.2s ease;
 }
 
 .sticker-option:hover {
-  transform: scale(1.1);
+  transform: scale(1.08);
+  background: #f0f7ff;
+}
+
+.sticker-option:active {
+  transform: scale(0.95);
 }
 
 .sticker-tabs {
   display: flex;
-  gap: 6px;
-  margin-bottom: 8px;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
 }
 
 .sticker-tab {
-  flex: 1;
-  padding: 4px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #f1f3f5;
   border: none;
-  background: #eee;
-  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
-  font-size: 12px;
+  transition: all 0.2s ease;
 }
 
 .sticker-tab.active {
-  background: #ddd;
-  font-weight: bold;
+  background: #4CAF50;
+  color: white;
+  box-shadow: 0 2px 6px rgba(76,175,80,0.4);
+}
+
+.sticker-tab:hover {
+  background: #e2e6ea;
 }
 
 .sticker-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 12px;
 }
 
 /* Border Picker */
