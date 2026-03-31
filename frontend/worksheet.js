@@ -777,19 +777,39 @@ function showStickerPicker() {
     });
     // Sticker click
     picker.querySelectorAll(".sticker-option").forEach(img => {
-      img.onclick = (e) => {
+      img.onmousedown = (e) => {
+        e.preventDefault();
         e.stopPropagation();
-        window.worksheetState.stickers.push({
-          id: crypto.randomUUID(),
-          src: img.src,
-          x: 100,
-          y: 100,
-          width: 80,
-          height: 80,
-          rotation: 0
-        });
-        picker.style.display = "none";
-        renderFromState();
+        const ghost = document.createElement("img");
+        ghost.src = img.src;
+        ghost.style.position = "fixed";
+        ghost.style.pointerEvents = "none";
+        ghost.style.zIndex = "9999";
+        document.body.appendChild(ghost);
+        function onmousemove(e) {
+          ghost.style.left = e.clientX + "px";
+          ghost.style.top = e.clientY + "px";
+        };
+        function onmouseup(e) {
+          document.removeEventListener("mousemove", onmousemove);
+          document.removeEventListener("mouseup", onmouseup);
+          ghost.remove();
+          const preview = document.getElementById("preview");
+          const rect = preview.getBoundingClientRect();
+          //check if dropped inside preview
+          if (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
+            window.worksheetState.stickers.push({
+              id: crypto.randomUUID(),
+              src: img.src,
+              x: e.clientX - rect.left,
+              y: e.clientY - rect.top,
+              rotation: 0
+            });
+            renderFromState();
+          }
+        };
+        document.addEventListener("mousemove", onmousemove);
+        document.addEventListener("mouseup", onmouseup);
       };
     });
   }
