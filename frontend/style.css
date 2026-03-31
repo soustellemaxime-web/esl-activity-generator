@@ -482,12 +482,8 @@ input:focus, select:focus, textarea:focus {
 
 /* 3 cards (1 top, 2 bottom) */
 .layout-preview.three {
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-}
-
-.layout-preview.three div:nth-child(1) {
-  grid-column: span 2;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
 }
 
 /* 4 cards (2x2) */
