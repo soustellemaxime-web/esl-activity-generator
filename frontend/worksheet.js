@@ -236,9 +236,11 @@ function attachQuestionControls() {
           });
         }
         if (ex.type === "mcq") {
+          const layout = getCurrentLayout();
+          const defaultChoices = LIMITS[layout].mcq[0].choices; // get choices from limits config
           ex.questions.push({
             question: `Question ${ex.questions.length + 1}`,
-            choices: ["Option 1", "Option 2"]
+            choices: Array.from({ length: defaultChoices }, (_, i) => `Option ${i + 1}`)
           });
         }
         //Check limits
