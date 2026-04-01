@@ -1,6 +1,7 @@
 require("dotenv").config()
 
 const express = require("express")
+const supabase = require("./supabaseClient")
 const cors = require("cors")
 const path = require("path")
 const app = express()
@@ -25,6 +26,16 @@ app.use("/api/images", imageRoutes)
 
 app.get("/", (req, res) => {
   res.send("API running")
+})
+
+//test route to check supabase connection
+app.get("/test-db", async (req, res) => {
+  const { data, error } = await supabase.from("worksheets").select("*").limit(1)
+  if (error) {
+    console.error("Supabase error:", error)
+    return res.status(500).json({ error: "Database connection failed" })
+  }
+  res.json(data)
 })
 
 app.listen(3000, () => {
