@@ -4,13 +4,20 @@
   <meta charset="UTF-8">
   <title>ESL Activity Generator</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/api.js"></script>
 </head>
 
 <body>
 
 <div class="container">
   <h1>ESL Activity Generator</h1>
-
+  <div id="auth">
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+    <button onclick="signUp()">Sign Up</button>
+    <button onclick="signIn()">Login</button>
+  </div>
   <div class="card" style="text-align:center">
     <h2>Choose a tool</h2>
 

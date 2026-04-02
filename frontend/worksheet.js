@@ -73,6 +73,7 @@ function toggleDashboard() {
 
 async function saveWorksheet() {
   const state = window.worksheetState;
+  const { data: { user } } = await supabaseClient.auth.getUser();
   await fetch(`${BASE_URL}/save`, {
     method: "POST",
     headers: {
@@ -80,14 +81,16 @@ async function saveWorksheet() {
     },
     body: JSON.stringify({
       title: state.title,
-      data: state
+      data: state,
+      user_id: user.id
     })
   });
   alert("Worksheet saved successfully!");
 }
 
 async function loadWorksheets() { 
-  const res = await fetch(`${BASE_URL}/worksheets`);
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  const res = await fetch(`${BASE_URL}/worksheets?user_id=${user.id}`);
   const data = await res.json();
   const container = document.getElementById("worksheetsList");
   container.innerHTML = data.map(w => `
@@ -111,7 +114,8 @@ async function loadWorksheets() {
 }
 
 async function openWorksheet(id) {
-  const res = await fetch(`${BASE_URL}/worksheets/${id}`);
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  const res = await fetch(`${BASE_URL}/worksheets/${id}?user_id=${user.id}`);
   const data = await res.json();
   window.worksheetState = data.data;
   document.getElementById("title").value = window.worksheetState.title;
@@ -124,7 +128,8 @@ async function openWorksheet(id) {
 async function deleteWorksheet(id) {
   const confirmed = confirm("Delete this worksheet?");
   if (!confirmed) return;
-  await fetch(`${BASE_URL}/worksheets/${id}`, {
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  await fetch(`${BASE_URL}/worksheets/${id}?user_id=${user.id}`, {
     method: "DELETE"
   });
   loadWorksheets();

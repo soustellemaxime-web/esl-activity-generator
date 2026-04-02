@@ -1,3 +1,48 @@
+const { createClient } = window.supabase;
+const supabaseClient = createClient(
+    "https://bqgvquzfsoqjygguuamb.supabase.co", 
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxZ3ZxdXpmc29xanlnZ3V1YW1iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwMDc5ODQsImV4cCI6MjA5MDU4Mzk4NH0.uULf9SpNQ3rFtfNHZ2ulmJESQB3Eum3lMTRFleff4X8"
+);
+
+async function signUp() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const { error } = await supabaseClient.auth.signUp({ email, password });
+    if (error) {
+        alert("Error signing up: " + error.message);
+    } else {
+        alert("Sign up successful!");
+    }
+}
+
+async function signIn() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (error) {
+        alert("Error signing in: " + error.message);
+    } else {
+        alert("Sign in successful!");
+    }
+}
+
+async function checkUser() {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    const authEl = document.getElementById("auth");
+    if (user) {
+        console.log("User is signed in: " + user.email);
+        if (authEl) {
+            authEl.style.display = "none";
+        }
+    }
+    else {
+        console.log("No user signed in");
+        if (authEl) {
+            authEl.style.display = "block";
+        }
+    }
+}
+
 function needsImages(data) {
     return data.displayMode !== "text" || data.matching || data.mcq || data.fill;
 }
@@ -235,3 +280,5 @@ async function download() {
     btn.disabled = false;
     btn.textContent = "⬇️ Download PDF";
 }
+
+checkUser();

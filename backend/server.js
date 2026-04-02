@@ -30,8 +30,8 @@ app.get("/", (req, res) => {
 })
 
 app.post('/save', async (req, res) => {
-  const { title, data } = req.body;
-  const { error } = await saveWorksheet(title, data);
+  const { title, data, user_id } = req.body;
+  const { error } = await saveWorksheet(title, data, user_id);
   if (error) {
     console.error("Supabase error:", error)
     return res.status(500).json({ error: "Failed to save worksheet" })
@@ -40,7 +40,8 @@ app.post('/save', async (req, res) => {
 })
 
 app.get('/worksheets', async (req, res) => {
-  const { data, error } = await getWorksheets();
+  const { user_id } = req.query;
+  const { data, error } = await getWorksheets(user_id);
   if (error) {
     console.error("Supabase error:", error)
     return res.status(500).json({ error: "Failed to fetch worksheets" })
@@ -50,7 +51,8 @@ app.get('/worksheets', async (req, res) => {
 
 app.get('/worksheets/:id', async (req, res) => {
   const { id } = req.params;
-  const { data, error } = await getWorksheetById(id);
+  const { user_id } = req.query;
+  const { data, error } = await getWorksheetById(id, user_id);
   if (error) {
     console.error("Supabase error:", error)
     return res.status(500).json({ error: "Failed to fetch worksheet" })
@@ -60,7 +62,8 @@ app.get('/worksheets/:id', async (req, res) => {
 
 app.delete('/worksheets/:id', async (req, res) => {
   const { id } = req.params;
-  const { error } = await deleteWorksheet(id);
+  const { user_id } = req.query;
+  const { error } = await deleteWorksheet(id, user_id);
   if (error) {
     console.error("Supabase error:", error)
     return res.status(500).json({ error: "Failed to delete worksheet" })
