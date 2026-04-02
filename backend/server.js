@@ -15,6 +15,8 @@ const flashcardRoutes = require("./routes/flashcardsRoute")
 const imageRoutes = require("./routes/imagesRoute")
 const worksheetRoutes = require("./routes/worksheetRoute")
 
+const { saveWorksheet, getWorksheets, getWorksheetById } = require("./db/worksheetsDB")
+
 app.use(express.static(path.join(__dirname, "../frontend")))
 app.use("/styles", express.static(path.join(__dirname, "styles")))
 app.use("/assets", express.static(path.join(__dirname, "../frontend/assets")))
@@ -30,7 +32,7 @@ app.get("/", (req, res) => {
 
 app.post('/save', async (req, res) => {
   const { title, data } = req.body;
-  const { error } = await supabase.from('worksheets').insert([{ title, data }])
+  const { error } = await saveWorksheet(title, data);
   if (error) {
     console.error("Supabase error:", error)
     return res.status(500).json({ error: "Failed to save worksheet" })
@@ -39,7 +41,7 @@ app.post('/save', async (req, res) => {
 })
 
 app.get('/worksheets', async (req, res) => {
-  const { data, error } = await supabase.from('worksheets').select('*').order('created_at', { ascending: false })
+  const { data, error } = await getWorksheets();
   if (error) {
     console.error("Supabase error:", error)
     return res.status(500).json({ error: "Failed to fetch worksheets" })
@@ -49,7 +51,7 @@ app.get('/worksheets', async (req, res) => {
 
 app.get('/worksheets/:id', async (req, res) => {
   const { id } = req.params;
-  const { data, error } = await supabase.from('worksheets').select('*').eq('id', id).single()
+  const { data, error } = await getWorksheetById(id);
   if (error) {
     console.error("Supabase error:", error)
     return res.status(500).json({ error: "Failed to fetch worksheet" })
