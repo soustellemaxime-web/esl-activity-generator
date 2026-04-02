@@ -4,6 +4,31 @@ body {
   margin: 0;
 }
 
+/* Auth */
+
+#auth {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#auth input {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.auth-message {
+  font-size: 14px;
+  margin-top: 5px;
+  height: 18px;
+}
+
+#logoutBtn {
+  display: none;
+}
+
 #toggleLang img {
   width: 20px;
   height: auto;
