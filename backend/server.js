@@ -28,15 +28,35 @@ app.get("/", (req, res) => {
   res.send("API running")
 })
 
-//test route to check supabase connection
-app.get("/test-db", async (req, res) => {
-  const { data, error } = await supabase.from("worksheets").select("*").limit(1)
+app.post('/save', async (req, res) => {
+  const { title, data } = req.body;
+  const { error } = await supabase.from('worksheets').insert([{ title, data }])
   if (error) {
     console.error("Supabase error:", error)
-    return res.status(500).json({ error: "Database connection failed" })
+    return res.status(500).json({ error: "Failed to save worksheet" })
   }
-  res.json(data)
+  res.status(200).json({ message: "Worksheet saved successfully" })
 })
+
+app.get('/worksheets', async (req, res) => {
+  const { data, error } = await supabase.from('worksheets').select('*').order('created_at', { ascending: false })
+  if (error) {
+    console.error("Supabase error:", error)
+    return res.status(500).json({ error: "Failed to fetch worksheets" })
+  }
+  res.status(200).json(data)
+})
+
+app.get('/worksheets/:id', async (req, res) => {
+  const { id } = req.params;
+  const { data, error } = await supabase.from('worksheets').select('*').eq('id', id).single()
+  if (error) {
+    console.error("Supabase error:", error)
+    return res.status(500).json({ error: "Failed to fetch worksheet" })
+  }
+  res.status(200).json(data)
+})
+
 
 app.listen(3000, () => {
   console.log("Server running on port 3000")
