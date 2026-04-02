@@ -12,8 +12,13 @@ async function getWorksheetById(id) {
     return await supabase.from('worksheets').select('*').eq('id', id).single();
 }
 
+async function deleteWorksheet(id) {
+    return await supabase.from('worksheets').delete().eq('id', id);
+}
+
 module.exports = {
     saveWorksheet,
     getWorksheets,
-    getWorksheetById
+    getWorksheetById,
+    deleteWorksheet
 };

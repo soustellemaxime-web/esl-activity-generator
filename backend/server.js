@@ -15,7 +15,7 @@ const flashcardRoutes = require("./routes/flashcardsRoute")
 const imageRoutes = require("./routes/imagesRoute")
 const worksheetRoutes = require("./routes/worksheetRoute")
 
-const { saveWorksheet, getWorksheets, getWorksheetById } = require("./db/worksheetsDB")
+const { saveWorksheet, getWorksheets, getWorksheetById, deleteWorksheet } = require("./db/worksheetsDB")
 
 app.use(express.static(path.join(__dirname, "../frontend")))
 app.use("/styles", express.static(path.join(__dirname, "styles")))
@@ -24,7 +24,6 @@ app.use("/api/worksheet", worksheetRoutes)
 app.use("/api/bingo", bingoRoutes)
 app.use("/api/flashcards", flashcardRoutes)
 app.use("/api/images", imageRoutes)
-
 
 app.get("/", (req, res) => {
   res.send("API running")
@@ -59,6 +58,15 @@ app.get('/worksheets/:id', async (req, res) => {
   res.status(200).json(data)
 })
 
+app.delete('/worksheets/:id', async (req, res) => {
+  const { id } = req.params;
+  const { error } = await deleteWorksheet(id);
+  if (error) {
+    console.error("Supabase error:", error)
+    return res.status(500).json({ error: "Failed to delete worksheet" })
+  }
+  res.status(200).json({ message: "Worksheet deleted successfully" })
+})
 
 app.listen(3000, () => {
   console.log("Server running on port 3000")

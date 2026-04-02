@@ -98,9 +98,14 @@ async function loadWorksheets() {
           ${new Date(w.created_at).toLocaleString()}
         </span>
       </div>
-      <button class="btn secondary" onclick="openWorksheet('${w.id}')">
-        Open
-      </button>
+      <div style="display:flex; gap:6px;">
+        <button class="btn secondary" onclick="openWorksheet('${w.id}')">
+          Open
+        </button>
+        <button class="btn danger" onclick="deleteWorksheet('${w.id}')">
+          Delete
+        </button>
+      </div>
     </div>
   `).join('')
 }
@@ -114,6 +119,15 @@ async function openWorksheet(id) {
   const el = document.querySelector(`.layout-option[data-layout="${window.worksheetState.layout}"]`);
   if (el) el.classList.add("selected");
   renderFromState();
+}
+
+async function deleteWorksheet(id) {
+  const confirmed = confirm("Delete this worksheet?");
+  if (!confirmed) return;
+  await fetch(`${BASE_URL}/worksheets/${id}`, {
+    method: "DELETE"
+  });
+  loadWorksheets();
 }
 
 function checkLimits(ex) {

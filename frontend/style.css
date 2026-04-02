@@ -120,6 +120,16 @@ h1 {
   background: #ddd;
 }
 
+.btn.danger {
+  background: #ffdddd;
+  border: 1px solid #ffaaaa;
+  color: #a33;
+}
+
+.btn.danger:hover {
+  background: #ffcccc;
+}
+
 .dashboard {
   margin-top: 12px;
   padding: 10px;
