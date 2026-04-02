@@ -97,6 +97,69 @@ h1 {
   padding-top: 10px;
 }
 
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.preview-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn.secondary {
+  background: #eee;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn.secondary:hover {
+  background: #ddd;
+}
+
+.dashboard {
+  margin-top: 12px;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.hidden {
+  display: none;
+}
+
+.worksheet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.worksheet-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+}
+
+.worksheet-item:hover {
+  background: #f0f0f0;
+}
+
+.worksheet-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.worksheet-date {
+  font-size: 12px;
+  color: #777;
+}
+
 label {
   font-weight: bold;
   margin-bottom: 6px;

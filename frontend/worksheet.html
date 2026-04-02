@@ -185,7 +185,23 @@
     <!-- RIGHT PANEL -->
     <div class="right-panel">
       <div class="card preview-card">
-        <h2 data-i18n="preview">Preview</h2>
+        <div class="preview-header">
+          <h2 data-i18n="preview">Preview</h2>
+          <div class="preview-actions">
+            <button class="btn secondary" onclick="saveWorksheet()"> 
+              <span class="icon">💾</span>
+              <span data-i18n="save">Save</span>
+            </button>
+            <button class="btn secondary" onclick="toggleDashboard()">
+              <span class="icon">📂</span>
+              <span data-i18n="loadWorksheets">Load Worksheets</span>
+            </button>
+          </div>
+        </div>
+        <div id="dashboard" class="dashboard hidden">
+          <h3 data-i18n="myWorksheets">My Worksheets</h3>
+          <div id="worksheetsList" class="worksheet-list"></div>
+        </div>
         <div id="preview">
           <div class="placeholder">
             ⌨️ <span data-i18n="placeholder">Enter words and select exercises to generate a worksheet</span>
@@ -193,9 +209,7 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>
-
 </body>
 </html>

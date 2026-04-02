@@ -22,7 +22,10 @@ const translations = {
     sticker: "Stickers",
     borders: "Borders",
     fonts: "Fonts",
-    openQuestion: "Open question"
+    openQuestion: "Open question",
+    save: "Save Worksheet",
+    loadWorksheets: "Load Worksheets",
+    myWorksheets: "My Worksheets"
   },
 
   th: {
@@ -48,6 +51,9 @@ const translations = {
     sticker: "สติ๊กเกอร์",
     borders: "กรอบ",
     fonts: "แบบอักษร",
-    openQuestion: "คำถามเปิด"
+    openQuestion: "คำถามเปิด",
+    save: "บันทึกใบงาน",
+    loadWorksheets: "โหลดใบงาน",
+    myWorksheets: "ใบงานของฉัน"
   }
 };

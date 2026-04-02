@@ -1,6 +1,9 @@
 window.API_BASE = "worksheet";
 window.worksheetState = {
+  title: "",
+  layout: "4",
   exercises: [],
+  stickers: [],
   font: "font-default",
 };
 window.borderMode = {
@@ -47,7 +50,11 @@ document.getElementById("words")
   .addEventListener("input", debounce(preview, 500));
 
 document.getElementById("title")
-  .addEventListener("input", debounce(preview, 500));
+  .addEventListener("input", (e) => {
+    window.worksheetState.title = e.target.value;
+    debounce(preview, 500)();
+  });
+
 
 document.querySelectorAll("#matching, #mcq, #fill, #wsearch, #sbuilding")
   .forEach(el => el.addEventListener("change", debounce(preview, 500)));
@@ -56,8 +63,61 @@ function getCurrentLayout() {
   return document.querySelector(".layout-option.selected")?.dataset.layout || "4";
 }
 
+function toggleDashboard() {
+  const el = document.getElementById("dashboard");
+  el.classList.toggle("hidden");
+  if (!el.classList.contains("hidden")) {
+    loadWorksheets();
+  }
+}
+
+async function saveWorksheet() {
+  const state = window.worksheetState;
+  await fetch(`${BASE_URL}/save`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      title: state.title,
+      data: state
+    })
+  });
+  alert("Worksheet saved successfully!");
+}
+
+async function loadWorksheets() { 
+  const res = await fetch(`${BASE_URL}/worksheets`);
+  const data = await res.json();
+  const container = document.getElementById("worksheetsList");
+  container.innerHTML = data.map(w => `
+    <div class="worksheet-item">
+      <div class="worksheet-info">
+        <strong>${w.title}</strong>
+        <span class="worksheet-date">
+          ${new Date(w.created_at).toLocaleString()}
+        </span>
+      </div>
+      <button class="btn secondary" onclick="openWorksheet('${w.id}')">
+        Open
+      </button>
+    </div>
+  `).join('')
+}
+
+async function openWorksheet(id) {
+  const res = await fetch(`${BASE_URL}/worksheets/${id}`);
+  const data = await res.json();
+  window.worksheetState = data.data;
+  document.getElementById("title").value = window.worksheetState.title;
+  document.querySelectorAll(".layout-option").forEach(o => o.classList.remove("selected"));
+  const el = document.querySelector(`.layout-option[data-layout="${window.worksheetState.layout}"]`);
+  if (el) el.classList.add("selected");
+  renderFromState();
+}
+
 function checkLimits(ex) {
-  const layout = getCurrentLayout();
+  const layout = window.worksheetState.layout;
   const limits = LIMITS[layout];
   if (!limits) return null;
   if (ex.type === "fill" && ex.questions.length > limits.fill) {
@@ -643,8 +703,6 @@ function attachStickerDelete() {
 
 function getPageData() {
   const base = getFormData();
-  const selectedLayout =
-  document.querySelector(".layout-option.selected")?.dataset.layout || "4";
   const mode = document.querySelector('input[name="mode"]:checked')?.value || "auto";
   const customText = document.getElementById("customInput")?.value || "";
 
@@ -657,7 +715,7 @@ function getPageData() {
     fill: document.getElementById("fill")?.checked || false,
     wsearch: document.getElementById("wsearch")?.checked || false,
     sbuilding: document.getElementById("sbuilding")?.checked || false,
-    layout: selectedLayout,
+    layout: window.worksheetState.layout,
     font: window.worksheetState.font,
   };
 }
@@ -667,6 +725,7 @@ document.querySelectorAll(".layout-option").forEach(option => {
     document.querySelectorAll(".layout-option")
       .forEach(o => o.classList.remove("selected"));
     option.classList.add("selected");
+    window.worksheetState.layout = option.dataset.layout;
     preview(); // update instantly
   });
 });
