@@ -1,16 +1,33 @@
 <header class="app-header">
-  <div class="left">
-    <strong>Worksheet Generator</strong>
-  </div>
+    <div class="left">
+        <strong>Worksheet Generator</strong>
+    </div>
 
-  <div class="right">
-    <span id="userWelcome"></span>
+    <div class="right">
+        <span id="userWelcome"></span>
 
-    <button id="homeBtn">🏠</button>
-    <button id="toggleLang"><img id="langIcon" src="https://flagcdn.com/w20/gb.png" /></button>
-    <button id="toggleTheme">🌙</button>
+        <button id="homeBtn">🏠</button>
+        <button id="toggleLang"><img id="langIcon" src="https://flagcdn.com/w20/gb.png" /></button>
+        <button id="toggleTheme">🌙</button>
 
-    <button id="loginBtn">Login</button>
-    <button id="logoutBtn" style="display:none;">Logout</button>
-  </div>
+        <button id="loginBtn">Login</button>
+        <button id="logoutBtn" style="display:none;">Logout</button>
+    </div>
+
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Login</h3>
+
+            <input id="modalEmail" placeholder="Email">
+            <input id="modalPassword" type="password" placeholder="Password">
+
+            <div class="button-row">
+            <button id="modalLoginBtn" class="primary">Login</button>
+            <button id="modalSignupBtn">Sign Up</button>
+            </div>
+
+            <button id="closeModal" class="btn secondary">Close</button>
+            <div id="modalMessage" class="auth-message"></div>
+        </div>
+    </div>
 </header>

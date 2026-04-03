@@ -4,6 +4,7 @@ body {
   margin: 0;
 }
 
+/* Header */
 .app-header {
   display: flex;
   justify-content: space-between;
@@ -17,6 +18,30 @@ body {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* Auth */
@@ -745,4 +770,8 @@ body.dark button {
 
 body.dark button.green {
   background: #66bb6a;
+}
+
+body.dark .modal-content {
+  background: #2a2a2a;
 }
