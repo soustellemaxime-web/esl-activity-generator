@@ -47,10 +47,3 @@ function parseWords(text){
     .map(word => word.trim())
     .filter(word => word.length > 0)
 }
-
-const themeBtn = document.getElementById("toggleTheme");
-if (themeBtn) {
-  themeBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-  });
-}
