@@ -2,8 +2,12 @@
 <div class="container">
     <div class="card">
       <h2>Reset Password</h2>
-      <input id="newPassword" type="password" placeholder="New password">
-      <button id="updatePassword">Update Password</button>
+      <form id="resetForm">
+        <!-- hidden email field for DOM warning-->
+        <input type="email" name="email" autocomplete="email" style="display:none;">
+        <input id="newPassword" type="password" placeholder="New password" autocomplete="new-password">
+        <button type="submit">Update Password</button>
+      </form>
     </div>
 </div>
 
@@ -11,9 +15,9 @@
 <script src="js/api.js"></script>
 <script src="js/header.js"></script>
 <script>
-document.getElementById("updatePassword").onclick = async () => {
+document.getElementById("resetForm").onsubmit = async (e) => {
+  e.preventDefault();
   const newPassword = document.getElementById("newPassword").value;
-
   const { error } = await supabaseClient.auth.updateUser({
     password: newPassword
   });
