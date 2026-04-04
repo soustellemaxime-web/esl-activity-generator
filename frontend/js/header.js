@@ -16,6 +16,14 @@ async function setupHeader() {
     const toggleTheme = document.getElementById("toggleTheme");
     const togglePassword = document.getElementById("togglePassword");
 
+    //Modal elements
+    const modal = document.getElementById("loginModal");
+    const closeModal = document.getElementById("closeModal");
+    const modalEmail = document.getElementById("modalEmail");
+    const modalPassword = document.getElementById("modalPassword");
+    const modalMessage = document.getElementById("modalMessage");
+    const modalSignupBtn = document.getElementById("modalSignupBtn");
+
     if (togglePassword) {
         togglePassword.onclick = () => {
             const isHidden = modalPassword.type === "password";
@@ -23,15 +31,6 @@ async function setupHeader() {
             togglePassword.textContent = isHidden ? "🙈" : "👁️";
         };
     }
-
-    //Modal elements
-    const modal = document.getElementById("loginModal");
-    const closeModal = document.getElementById("closeModal");
-    const modalEmail = document.getElementById("modalEmail");
-    const modalPassword = document.getElementById("modalPassword");
-    const modalMessage = document.getElementById("modalMessage");
-    const modalLoginBtn = document.getElementById("modalLoginBtn");
-    const modalSignupBtn = document.getElementById("modalSignupBtn");
 
     closeModal.onclick = () => {
         modal.classList.add("hidden");

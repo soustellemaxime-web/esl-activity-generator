@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="style.css">
+<div class="container">
+    <div class="card">
+      <h2>Reset Password</h2>
+      <input id="newPassword" type="password" placeholder="New password">
+      <button id="updatePassword">Update Password</button>
+    </div>
+</div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="js/api.js"></script>
+<script src="js/header.js"></script>
+<script>
+document.getElementById("updatePassword").onclick = async () => {
+  const newPassword = document.getElementById("newPassword").value;
+
+  const { error } = await supabaseClient.auth.updateUser({
+    password: newPassword
+  });
+
+  if (error) {
+    alert(error.message);
+  } else {
+    document.body.innerHTML = "<h2>Password updated! You can login now ✅</h2>";
+    window.location.href = "index.html";
+  }
+};
+</script>

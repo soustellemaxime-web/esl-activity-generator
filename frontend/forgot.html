@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="style.css">
+
+<div class="container">
+    <div class="card">
+        <h2>Reset your password</h2>
+        <input id="email" type="email" placeholder="Enter your email" autocomplete="email">
+        <button id="sendReset">Send reset link</button>
+        <div id="message"></div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="js/api.js"></script>
+<script src="js/header.js"></script>
+<script>
+document.getElementById("sendReset").onclick = async () => {
+  const email = document.getElementById("email").value;
+  const msg = document.getElementById("message");
+
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + "/reset.html"
+  });
+
+  if (error) {
+    msg.textContent = error.message;
+    msg.style.color = "red";
+  } else {
+    msg.textContent = "If this email exists, you will receive a reset link 📩";
+    msg.style.color = "green";
+  }
+};
+</script>
