@@ -33,7 +33,8 @@ async function setupHeader() {
         }
     };
 
-    modalLoginBtn.onclick = async () => {
+    document.getElementById("loginForm").onsubmit = async (e) => {
+        e.preventDefault();
         const email = modalEmail.value;
         const password = modalPassword.value;
         const { error } = await supabaseClient.auth.signInWithPassword({ email, password });

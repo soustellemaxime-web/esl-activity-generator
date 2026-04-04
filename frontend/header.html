@@ -17,14 +17,15 @@
     <div id="loginModal" class="modal hidden">
         <div class="modal-content">
             <h3>Login</h3>
+            <form id="loginForm">
+                <input id="modalEmail" type="email" placeholder="Email" autocomplete="email">
+                <input id="modalPassword" type="password" placeholder="Password" autocomplete="current-password">
 
-            <input id="modalEmail" placeholder="Email">
-            <input id="modalPassword" type="password" placeholder="Password">
-
-            <div class="button-row">
-            <button id="modalLoginBtn" class="primary">Login</button>
-            <button id="modalSignupBtn">Sign Up</button>
-            </div>
+                <div class="button-row">
+                    <button type="submit" class="primary">Login</button>
+                    <button type="button" id="modalSignupBtn">Sign Up</button>
+                </div>
+            </form>
 
             <button id="closeModal" class="btn secondary">Close</button>
             <div id="modalMessage" class="auth-message"></div>
