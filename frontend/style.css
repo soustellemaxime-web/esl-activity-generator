@@ -44,8 +44,11 @@ body {
   gap: 10px;
 }
 
-/* Auth */
+#modalPassword {
+  margin-bottom: 0;
+}
 
+/* Auth */
 #auth {
   display: flex;
   gap: 10px;
@@ -67,6 +70,30 @@ body {
 
 #logoutBtn {
   display: none;
+}
+
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  background: white;
+}
+
+.password-wrapper input {
+  flex: 1;
+  border: none;
+  padding: 8px;
+  margin: 0;
+  outline: none;
+}
+
+.password-wrapper button {
+  padding: 0 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 #toggleLang img {
@@ -296,7 +323,7 @@ input:not([type="checkbox"]):not([type="radio"]), select {
 .button-row {
   display: flex;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 button {

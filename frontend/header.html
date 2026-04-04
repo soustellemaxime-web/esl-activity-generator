@@ -19,7 +19,10 @@
             <h3>Login</h3>
             <form id="loginForm">
                 <input id="modalEmail" type="email" placeholder="Email" autocomplete="email">
-                <input id="modalPassword" type="password" placeholder="Password" autocomplete="current-password">
+                <div class="password-wrapper">
+                    <input id="modalPassword" type="password" placeholder="Password" autocomplete="current-password">
+                    <button type="button" id="togglePassword">👁️</button>
+                </div>
 
                 <div class="button-row">
                     <button type="submit" class="primary">Login</button>

@@ -14,6 +14,15 @@ async function setupHeader() {
     const logoutBtn = document.getElementById("logoutBtn");
     const welcome = document.getElementById("userWelcome");
     const toggleTheme = document.getElementById("toggleTheme");
+    const togglePassword = document.getElementById("togglePassword");
+
+    if (togglePassword) {
+        togglePassword.onclick = () => {
+            const isHidden = modalPassword.type === "password";
+            modalPassword.type = isHidden ? "text" : "password";
+            togglePassword.textContent = isHidden ? "🙈" : "👁️";
+        };
+    }
 
     //Modal elements
     const modal = document.getElementById("loginModal");
