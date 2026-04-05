@@ -10,7 +10,8 @@ async function generatePDF(html) {
   const page = await browser.newPage()
 
   await page.setContent(html, {
-    waitUntil: ["load", "domcontentloaded", "networkidle0"]
+    waitUntil: "domcontentloaded",
+    timeout: 60000
   })
 
   await page.evaluate(async () => {
