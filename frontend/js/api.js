@@ -1,4 +1,8 @@
-window.API_URL = window.location.hostname === "localhost" ? "http://localhost:3000" : "";
+window.API_URL = window.location.hostname 
+    === "localhost" 
+    ? "http://localhost:3000" 
+    : window.location.origin;
+    
 const { createClient } = window.supabase;
 const supabaseClient = createClient(
     "https://bqgvquzfsoqjygguuamb.supabase.co", 
