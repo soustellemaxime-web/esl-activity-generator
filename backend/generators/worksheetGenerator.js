@@ -325,7 +325,7 @@ function renderCustomExercises(exercises) {
 }
 
 function generateWorksheet(data) {
-  const { words, imageMap, matching, mcq, fill, wsearch, sbuilding, mode, layout, title } = data;
+  const { words, imageMap, matching, mcq, fill, mode, layout, title } = data;
   const currentMode = mode || "auto";
 
   // CUSTOM MODE

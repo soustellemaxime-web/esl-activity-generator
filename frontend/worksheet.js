@@ -56,7 +56,7 @@ document.getElementById("title")
   });
 
 
-document.querySelectorAll("#matching, #mcq, #fill, #wsearch, #sbuilding")
+document.querySelectorAll("#matching, #mcq, #fill")
   .forEach(el => el.addEventListener("change", debounce(preview, 500)));
 
 function getCurrentLayout() {
@@ -732,8 +732,6 @@ function getPageData() {
     matching: document.getElementById("matching")?.checked || false,
     mcq: document.getElementById("mcq")?.checked || false,
     fill: document.getElementById("fill")?.checked || false,
-    wsearch: document.getElementById("wsearch")?.checked || false,
-    sbuilding: document.getElementById("sbuilding")?.checked || false,
     layout: window.worksheetState.layout,
     font: window.worksheetState.font,
   };
