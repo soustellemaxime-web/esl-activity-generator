@@ -4,7 +4,6 @@ async function generatePDF(html) {
 
   const browser = await puppeteer.launch({
     headless: "new",
-    executablePath: process.env.CHROME_EXECUTABLE_PATH || puppeteer.executablePath(),
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
   })
 
