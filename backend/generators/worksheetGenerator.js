@@ -43,6 +43,8 @@ const LIMITS = {
   }
 };
 
+const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
+
 function getMCQLimit(layout, questionCount) {
   const configs = LIMITS[layout]?.mcq || [];
   for (const config of configs) {
@@ -334,7 +336,7 @@ function generateWorksheet(data) {
       <html>
         <head>
           <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Schoolbell&family=Gloria+Hallelujah&family=Comic+Neue&family=Baloo+2&family=Nunito&family=Quicksand&family=Fredoka&display=swap" rel="stylesheet">
-          <link rel="stylesheet" href="http://localhost:3000/styles/worksheet.css">
+          <link rel="stylesheet" href="${BASE_URL}/styles/worksheet.css">
         </head>
         <body class="${data.font || "font-default"}">
     `;

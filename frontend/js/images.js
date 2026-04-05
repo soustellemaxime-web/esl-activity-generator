@@ -9,7 +9,7 @@ async function loadImages(words, existingMap = {}) {
   }
 
   const promises = missingWords.map(word =>
-    fetch(`http://localhost:3000/api/images?word=${word}`)
+    fetch(`${API_URL}/api/images?word=${word}`)
       .then(res => res.json())
       .then(async data => {
         const imageUrl = data.images?.[0];
@@ -105,7 +105,7 @@ function showImagePicker(images, word = "", icon, onSelect, options = {}) {
       const newWord = searchInput.value.trim();
       if (!newWord) return;
       word = newWord;
-      const res = await fetch(`http://localhost:3000/api/images?word=${newWord}&t=${Date.now()}`);
+      const res = await fetch(`${API_URL}/api/images?word=${newWord}&t=${Date.now()}`);
       const data = await res.json();
       if (!data.images) return;
       grid.innerHTML = data.images.map(img => `<img src="${img}" />`).join("");
@@ -155,7 +155,7 @@ document.addEventListener("click", async (e) => {
 
     icon.classList.add("loading");
 
-    const res = await fetch(`http://localhost:3000/api/images?word=${word}&t=${Date.now()}`);
+    const res = await fetch(`${API_URL}/api/images?word=${word}&t=${Date.now()}`);
     const data = await res.json();
 
     if (!data.images || data.images.length === 0) {

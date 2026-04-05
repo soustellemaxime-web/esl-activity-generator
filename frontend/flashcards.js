@@ -2,7 +2,7 @@ window.API_BASE = "flashcards";
 
 async function reloadImage(word, cardElement) {
   try {
-    const res = await fetch(`http://localhost:3000/api/images?word=${encodeURIComponent(word)}`);
+    const res = await fetch(`${API_URL}/api/images?word=${encodeURIComponent(word)}`);
     const data = await res.json();
 
     if (!data.image) return;

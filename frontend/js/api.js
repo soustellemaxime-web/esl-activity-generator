@@ -1,3 +1,4 @@
+window.API_URL = window.location.hostname === "localhost" ? "http://localhost:3000" : "";
 const { createClient } = window.supabase;
 const supabaseClient = createClient(
     "https://bqgvquzfsoqjygguuamb.supabase.co", 
@@ -54,7 +55,7 @@ async function renderFromState() {
     const data = getPageData();
     data.customExercises = window.worksheetState.exercises;
     data.stickers = window.worksheetState.stickers;
-    const res = await fetch(`http://localhost:3000/api/worksheet/preview`, {
+    const res = await fetch(`${API_URL}/api/worksheet/preview`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data)
@@ -175,7 +176,7 @@ async function preview() {
     }
 
     data.imageMap = window.globalImageMap;
-    const res = await fetch(`http://localhost:3000/api/${window.API_BASE}/preview`, {
+    const res = await fetch(`${API_URL}/api/${window.API_BASE}/preview`, {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -239,7 +240,7 @@ async function download() {
             data.exercises = [];
             data.stickers = window.worksheetState.stickers;
         }  
-        const res = await fetch(`http://localhost:3000/api/${window.API_BASE}/generate`, {
+        const res = await fetch(`${API_URL}/api/${window.API_BASE}/generate`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
