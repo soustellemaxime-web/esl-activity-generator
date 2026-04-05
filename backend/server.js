@@ -5,6 +5,7 @@ const supabase = require("./supabaseClient")
 const cors = require("cors")
 const path = require("path")
 const app = express()
+const PORT = process.env.PORT || 3000
 
 app.use(cors())
 app.use(express.json({ limit: "10mb" }));
@@ -71,6 +72,6 @@ app.delete('/worksheets/:id', async (req, res) => {
   res.status(200).json({ message: "Worksheet deleted successfully" })
 })
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000")
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
 })

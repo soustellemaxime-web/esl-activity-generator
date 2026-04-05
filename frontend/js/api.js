@@ -8,17 +8,22 @@ const supabaseClient = createClient(
 async function checkUser() {
     const { data: { user } } = await supabaseClient.auth.getUser();
     const authEl = document.getElementById("auth");
+    const logoutBtn = document.getElementById("logoutBtn");
     if (user) {
         if (authEl) {
             authEl.style.display = "none";
         }
-        document.getElementById("logoutBtn").style.display = "block";
+        if (logoutBtn) {
+            logoutBtn.style.display = "block";
+        }
     }
     else {
         if (authEl) {
             authEl.style.display = "block";
         }
-        document.getElementById("logoutBtn").style.display = "none";
+        if (logoutBtn) {
+            logoutBtn.style.display = "none";
+        }
     }
 }
 
