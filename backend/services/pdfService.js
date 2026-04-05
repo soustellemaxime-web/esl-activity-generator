@@ -14,8 +14,7 @@ async function generatePDF(html) {
     timeout: 60000
   })
 
-  await page.waitForSelector("body");
-  await page.waitForTimeout(500);
+  await new Promise(resolve => setTimeout(resolve, 500));
 
   await page.evaluate(async () => {
   const images = Array.from(document.images);
