@@ -845,6 +845,28 @@ input:focus, select:focus, textarea:focus {
   overflow: hidden;
 }
 
+.mini-worksheet {
+  margin-top: 8px;
+}
+
+.mini-ws-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.mini-ws-card {
+  background: #f5f5f5;
+  border-radius: 6px;
+  padding: 6px;
+  text-align: center;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
 /* Dark mode */
 
 body.dark {

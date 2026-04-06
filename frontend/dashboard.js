@@ -131,12 +131,12 @@ function buildHoverContent(item) {
     }
   if (item.type === "worksheet") {
     return `
-      <strong>📝 Worksheet</strong>
-      <div class="small">
-        ${data.exercises?.map(e => e.type).join("<br>")}
-      </div>
+        <strong>📝 Worksheet</strong>
+        <div class="mini-worksheet">
+        ${buildMiniWorksheet(data)}
+        </div>
     `;
-  }
+    }
   return "";
 }
 
@@ -156,6 +156,32 @@ function buildMiniBingoGrid(data) {
       ${cells.map(w => `<div class="mini-cell">${w}</div>`).join("")}
     </div>
   `;
+}
+
+function buildMiniWorksheet(data) {
+  const exercises = data.exercises || [];
+  return `
+    <div class="mini-ws-grid">
+      ${exercises.map(ex => `
+        <div class="mini-ws-card">
+          ${getExerciseIcon(ex.type)}
+          <span>${formatType(ex.type)}</span>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function getExerciseIcon(type) {
+  if (type === "matching") return "🔤";
+  if (type === "mcq") return "🧠";
+  if (type === "fill") return "📝";
+  if (type === "open") return "❓";
+  return "📄";
+}
+
+function formatType(type) {
+  return type.toUpperCase();
 }
 
 document.addEventListener("DOMContentLoaded", initDashboard);
