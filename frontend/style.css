@@ -771,6 +771,33 @@ input:focus, select:focus, textarea:focus {
   gap: 10px;
 }
 
+/* Dashboard */
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  background: none;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+  border-bottom: 2px solid #4CAF50;
+}
+
+.preview-text {
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+}
+
 /* Dark mode */
 
 body.dark {

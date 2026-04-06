@@ -12,31 +12,21 @@
 </head>
 
 <body>
-<div class="container">
-  <h1>📂 My Dashboard</h1>
-
-  <div id="notLogged" class="card hidden">
-    Please login to access your dashboard.
-  </div>
-
-  <div id="dashboardContent" class="hidden">
-
-    <div class="card">
-      <h2>📝 Worksheets</h2>
-      <div id="worksheetsList"></div>
+    <div class="container">
+    <h1>📂 My Dashboard</h1>
+    <div id="notLogged" class="card hidden">
+        Please login to access your dashboard.
     </div>
-
-    <div class="card">
-      <h2>🃏 Flashcards</h2>
-      <div id="flashcardsList"></div>
+    <div id="dashboardContent" class="hidden">
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab(event, 'worksheet')">📝 Worksheets</button>
+            <button class="tab" onclick="switchTab(event, 'flashcards')">🃏 Flashcards</button>
+            <button class="tab" onclick="switchTab(event, 'bingo')">🎯 Bingo</button>
+        </div>
+            <div id="worksheetTab" class="tab-content"></div>
+            <div id="flashcardsTab" class="tab-content hidden"></div>
+            <div id="bingoTab" class="tab-content hidden"></div>
+        </div>
     </div>
-
-    <div class="card">
-      <h2>🎯 Bingos</h2>
-      <div id="bingoList"></div>
-    </div>
-
-  </div>
-</div>
 </body>
 </html>
