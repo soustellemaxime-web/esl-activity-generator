@@ -176,9 +176,14 @@ async function preview() {
     </div>
     `;
 
-    const data = (typeof getPageData === "function")
-    ? getPageData()
-    : getFormData();
+    let data;
+    if (typeof getPageData === "function") {
+        data = getPageData(); // Worksheet has custom getPageData to include exercises
+    } else if (window.API_BASE === "flashcards") {
+        data = getFlashcardState(); // Flashcards gets some data from global state
+    } else {
+        data = getFormData(); // Default for bingo and others
+    }
 
     if (needsImages(data)) {
     window.globalImageMap = await loadImages(data.words, window.globalImageMap);
@@ -227,9 +232,14 @@ async function download() {
     btn.disabled = true;
     btn.textContent = "⏳ Generating PDF...";
     try {
-        const data = (typeof getPageData === "function")
-        ? getPageData()
-        : getFormData();
+        let data;
+        if (typeof getPageData === "function") {
+            data = getPageData(); // Worksheet has custom getPageData to include exercises
+        } else if (window.API_BASE === "flashcards") {
+            data = getFlashcardState(); // Flashcards gets some data from global state
+        } else {
+            data = getFormData(); // Default for bingo and others
+        }
 
         if (needsImages(data)) {
         window.globalImageMap = await loadImages(data.words, window.globalImageMap);

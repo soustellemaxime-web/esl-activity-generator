@@ -31,21 +31,21 @@ app.get("/", (req, res) => {
 })
 
 app.post('/save', async (req, res) => {
-  const { title, data, user_id } = req.body;
-  const { error } = await saveWorksheet(title, data, user_id);
+  const { title, data, user_id, type } = req.body;
+  const { error } = await saveWorksheet(title, data, user_id, type);
   if (error) {
     console.error("Supabase error:", error)
-    return res.status(500).json({ error: "Failed to save worksheet" })
+    return res.status(500).json({ error: `Failed to save ${type}` })
   }
-  res.status(200).json({ message: "Worksheet saved successfully" })
+  res.status(200).json({ message: `${type} saved successfully` })
 })
 
 app.get('/worksheets', async (req, res) => {
-  const { user_id } = req.query;
-  const { data, error } = await getWorksheets(user_id);
+  const { user_id, type } = req.query;
+  const { data, error } = await getWorksheets(user_id, type);
   if (error) {
     console.error("Supabase error:", error)
-    return res.status(500).json({ error: "Failed to fetch worksheets" })
+    return res.status(500).json({ error: `Failed to fetch ${type || 'worksheets'}` })
   }
   res.status(200).json(data)
 })

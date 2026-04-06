@@ -82,6 +82,7 @@ async function saveWorksheet() {
     },
     body: JSON.stringify({
       title: state.title,
+      type: "worksheet",
       data: state,
       user_id: user.id
     })
@@ -91,7 +92,7 @@ async function saveWorksheet() {
 
 async function loadWorksheets() { 
   const { data: { user } } = await supabaseClient.auth.getUser();
-  const res = await fetch(`${BASE_URL}/worksheets?user_id=${user.id}`);
+  const res = await fetch(`${BASE_URL}/worksheets?user_id=${user.id}&type=worksheet`);
   const data = await res.json();
   const container = document.getElementById("worksheetsList");
   container.innerHTML = data.map(w => `

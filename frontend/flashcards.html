@@ -53,7 +53,23 @@
     </div>
     <div class="right-panel">
       <div class="card preview-card">
-        <h2>Preview</h2>
+        <div class="preview-header">
+          <h2 data-i18n="preview">Preview</h2>
+          <div class="preview-actions">
+            <button class="btn secondary" onclick="saveFlashcards()"> 
+              <span class="icon">💾</span>
+              <span>Save Flashcards</span>
+            </button>
+            <button class="btn secondary" onclick="loadFlashcards()">
+              <span class="icon">📂</span>
+              <span>Load Flashcards</span>
+            </button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>My Flashcards</h3>
+          <div id="flashcardsList"></div>
+        </div>
         <div id="preview">
           <div class="placeholder">
             ⌨️ Start typing your words to generate your flashcards
@@ -62,7 +78,6 @@
       </div>
     </div>
   </div>
-
 </div>
 
 </body>
