@@ -17,6 +17,14 @@ function getFlashcardState() {
   }
 }
 
+function toggleDashboard() {
+  const el = document.getElementById("dashboard");
+  el.classList.toggle("hidden");
+  if (!el.classList.contains("hidden")) {
+    loadFlashcards();
+  }
+}
+
 async function saveFlashcards() {
   const state = getFlashcardState();
   const { data: { user } } = await supabaseClient.auth.getUser();
@@ -51,7 +59,7 @@ async function loadFlashcards() {
   const { data: { user } } = await supabaseClient.auth.getUser();
   const res = await fetch(`${API_URL}/worksheets?user_id=${user.id}&type=flashcards`);
   const flashcards = await res.json();
-  const container = document.getElementById("flashcardsList");
+  const container = document.getElementById("worksheetsList");
   container.innerHTML = flashcards.map(f => `
     <div class="worksheet-item">
       <div class="worksheet-info">
@@ -60,9 +68,22 @@ async function loadFlashcards() {
       </div>
       <div style="display:flex; gap:6px;">
         <button onclick="loadFlashcard('${f.id}')">Open</button>
+        <button class="btn danger" onclick="deleteFlashcard('${f.id}')">
+          Delete
+        </button>
       </div>
     </div>
   `).join("");
+}
+
+async function deleteFlashcard(id) {
+  const confirmed = confirm("Delete this flashcard?");
+  if (!confirmed) return;
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  await fetch(`${API_URL}/worksheets/${id}?user_id=${user.id}`, {
+    method: "DELETE"
+  });
+  loadFlashcards();
 }
 
 async function reloadImage(word, cardElement) {

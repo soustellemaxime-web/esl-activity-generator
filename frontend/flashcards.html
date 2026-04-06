@@ -60,15 +60,15 @@
               <span class="icon">💾</span>
               <span>Save Flashcards</span>
             </button>
-            <button class="btn secondary" onclick="loadFlashcards()">
+            <button class="btn secondary" onclick="toggleDashboard()">
               <span class="icon">📂</span>
               <span>Load Flashcards</span>
             </button>
           </div>
         </div>
-        <div class="card">
+        <div id="dashboard" class="dashboard hidden">
           <h3>My Flashcards</h3>
-          <div id="flashcardsList"></div>
+          <div id="worksheetsList" class="worksheet-list"></div>
         </div>
         <div id="preview">
           <div class="placeholder">
