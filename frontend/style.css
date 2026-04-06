@@ -867,6 +867,32 @@ input:focus, select:focus, textarea:focus {
   gap: 2px;
 }
 
+.mini-flashcards {
+  margin-top: 8px;
+}
+
+.mini-fc-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mini-fc-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px;
+  text-align: center;
+  font-size: 11px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.mini-fc-more {
+  font-size: 10px;
+  color: #666;
+  text-align: center;
+}
+
 /* Dark mode */
 
 body.dark {

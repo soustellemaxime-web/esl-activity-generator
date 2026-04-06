@@ -114,30 +114,45 @@ function hideHoverPreview() {
 }
 
 function buildHoverContent(item) {
-  const data = item.data;
-  if (item.type === "flashcards") {
-    return `
-      <strong>🃏 Flashcards</strong>
-      <div>${data.words.slice(0, 8).join("<br>")}</div>
-    `;
-  }
-  if (item.type === "bingo") {
-    return `
-        <strong>🎯 Bingo (${data.gridSize}x${data.gridSize})</strong>
-        <div class="mini-bingo">
-        ${buildMiniBingoGrid(data)}
-        </div>
-    `;
+    const data = item.data;
+    if (item.type === "flashcards") {
+        return `
+            <strong>🃏 Flashcards</strong>
+            <div class="mini-flashcards">
+            ${buildMiniFlashcards(data)}
+            </div>
+        `;
     }
-  if (item.type === "worksheet") {
-    return `
-        <strong>📝 Worksheet</strong>
-        <div class="mini-worksheet">
-        ${buildMiniWorksheet(data)}
-        </div>
-    `;
+    if (item.type === "bingo") {
+        return `
+            <strong>🎯 Bingo (${data.gridSize}x${data.gridSize})</strong>
+            <div class="mini-bingo">
+            ${buildMiniBingoGrid(data)}
+            </div>
+        `;
     }
-  return "";
+    if (item.type === "worksheet") {
+        return `
+            <strong>📝 Worksheet</strong>
+            <div class="mini-worksheet">
+            ${buildMiniWorksheet(data)}
+            </div>
+        `;
+    }
+    return "";
+}
+
+function buildMiniFlashcards(data) {
+  const words = data.words || [];
+  const visible = words.slice(0, 4);
+  return `
+    <div class="mini-fc-stack">
+      ${visible.map(word => `
+        <div class="mini-fc-card">${word}</div>
+      `).join("")}
+      ${words.length > 4 ? `<div class="mini-fc-more">+${words.length - 4}</div>` : ""}
+    </div>
+  `;
 }
 
 function buildMiniBingoGrid(data) {
