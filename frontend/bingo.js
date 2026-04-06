@@ -25,6 +25,10 @@ function toggleDashboard() {
 async function saveBingo() {
     const state = getBingoState();
     const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) {
+        alert("You must be logged in to save bingos.");
+        return;
+    }
     await fetch(`${API_URL}/save`, {
         method: "POST",
         headers: {
@@ -58,6 +62,10 @@ async function loadBingo(id) {
 
 async function loadBingos() {
     const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) {
+        alert("You must be logged in to load bingos.");
+        return;
+    }
     const res = await fetch(`${API_URL}/worksheets?user_id=${user.id}&type=bingo`);
     const bingos = await res.json();
     const container = document.getElementById("worksheetsList");

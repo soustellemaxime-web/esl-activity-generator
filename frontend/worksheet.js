@@ -75,6 +75,10 @@ function toggleDashboard() {
 async function saveWorksheet() {
   const state = window.worksheetState;
   const { data: { user } } = await supabaseClient.auth.getUser();
+  if (!user) {
+    alert("You must be logged in to save worksheets.");
+    return;
+  }
   await fetch(`${BASE_URL}/save`, {
     method: "POST",
     headers: {
@@ -92,6 +96,10 @@ async function saveWorksheet() {
 
 async function loadWorksheets() { 
   const { data: { user } } = await supabaseClient.auth.getUser();
+  if (!user) {
+    alert("You must be logged in to load worksheets.");
+    return;
+  }
   const res = await fetch(`${BASE_URL}/worksheets?user_id=${user.id}&type=worksheet`);
   const data = await res.json();
   const container = document.getElementById("worksheetsList");
