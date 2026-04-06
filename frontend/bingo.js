@@ -1,5 +1,92 @@
 window.API_BASE = "bingo";
 
+function getBingoState() {
+  const data = getFormData();
+  return {
+    title: data.title,
+    words: data.words,
+    gridSize: data.gridSize,
+    freeCenter: data.freeCenter,
+    cardCount: data.cardCount,
+    uppercase: data.uppercase,
+    displayMode: data.displayMode,
+    imageMap: window.globalImageMap || {}
+  };
+}
+
+function toggleDashboard() {
+  const el = document.getElementById("dashboard");
+  el.classList.toggle("hidden");
+  if (!el.classList.contains("hidden")) {
+    loadBingos();
+  }
+}
+
+async function saveBingo() {
+    const state = getBingoState();
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    await fetch(`${API_URL}/save`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: state.title || "Bingo",
+            type: "bingo",
+            data: state,
+            user_id: user.id
+        })
+    });
+    alert("Bingo saved successfully!");
+}
+
+async function loadBingo(id) {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    const res = await fetch(`${API_URL}/worksheets/${id}?user_id=${user.id}&type=bingo`);
+    const item = await res.json();
+    const state = item.data;
+    document.getElementById("title").value = state.title || "";
+    document.getElementById("words").value = state.words.join("\n");
+    document.getElementById("gridSize").value = state.gridSize;
+    document.getElementById("freeCenter").checked = state.freeCenter;
+    document.getElementById("cardCount").value = state.cardCount;
+    document.getElementById("uppercase").checked = state.uppercase;
+    document.getElementById("displayMode").value = state.displayMode;
+    window.globalImageMap = state.imageMap || {};
+    preview();
+}
+
+async function loadBingos() {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    const res = await fetch(`${API_URL}/worksheets?user_id=${user.id}&type=bingo`);
+    const bingos = await res.json();
+    const container = document.getElementById("worksheetsList");
+    container.innerHTML = bingos.map(b => `
+        <div class="worksheet-item">
+          <div class="worksheet-info">
+            <strong>${b.title || "Bingo"}</strong>
+            <span class="worksheet-date">${new Date(b.created_at).toLocaleString()}</span>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button onclick="loadBingo('${b.id}')">Open</button>
+            <button class="btn danger" onclick="deleteBingo('${b.id}')">
+              Delete
+            </button>
+          </div>
+        </div>
+    `).join("");
+}
+
+async function deleteBingo(id) {
+    const confirmed = confirm("Delete this bingo?");
+    if (!confirmed) return;
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    await fetch(`${API_URL}/worksheets/${id}?user_id=${user.id}`, {
+        method: "DELETE"
+    });
+    loadBingos();
+}
+
 function updateWordRequirement() {
   const gridSize = Number(document.getElementById("gridSize").value);
   const freeCenter = document.getElementById("freeCenter").checked;
