@@ -56,6 +56,14 @@ document.getElementById("title")
     debounce(preview, 500)();
   });
 
+window.addEventListener("DOMContentLoaded", async () => {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("load");
+  if (!id) return;
+  if (window.API_BASE === "bingo") loadBingo(id);
+  if (window.API_BASE === "worksheet") loadWorksheet(id);
+  if (window.API_BASE === "flashcards") loadFlashcard(id);
+});
 
 document.querySelectorAll("#matching, #mcq, #fill")
   .forEach(el => el.addEventListener("change", debounce(preview, 500)));

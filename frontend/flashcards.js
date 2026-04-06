@@ -7,6 +7,15 @@ window.flashcardState = {
   imageMap: {}
 };
 
+window.addEventListener("DOMContentLoaded", async () => {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("load");
+  if (!id) return;
+  if (window.API_BASE === "bingo") loadBingo(id);
+  if (window.API_BASE === "worksheet") loadWorksheet(id);
+  if (window.API_BASE === "flashcards") loadFlashcard(id);
+});
+
 function getFlashcardState() {
   const data = getFormData();
   return {
