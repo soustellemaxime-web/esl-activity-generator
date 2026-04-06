@@ -12,20 +12,47 @@
 
 <body>
   <div class="container">
-    <h1>ESL Activity Generator</h1>
-    <div class="card home-card">
-      <h2>Choose a tool</h2>
-      <div class="tool-grid">
-        <a href="worksheet.html"><button class="blue">📝 Worksheet Generator</button></a>
-        <a href="bingo.html"><button class="green">🎯 Bingo Generator</button></a>
-        <a href="flashcards.html"><button class="pink">🃏 Flashcards Generator</button></a>
+    <div class="hero">
+      <h1>ESL Activity Generator</h1>
+      <p class="subtitle">
+        Create engaging ESL activities in seconds — worksheets, bingo & flashcards ready to print.
+      </p>
+      <div class="tool-cards">
+        <a href="worksheet.html" class="tool-card">
+          <img src="assets/previews/worksheetPr.png" />
+          <h3>📝 Worksheets</h3>
+          <p>Create exercises in seconds</p>
+        </a>
+        <a href="bingo.html" class="tool-card">
+          <img src="assets/previews/bingoPr.png" />
+          <h3>🎯 Bingo</h3>
+          <p>Fun and interactive games</p>
+        </a>
+        <a href="flashcards.html" class="tool-card">
+          <img src="assets/previews/flashcardPr.png" />
+          <h3>🃏 Flashcards</h3>
+          <p>Perfect for memorization</p>
+        </a>
       </div>
-      <div id="dashboardSection" class="hidden" style="margin-top:30px;">
-        <h3>Your Workspace</h3>
-        <button class="opendash" onclick="goToDashboard()">📂 Open Dashboard</button>
+      <div style="margin-top:15px;">
+        <button id="dashboardBtn" class="opendash hidden" onclick="goToDashboard()">📂 Open Dashboard</button>
       </div>
-      <div id="loginHint" style="margin-top:20px; font-size:13px; color:#666;">
-        Login to save and manage your activities
+    </div>
+    <div class="card">
+      <h2>✨ Features</h2>
+      <div class="feature-grid">
+        <div>⚡ Instant generation</div>
+        <div>📄 Clean PDF export</div>
+        <div>💾 Save your work</div>
+        <div>🎨 Custom layouts</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>🎬 How it works</h2>
+      <div class="steps">
+        <div>1. Enter your words</div>
+        <div>2. Choose your format</div>
+        <div>3. Download or save</div>
       </div>
     </div>
   </div>
