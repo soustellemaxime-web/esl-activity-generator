@@ -773,13 +773,13 @@ input:focus, select:focus, textarea:focus {
 
 /* Dashboard */
 
-.tabs {
+.tabs-dashboard {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.tab {
+.tab-dashboard {
   background: none;
   border: none;
   font-weight: bold;
@@ -788,7 +788,7 @@ input:focus, select:focus, textarea:focus {
   border-bottom: 2px solid transparent;
 }
 
-.tab.active {
+.tab-dashboard.active {
   border-bottom: 2px solid #4CAF50;
 }
 
@@ -796,6 +796,33 @@ input:focus, select:focus, textarea:focus {
   font-size: 13px;
   color: #666;
   margin-top: 4px;
+}
+
+.hover-preview {
+  position: fixed;
+  z-index: 9999;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  width: 220px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  pointer-events: none;
+  font-size: 13px;
+}
+
+.hover-preview.hidden {
+  display: none;
+}
+
+.hover-preview strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.hover-preview .small {
+  color: #666;
+  font-size: 12px;
 }
 
 /* Dark mode */

@@ -18,15 +18,16 @@
         Please login to access your dashboard.
     </div>
     <div id="dashboardContent" class="hidden">
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab(event, 'worksheet')">📝 Worksheets</button>
-            <button class="tab" onclick="switchTab(event, 'flashcards')">🃏 Flashcards</button>
-            <button class="tab" onclick="switchTab(event, 'bingo')">🎯 Bingo</button>
+        <div class="tabs-dashboard">
+            <button class="tab-dashboard active" onclick="switchTab(event, 'worksheet')">📝 Worksheets</button>
+            <button class="tab-dashboard" onclick="switchTab(event, 'flashcards')">🃏 Flashcards</button>
+            <button class="tab-dashboard" onclick="switchTab(event, 'bingo')">🎯 Bingo</button>
         </div>
             <div id="worksheetTab" class="tab-content"></div>
             <div id="flashcardsTab" class="tab-content hidden"></div>
             <div id="bingoTab" class="tab-content hidden"></div>
         </div>
     </div>
+    <div id="hoverPreview" class="hover-preview hidden"></div>
 </body>
 </html>

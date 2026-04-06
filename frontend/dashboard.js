@@ -24,7 +24,11 @@ function renderList(items, containerId, type) {
   container.innerHTML = items.map(item => {
     const preview = getPreview(item);
     return `
-      <div class="worksheet-item">
+      <div class="worksheet-item"
+        onmouseenter="showHoverPreview(event, '${encodeURIComponent(JSON.stringify(item))}')"
+        onmousemove="moveHoverPreview(event)"
+        onmouseleave="hideHoverPreview()"
+      >
         <div class="worksheet-info">
           <strong>${item.title}</strong>
           <span class="worksheet-date">
@@ -64,7 +68,7 @@ async function deleteItem(id) {
 function switchTab(event, type) {
   document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
   document.getElementById(type + "Tab").classList.remove("hidden");
-  document.querySelectorAll(".tab").forEach(btn => btn.classList.remove("active"));
+  document.querySelectorAll(".tab-dashboard").forEach(btn => btn.classList.remove("active"));
   event.target.classList.add("active");
 }
 
@@ -91,5 +95,47 @@ function getPreview(item) {
     return "";
 }
 
+function showHoverPreview(event, encodedItem) {
+  const item = JSON.parse(decodeURIComponent(encodedItem));
+  const preview = document.getElementById("hoverPreview");
+  preview.innerHTML = buildHoverContent(item);
+  preview.classList.remove("hidden");
+  moveHoverPreview(event);
+}
+
+function moveHoverPreview(event) {
+  const preview = document.getElementById("hoverPreview");
+  preview.style.left = event.clientX + 15 + "px";
+  preview.style.top = event.clientY + 15 + "px";
+}
+
+function hideHoverPreview() {
+  document.getElementById("hoverPreview").classList.add("hidden");
+}
+
+function buildHoverContent(item) {
+  const data = item.data;
+  if (item.type === "flashcards") {
+    return `
+      <strong>🃏 Flashcards</strong>
+      <div>${data.words.slice(0, 8).join("<br>")}</div>
+    `;
+  }
+  if (item.type === "bingo") {
+    return `
+      <strong>🎯 Bingo (${data.gridSize}x${data.gridSize})</strong>
+      <div>${data.words.slice(0, 8).join("<br>")}</div>
+    `;
+  }
+  if (item.type === "worksheet") {
+    return `
+      <strong>📝 Worksheet</strong>
+      <div class="small">
+        ${data.exercises?.map(e => e.type).join("<br>")}
+      </div>
+    `;
+  }
+  return "";
+}
 
 document.addEventListener("DOMContentLoaded", initDashboard);
