@@ -123,10 +123,12 @@ function buildHoverContent(item) {
   }
   if (item.type === "bingo") {
     return `
-      <strong>🎯 Bingo (${data.gridSize}x${data.gridSize})</strong>
-      <div>${data.words.slice(0, 8).join("<br>")}</div>
+        <strong>🎯 Bingo (${data.gridSize}x${data.gridSize})</strong>
+        <div class="mini-bingo">
+        ${buildMiniBingoGrid(data)}
+        </div>
     `;
-  }
+    }
   if (item.type === "worksheet") {
     return `
       <strong>📝 Worksheet</strong>
@@ -136,6 +138,24 @@ function buildHoverContent(item) {
     `;
   }
   return "";
+}
+
+function buildMiniBingoGrid(data) {
+  const size = data.gridSize;
+  const words = data.words || [];
+  let cells = [];
+  for (let i = 0; i < size * size; i++) {
+    if (data.freeCenter && i === Math.floor((size * size) / 2)) {
+      cells.push("FREE");
+    } else {
+      cells.push(words[i] || "");
+    }
+  }
+  return `
+    <div class="mini-grid" style="grid-template-columns: repeat(${size}, 1fr);">
+      ${cells.map(w => `<div class="mini-cell">${w}</div>`).join("")}
+    </div>
+  `;
 }
 
 document.addEventListener("DOMContentLoaded", initDashboard);
