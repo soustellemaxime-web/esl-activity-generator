@@ -766,7 +766,14 @@ document.querySelectorAll(".layout-option").forEach(option => {
 });
 
 document.querySelectorAll('input[name="mode"]').forEach(radio => {
-  radio.addEventListener("change", () => {
+  radio.addEventListener("change", async () => {
+    const mode = document.querySelector('input[name="mode"]:checked')?.value || "auto";
+    if (mode === "custom") {
+      await preview();
+      if (window.globalImageMap) {
+        convertAutoToCustom();
+      }
+    }
     updateModeUI();
     preview(); // update instantly
   });
@@ -923,4 +930,44 @@ function showStickerPicker() {
     }
     document.addEventListener("click", handleOutsideClick);
   }, 0);
+}
+
+function convertAutoToCustom() {
+  const data = getPageData();
+  const exercises = [];
+  //Matching
+  if (data.matching) {
+    const pairs = (data.words || []).map(word => ({
+      word,
+      image: window.globalImageMap?.[word] || null
+    }));
+    exercises.push({
+      type: "matching",
+      pairs
+    });
+  }
+  // MCQ
+  if (data.mcq) {
+    const questions = (data.words || []).slice(0, 3).map(word => ({
+      question: "What is this?",
+      choices: [word],
+      image: window.globalImageMap?.[word] || null
+    }));
+    exercises.push({
+      type: "mcq",
+      questions
+    });
+  }
+  // FILL
+  if (data.fill) {
+    const questions = (data.words || []).map(word => ({
+      sentence: "This is a ______.",
+      image: window.globalImageMap?.[word] || null
+    }));
+    exercises.push({
+      type: "fill",
+      questions
+    });
+  }
+  window.worksheetState.exercises = exercises;
 }

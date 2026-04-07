@@ -62,6 +62,36 @@ async function renderFromState() {
         window.worksheetState.stickers = [];
     }
     const data = getPageData();
+    if (data.mode === "custom") {
+        const imageMap = {};
+        window.worksheetState.exercises.forEach(ex => {
+            if (ex.type === "fill" || ex.type === "open") {
+                ex.questions.forEach(q => {
+                    if (q.image) {
+                        const key = q.image;
+                        imageMap[key] = q.image;
+                    }
+                });
+            }
+            if (ex.type === "mcq") {
+                ex.questions.forEach(q => {
+                    if (q.image) {
+                        const key = q.image;
+                        imageMap[key] = q.image;
+                    }
+                });
+            }
+            if (ex.type === "matching") {
+                ex.pairs.forEach(p => {
+                    if (p.image) {
+                        const key = p.image;
+                        imageMap[key] = p.image;
+                    }
+                });
+            }
+        });
+        data.imageMap = imageMap;
+    }
     data.customExercises = window.worksheetState.exercises;
     data.stickers = window.worksheetState.stickers;
     const res = await fetch(`${API_URL}/api/worksheet/preview`, {
@@ -218,14 +248,10 @@ async function preview() {
     }
 
     if (data.mode === "custom") {
-        if (window.worksheetState.exercises.length === 0) {
-            initializeStateFromPreview();
-        }
         renderFromState();
     }
     window.scrollTo(0, scrollY);
 }
-
 
 async function download() {
     const btn = document.getElementById("downloadBtn");
