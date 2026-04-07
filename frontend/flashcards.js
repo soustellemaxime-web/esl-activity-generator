@@ -32,6 +32,7 @@ function getFlashcardState() {
   if (mode === "custom") {
     if (!window.flashcardState.words || window.flashcardState.words.length === 0) {
       return {
+        mode: mode,
         words: data.words,
         displayMode: data.displayMode,
         cutLines: data.cutLines,
@@ -39,6 +40,7 @@ function getFlashcardState() {
       };
     }
     return {
+      mode: mode,
       words: window.flashcardState.words,
       displayMode: data.displayMode,
       cutLines: data.cutLines,
@@ -46,6 +48,7 @@ function getFlashcardState() {
     };
   }
   return {
+    mode: mode,
     words: data.words,
     displayMode: data.displayMode,
     cutLines: data.cutLines,
@@ -177,9 +180,10 @@ function renderCustomFlashcards() {
   const words = window.flashcardState.words;
   const imageMap = window.flashcardState.imageMap;
   const displayMode = document.getElementById("displayMode").value;
+  const cutLines = document.getElementById("cutLines").checked;
   container.innerHTML = `
     <div class="flashcards-container">
-      <div class="page">
+      <div class="page ${cutLines ? "cut-lines" : ""}">
         ${words.map((word, i) => {
           const image = imageMap[word];
           return `

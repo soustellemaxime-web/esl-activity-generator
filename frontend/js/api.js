@@ -215,11 +215,15 @@ async function preview() {
         data = getFormData(); // Default for bingo and others
     }
 
-    if (needsImages(data)) {
-    window.globalImageMap = await loadImages(data.words, window.globalImageMap);
+    if (window.API_BASE === "flashcards" && data.mode === "custom") {
+        data.imageMap = window.flashcardState.imageMap;
+    } else {
+        if (needsImages(data)) {
+            window.globalImageMap = await loadImages(data.words, window.globalImageMap);
+        }
+        data.imageMap = window.globalImageMap;
     }
 
-    data.imageMap = window.globalImageMap;
     const res = await fetch(`${API_URL}/api/${window.API_BASE}/preview`, {
     method: "POST",
     headers: {
@@ -227,16 +231,16 @@ async function preview() {
     },
     body: JSON.stringify(data)
     })
-
     const html = await res.text()
-
     document.getElementById("preview").innerHTML = html;
-    
     // make preview editable in custom mode
     if (data.mode === "custom") {
-        attachAllHandlers();
+        if (window.API_BASE === "worksheet") {
+            attachAllHandlers();
+        } else if (window.API_BASE === "flashcards") {
+            //attachEditableHandlers();
+        }
     }
-
     if (window.API_BASE === "worksheet") {
         const previewEl = document.getElementById("preview");
         previewEl.querySelectorAll(".page").forEach(page => {
@@ -246,9 +250,12 @@ async function preview() {
             });
         });
     }
-
     if (data.mode === "custom") {
-        renderFromState();
+        if (window.API_BASE === "worksheet") {
+            renderFromState();
+        } else if (window.API_BASE === "flashcards") {
+            renderCustomFlashcards();
+        }
     }
     window.scrollTo(0, scrollY);
 }
@@ -274,7 +281,6 @@ async function download() {
                 image: window.flashcardState.imageMap[word] || null
             }));
         }
-        console.log("DATA TO SEND:", data);
         if (needsImages(data) && data.mode !== "custom") {
             window.globalImageMap = await loadImages(data.words, window.globalImageMap);
         }
@@ -298,7 +304,7 @@ async function download() {
             data.exercises = ordered;
         }
         
-        if (data.mode === "custom") {
+        if (data.mode === "custom" && window.API_BASE === "worksheet") {
             data.customExercises = window.worksheetState.exercises;
             data.exercises = [];
             data.stickers = window.worksheetState.stickers;
