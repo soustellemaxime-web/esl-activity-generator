@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Flashcards Generator</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles/flashcards.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="translations.js" defer></script>
   <script src="js/i18n.js" defer></script>
@@ -23,6 +24,17 @@
   <div class="app-layout">
     <div class="left-panel">
       <div class="card">
+        <div class="mode-group section">
+          <label>
+            <input type="radio" name="mode" value="auto" checked>
+            🤖 <span data-i18n="auto">Auto mode</span>
+          </label>
+
+          <label>
+            <input type="radio" name="mode" value="custom">
+            ✍️ <span data-i18n="custom">Custom mode</span>
+          </label>
+        </div>
         <div class="section grid-2">
           <div>
             <label for="displayMode">🖼️ Display mode</label>
@@ -33,18 +45,16 @@
             </select>
           </div>
         </div>
-
         <div class="section">
           <label>
             <input type="checkbox" id="cutLines"> ✂️ Show cut lines
           </label>
         </div>
-
         <div class="section">
           <label>📋 Word List</label>
           <textarea id="words"></textarea>
         </div>
-
+        <button id="addCardBtn" class="btn secondary hidden">➕ Add Card</button>
         <div class="button-row">
           <button class="primary" onclick="preview()">👀 Preview</button>
           <button id="downloadBtn" onclick="download()">⬇️ Download PDF</button>

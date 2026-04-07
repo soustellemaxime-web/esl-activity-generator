@@ -7,7 +7,7 @@ const css = fs.readFileSync(
 );
 
 function generateFlashcards(data) {
-  const { words, imageMap, displayMode } = data;
+  const { words, imageMap, displayMode, cards } = data;
 
   let html = `
     <html>
@@ -20,13 +20,19 @@ function generateFlashcards(data) {
 
   const cardsPerPage = 8;
 
-  for (let i = 0; i < words.length; i += cardsPerPage) {
+  const source = cards || words.map(w => ({
+    text: w,
+    image: imageMap?.[w]
+  }));
+
+  for (let i = 0; i < source.length; i += cardsPerPage) {
       html += `<div class="page ${data.cutLines ? "cut-lines" : ""}">`;
 
-      const pageWords = words.slice(i, i + cardsPerPage);
+      const pageCards = source.slice(i, i + cardsPerPage);
 
-      pageWords.forEach(word => {
-        const image = imageMap?.[word];
+      pageCards.forEach(card => {
+        const word = card.text;
+        const image = card.image;
 
         html += `
           <div class="flashcard" data-word="${word}">

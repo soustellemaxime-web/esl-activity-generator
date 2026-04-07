@@ -266,11 +266,29 @@ async function download() {
         } else {
             data = getFormData(); // Default for bingo and others
         }
-
-        if (needsImages(data)) {
-        window.globalImageMap = await loadImages(data.words, window.globalImageMap);
+        if (window.API_BASE === "flashcards" && getMode() === "custom") {
+            data.words = [...window.flashcardState.words];
+            data.imageMap = { ...window.flashcardState.imageMap };
+            data.cards = window.flashcardState.words.map(word => ({
+                text: word,
+                image: window.flashcardState.imageMap[word] || null
+            }));
         }
-        data.imageMap = window.globalImageMap;
+        console.log("DATA TO SEND:", data);
+        if (needsImages(data) && data.mode !== "custom") {
+            window.globalImageMap = await loadImages(data.words, window.globalImageMap);
+        }
+        if (data.mode === "custom" && window.API_BASE === "flashcards") {
+            data.imageMap = window.flashcardState.imageMap;
+        } else {
+            data.imageMap = window.globalImageMap;
+        }
+        if (data.mode === "custom" && window.API_BASE === "flashcards") {
+            data.cards = window.flashcardState.words.map(word => ({
+                text: word,
+                image: window.flashcardState.imageMap[word] || null
+            }));
+        }
         if (window.API_BASE === "worksheet") {
             const previewEl = document.getElementById("preview");
             const ordered = [];

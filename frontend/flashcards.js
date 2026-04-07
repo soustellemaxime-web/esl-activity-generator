@@ -7,6 +7,11 @@ window.flashcardState = {
   imageMap: {}
 };
 
+window.flashcardBorderMode = {
+  active: false,
+  style: null
+};
+
 window.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("load");
@@ -16,14 +21,36 @@ window.addEventListener("DOMContentLoaded", async () => {
   if (window.API_BASE === "flashcards") loadFlashcard(id);
 });
 
+function enableFlashcardBorderMode(style) {
+  window.flashcardBorderMode.active = true;
+  window.flashcardBorderMode.style = style;
+}
+
 function getFlashcardState() {
   const data = getFormData();
+  const mode = getMode();
+  if (mode === "custom") {
+    if (!window.flashcardState.words || window.flashcardState.words.length === 0) {
+      return {
+        words: data.words,
+        displayMode: data.displayMode,
+        cutLines: data.cutLines,
+        imageMap: window.globalImageMap || {}
+      };
+    }
+    return {
+      words: window.flashcardState.words,
+      displayMode: data.displayMode,
+      cutLines: data.cutLines,
+      imageMap: window.flashcardState.imageMap
+    };
+  }
   return {
     words: data.words,
     displayMode: data.displayMode,
     cutLines: data.cutLines,
     imageMap: window.globalImageMap || {}
-  }
+  };
 }
 
 function toggleDashboard() {
@@ -119,6 +146,153 @@ async function reloadImage(word, cardElement) {
     console.error("Reload image failed:", err);
   }
 }
+
+function getMode() {
+  return document.querySelector('input[name="mode"]:checked')?.value || "auto";
+}
+
+function convertFlashcardsToCustom() {
+  const data = getFlashcardState();
+  window.flashcardState.words = [...data.words];
+  window.flashcardState.imageMap = { ...data.imageMap };
+}
+
+document.querySelectorAll('input[name="mode"]').forEach(radio => {
+  radio.addEventListener("change", async () => {
+    const mode = getMode();
+    if (mode === "custom") {
+      await preview(); // ensure images loaded
+      convertFlashcardsToCustom();
+      updateFlashcardModeUI();
+      renderCustomFlashcards();
+    } else {
+      updateFlashcardModeUI();
+      preview();
+    }
+  });
+});
+
+function renderCustomFlashcards() {
+  const container = document.getElementById("preview");
+  const words = window.flashcardState.words;
+  const imageMap = window.flashcardState.imageMap;
+  const displayMode = document.getElementById("displayMode").value;
+  container.innerHTML = `
+    <div class="flashcards-container">
+      <div class="page">
+        ${words.map((word, i) => {
+          const image = imageMap[word];
+          return `
+            <div class="flashcard ${window.flashcardState.borders?.[i] || ""}" data-index="${i}">
+              <button class="delete-card" data-index="${i}">❌</button>
+              ${displayMode !== "text" ? `
+                <div class="image-container" data-index="${i}">
+                  ${image ? `<img src="${image}">` : `<div class="image-placeholder">➕</div>`}
+                </div>
+              ` : ""}
+              ${displayMode !== "image" ? `
+                <p contenteditable="true" data-index="${i}" class="flashcard-text">
+                  ${word}
+                </p>
+              ` : ""}
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </div>
+  `;
+  attachFlashcardEditHandlers();
+  //enables borders
+  attachFlashcardBorders();
+}
+
+function attachFlashcardBorders() {
+  document.querySelectorAll(".flashcard").forEach((card, index) => {
+    // Hover preview
+    card.onmouseenter = () => {
+      if (!window.flashcardBorderMode?.active) return;
+      const style = window.flashcardBorderMode.style || "border-classic";
+      card.classList.add("border-preview", style);
+    };
+    card.onmouseleave = () => {
+      if (!window.flashcardBorderMode?.active) return;
+      const style = window.flashcardBorderMode.style || "border-classic";
+      card.classList.remove("border-preview", style);
+    };
+    // Apply border
+    card.onclick = (e) => {
+      if (!window.flashcardBorderMode?.active) return;
+      e.stopPropagation();
+      const style = window.flashcardBorderMode.style || "border-classic";
+      if (!window.flashcardState.borders) {
+        window.flashcardState.borders = {};
+      }
+      window.flashcardState.borders[index] = style;
+      document.body.classList.remove("border-mode");
+      window.flashcardBorderMode.active = false;
+      renderCustomFlashcards();
+    };
+  });
+}
+
+function attachFlashcardEditHandlers() {
+  // TEXT EDIT
+  document.querySelectorAll(".flashcard-text").forEach(el => {
+    el.addEventListener("input", () => {
+      const i = el.dataset.index;
+      const oldWord = window.flashcardState.words[i];
+      const newWord = el.textContent.trim();
+      // move image mapping
+      if (window.flashcardState.imageMap[oldWord]) {
+        window.flashcardState.imageMap[newWord] = window.flashcardState.imageMap[oldWord];
+        delete window.flashcardState.imageMap[oldWord];
+      }
+      window.flashcardState.words[i] = newWord;
+    });
+  });
+  // IMAGE EDIT
+  document.querySelectorAll(".image-container").forEach(el => {
+    el.onclick = (e) => {
+      e.stopPropagation();
+      const i = el.dataset.index;
+      const word = window.flashcardState.words[i];
+      showImagePicker([], word, el, (img) => {
+        window.flashcardState.imageMap[word] = img;
+        renderCustomFlashcards();
+      }, {
+        allowSearch: true,
+        allowUpload: true
+      });
+    };
+  });
+  // DELETE CARD
+  document.querySelectorAll(".delete-card").forEach(btn => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      const i = btn.dataset.index;
+      window.flashcardState.words.splice(i, 1);
+      renderCustomFlashcards();
+    };
+  });
+}
+
+function updateFlashcardModeUI() {
+  const mode = getMode();
+  const words = document.getElementById("words");
+  if (mode === "custom") {
+    words.closest(".section").style.display = "none";
+  } else {
+    words.closest(".section").style.display = "block";
+  }
+  document.getElementById("addCardBtn").classList.toggle("hidden", mode !== "custom");
+}
+
+document.getElementById("addCardBtn").onclick = () => {
+  const newWord = "Word " + (window.flashcardState.words.length + 1);
+  window.flashcardState.words.push(newWord);
+  window.flashcardState.imageMap[newWord] = null;
+  renderCustomFlashcards();
+};
 
 document.getElementById("words").addEventListener("input", debounce(preview, 500));
 document.getElementById("displayMode").addEventListener("change", debounce(preview, 500));
