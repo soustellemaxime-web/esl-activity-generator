@@ -1014,6 +1014,7 @@ input:focus, select:focus, textarea:focus {
 .page.cut-lines::before {
   content: "";
   position: absolute;
+  pointer-events: none;
   top: 0;
   bottom: 0;
   left: 50%;
@@ -1032,6 +1033,7 @@ input:focus, select:focus, textarea:focus {
   content: "";
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background:
     repeating-linear-gradient(
       to right,
