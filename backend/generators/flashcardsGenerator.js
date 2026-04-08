@@ -6,20 +6,15 @@ const flashcardCss = fs.readFileSync(
   "utf8"
 );
 
-const borderCss = fs.readFileSync(
-  path.join(__dirname, "../../frontend/borders.css"),
-  "utf8"
-);
-
-const css = flashcardCss + "\n" + borderCss;
-
 function generateFlashcards(data) {
   const { words, imageMap, displayMode, cards } = data;
+  const baseUrl = data.baseUrl || "";
 
   let html = `
     <html>
       <head>
-        <style>${css}</style>
+        <style>${flashcardCss}</style>
+        <link rel="stylesheet" href="${baseUrl}/borders.css">
       </head>
       <body>
         <div class="flashcards-container">

@@ -277,6 +277,7 @@ async function download() {
             data.words = [...window.flashcardState.words];
             data.borders = window.flashcardState.borders || {};
             data.imageMap = { ...window.flashcardState.imageMap };
+            data.baseUrl = window.API_URL;
             data.cards = window.flashcardState.words.map(word => ({
                 text: word,
                 image: window.flashcardState.imageMap[word] || null
