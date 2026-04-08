@@ -275,6 +275,7 @@ async function download() {
         }
         if (window.API_BASE === "flashcards" && getMode() === "custom") {
             data.words = [...window.flashcardState.words];
+            data.borders = window.flashcardState.borders || {};
             data.imageMap = { ...window.flashcardState.imageMap };
             data.cards = window.flashcardState.words.map(word => ({
                 text: word,

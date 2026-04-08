@@ -5,6 +5,7 @@
   <title>Flashcards Generator</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="styles/flashcards.css">
+  <link rel="stylesheet" href="borders.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="translations.js" defer></script>
   <script src="js/i18n.js" defer></script>
@@ -55,6 +56,7 @@
           <textarea id="words"></textarea>
         </div>
         <button id="addCardBtn" class="btn secondary hidden">➕ Add Card</button>
+        <button class="action-btn hidden" onclick="showFlashcardBorderPicker()">🎨 Border</button>
         <div class="button-row">
           <button class="primary" onclick="preview()">👀 Preview</button>
           <button id="downloadBtn" onclick="download()">⬇️ Download PDF</button>

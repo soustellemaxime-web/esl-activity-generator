@@ -1,10 +1,17 @@
 const fs = require("fs");
 const path = require("path");
 
-const css = fs.readFileSync(
+const flashcardCss = fs.readFileSync(
   path.join(__dirname, "../styles/flashcards.css"),
   "utf8"
 );
+
+const borderCss = fs.readFileSync(
+  path.join(__dirname, "../../frontend/borders.css"),
+  "utf8"
+);
+
+const css = flashcardCss + "\n" + borderCss;
 
 function generateFlashcards(data) {
   const { words, imageMap, displayMode, cards } = data;
@@ -30,12 +37,13 @@ function generateFlashcards(data) {
 
       const pageCards = source.slice(i, i + cardsPerPage);
 
-      pageCards.forEach(card => {
+      pageCards.forEach((card, index) => {
         const word = card.text;
         const image = card.image;
+        const border = data.borders?.[i + index] || "";
 
         html += `
-          <div class="flashcard" data-word="${word}">
+          <div class="flashcard ${border}" data-word="${word}">
             ${displayMode !== "text" && image ? `
               <div class="image-container">
                 <img src="${image}" data-word="${word}">

@@ -24,6 +24,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 function enableFlashcardBorderMode(style) {
   window.flashcardBorderMode.active = true;
   window.flashcardBorderMode.style = style;
+  document.body.classList.add("border-mode");
 }
 
 function getFlashcardState() {
@@ -36,7 +37,8 @@ function getFlashcardState() {
         words: data.words,
         displayMode: data.displayMode,
         cutLines: data.cutLines,
-        imageMap: window.globalImageMap || {}
+        imageMap: window.globalImageMap || {},
+        borders: window.flashcardState.borders || {}
       };
     }
     return {
@@ -44,7 +46,8 @@ function getFlashcardState() {
       words: window.flashcardState.words,
       displayMode: data.displayMode,
       cutLines: data.cutLines,
-      imageMap: window.flashcardState.imageMap
+      imageMap: window.flashcardState.imageMap,
+      borders: window.flashcardState.borders || {}
     };
   }
   return {
@@ -52,7 +55,8 @@ function getFlashcardState() {
     words: data.words,
     displayMode: data.displayMode,
     cutLines: data.cutLines,
-    imageMap: window.globalImageMap || {}
+    imageMap: window.globalImageMap || {},
+    borders: window.flashcardState.borders || {}
   };
 }
 
@@ -186,8 +190,9 @@ function renderCustomFlashcards() {
       <div class="page ${cutLines ? "cut-lines" : ""}">
         ${words.map((word, i) => {
           const image = imageMap[word];
+          const borderStyle = window.flashcardState.borders?.[i] || "";
           return `
-            <div class="flashcard ${window.flashcardState.borders?.[i] || ""}" data-index="${i}">
+            <div class="flashcard ${borderStyle}" data-index="${i}">
               <button class="delete-card" data-index="${i}">❌</button>
               ${displayMode !== "text" ? `
                 <div class="image-container" data-index="${i}">
@@ -257,6 +262,7 @@ function attachFlashcardEditHandlers() {
   // IMAGE EDIT
   document.querySelectorAll(".image-container").forEach(el => {
     el.onclick = (e) => {
+      if (window.flashcardBorderMode?.active) return; // disable image editing in border mode
       e.stopPropagation();
       const i = el.dataset.index;
       const word = window.flashcardState.words[i];
@@ -289,6 +295,58 @@ function updateFlashcardModeUI() {
     words.closest(".section").style.display = "block";
   }
   document.getElementById("addCardBtn").classList.toggle("hidden", mode !== "custom");
+}
+
+function showFlashcardBorderPicker() {
+  const styles = [
+    "border-classic",
+    "border-dashed",
+    "border-rounded",
+    "border-fun",
+    "border-magic",
+    "border-flowers",
+    "border-stars",
+    "border-school",
+    "border-ocean",
+    "border-rainbows",
+    "border-candies",
+    "border-party",
+    "border-dinosaurs",
+    "border-vehicles",
+  ];
+  const picker = document.createElement("div");
+  picker.id = "borderPicker";
+  picker.innerHTML = styles.map(style => `
+    <div class="border-option ${style}" data-style="${style}">Aa</div>
+  `).join("");
+  document.body.appendChild(picker);
+  picker.querySelectorAll(".border-option").forEach(opt => {
+    opt.onclick = () => {
+      enableFlashcardBorderMode(opt.dataset.style);
+
+      picker.querySelectorAll(".border-option")
+        .forEach(o => o.classList.remove("active"));
+
+      opt.classList.add("active");
+    };
+  });
+  function handleOutsideClick(e) {
+    if (!picker.contains(e.target)) {
+      picker.remove();
+      document.body.classList.remove("border-mode");
+      window.flashcardBorderMode.active = false;
+      document.removeEventListener("click", handleOutsideClick);
+    }
+  }
+  setTimeout(() => {
+    document.addEventListener("click", handleOutsideClick);
+  }, 0);
+}
+
+function selectFlashcardBorder(style) {
+  enableFlashcardBorderMode(style);
+  document.getElementById("borderPicker").classList.add("hidden");
+  document.body.classList.add("border-mode");
 }
 
 document.getElementById("addCardBtn").onclick = () => {
