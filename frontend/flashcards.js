@@ -99,11 +99,27 @@ async function loadFlashcard(id) {
   const res = await fetch(`${API_URL}/worksheets/${id}?user_id=${user.id}`);
   const item = await res.json();
   const state = item.data;
+  // 1. Restore form values
   document.getElementById("words").value = state.words.join("\n");
   document.getElementById("displayMode").value = state.displayMode;
   document.getElementById("cutLines").checked = state.cutLines;
-  window.globalImageMap = state.imageMap || {};
-  preview();
+  // 2. Restore FULL state (important)
+  window.flashcardState.words = state.words || [];
+  window.flashcardState.imageMap = state.imageMap || {};
+  window.flashcardState.borders = state.borders || {};
+  // 3. Decide mode (simple & reliable)
+  const hasCustomData =
+    Object.keys(window.flashcardState.imageMap).length > 0 ||
+    Object.keys(window.flashcardState.borders).length > 0;
+  if (hasCustomData) {
+    document.querySelector('input[name="mode"][value="custom"]').checked = true;
+    updateFlashcardModeUI();
+    renderCustomFlashcards();
+  } else {
+    document.querySelector('input[name="mode"][value="auto"]').checked = true;
+    updateFlashcardModeUI();
+    preview();
+  }
 }
 
 async function loadFlashcards() {
