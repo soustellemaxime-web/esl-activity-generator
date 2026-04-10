@@ -1,0 +1,82 @@
+#tutorial-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9997;
+}
+
+#tutorial-highlight {
+  position: absolute;
+  border: 3px solid #4f46e5;
+  border-radius: 10px;
+  box-shadow: 0 0 0 9999px rgba(0,0,0,0.6);
+  pointer-events: none;
+  z-index: 9998;
+  transition: all 0.25s ease;
+}
+
+#tutorial-box {
+  position: absolute;
+  max-width: 260px;
+  padding: 14px;
+  background: white;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  font-size: 14px;
+  z-index: 9999;
+}
+
+#tutorial-box button {
+  margin-top: 8px;
+  margin-right: 6px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #4f46e5;
+  color: white;
+}
+
+#tutorial-box button:last-child {
+  background: #aaa;
+}
+
+.tutorial-fade-out {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+body.tutorial-active * {
+  pointer-events: none;
+}
+
+#tutorial-highlight {
+  pointer-events: auto;
+}
+
+#tutorial-box,
+#tutorial-box * {
+  pointer-events: auto;
+}
+
+.tutorial-target {
+  animation: pulse 1.2s infinite;
+  pointer-events: auto !important; 
+  position: relative;
+  z-index: 10000;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(79,70,229,0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(79,70,229,0); }
+  100% { box-shadow: 0 0 0 0 rgba(79,70,229,0); }
+}
+
+.tutorial-hint {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #4f46e5;
+  font-weight: 500;
+}

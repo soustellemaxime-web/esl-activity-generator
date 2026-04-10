@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="styles/flashcards.css">
   <link rel="stylesheet" href="borders.css">
+  <link rel="stylesheet" href="tutorial.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="translations.js" defer></script>
   <script src="js/i18n.js" defer></script>
@@ -16,6 +17,8 @@
   <script src="js/features/flashcards/actions.js" defer></script>
   <script src="js/features/flashcards/renderer.js" defer></script>
   <script src="js/features/flashcards/flashcards.js" defer></script>
+  <script src="js/tutorial/tutorialSteps.js" defer></script>
+  <script src="js/tutorial/tutorial.js" defer></script>
   <script src="js/header.js" defer></script>
 </head>
 
@@ -39,7 +42,7 @@
             ✍️ <span data-i18n="custom">Custom mode</span>
           </label>
         </div>
-        <div class="section grid-2">
+        <div class="section grid-2" data-tooltip="settings">
           <div>
             <label for="displayMode">🖼️ Display mode</label>
             <select id="displayMode">
@@ -56,7 +59,7 @@
         </div>
         <div class="section">
           <label>📋 Word List</label>
-          <textarea id="words"></textarea>
+          <textarea id="words" data-tooltip="wordList"></textarea>
         </div>
         <button id="addCardBtn" class="btn secondary hidden">➕ Add Card</button>
         <button class="action-btn hidden" onclick="showFlashcardBorderPicker()">🎨 Border</button>
@@ -85,7 +88,7 @@
           <h3>My Flashcards</h3>
           <div id="worksheetsList" class="worksheet-list"></div>
         </div>
-        <div id="preview">
+        <div id="preview" data-tooltip="preview">
           <div class="placeholder">
             ⌨️ Start typing your words to generate your flashcards
           </div>
