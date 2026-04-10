@@ -7,6 +7,19 @@ window.flashcardState = {
   imageMap: {}
 };
 
+function syncToV2() {
+  window.flashcardStateV2 = {
+    mode: getMode(),
+    words: [...window.flashcardState.words],
+    imageMap: { ...window.flashcardState.imageMap },
+    borders: { ...window.flashcardState.borders },
+    settings: {
+      displayMode: document.getElementById("displayMode").value,
+      cutLines: document.getElementById("cutLines").checked
+    }
+  };
+}
+
 window.flashcardBorderMode = {
   active: false,
   style: null
@@ -31,18 +44,8 @@ function getFlashcardState() {
   const data = getFormData();
   const mode = getMode();
   if (mode === "custom") {
-    if (!window.flashcardState.words || window.flashcardState.words.length === 0) {
-      return {
-        mode: mode,
-        words: data.words,
-        displayMode: data.displayMode,
-        cutLines: data.cutLines,
-        imageMap: window.globalImageMap || {},
-        borders: window.flashcardState.borders || {}
-      };
-    }
     return {
-      mode: mode,
+      mode,
       words: window.flashcardState.words,
       displayMode: data.displayMode,
       cutLines: data.cutLines,
@@ -51,7 +54,7 @@ function getFlashcardState() {
     };
   }
   return {
-    mode: mode,
+    mode,
     words: data.words,
     displayMode: data.displayMode,
     cutLines: data.cutLines,
@@ -107,17 +110,21 @@ async function loadFlashcard(id) {
   window.flashcardState.words = state.words || [];
   window.flashcardState.imageMap = state.imageMap || {};
   window.flashcardState.borders = state.borders || {};
-  // 3. Decide mode (simple & reliable)
+    // 3. Decide mode FIRST
   const hasCustomData =
     Object.keys(window.flashcardState.imageMap).length > 0 ||
     Object.keys(window.flashcardState.borders).length > 0;
   if (hasCustomData) {
     document.querySelector('input[name="mode"][value="custom"]').checked = true;
-    updateFlashcardModeUI();
-    renderCustomFlashcards();
   } else {
     document.querySelector('input[name="mode"][value="auto"]').checked = true;
-    updateFlashcardModeUI();
+  }
+  // 4. NOW sync (mode is correct)
+  syncToV2();
+  updateFlashcardModeUI();
+  if (hasCustomData) {
+    renderFlashcardsV2();
+  } else {
     preview();
   }
 }
@@ -175,25 +182,37 @@ function getMode() {
 }
 
 function convertFlashcardsToCustom() {
-  const data = getFlashcardState();
+  const data = getFormData();
+  // words from form (already handled earlier but safe)
   window.flashcardState.words = [...data.words];
-  window.flashcardState.imageMap = { ...data.imageMap };
+  // images from global map
+  window.flashcardState.imageMap = {
+    ...(window.globalImageMap || {})
+  };
 }
 
-document.querySelectorAll('input[name="mode"]').forEach(radio => {
-  radio.addEventListener("change", async () => {
-    const mode = getMode();
-    if (mode === "custom") {
-      await preview(); // ensure images loaded
-      convertFlashcardsToCustom();
-      updateFlashcardModeUI();
-      renderCustomFlashcards();
-    } else {
-      updateFlashcardModeUI();
-      preview();
-    }
+function initModeSwitch() {
+  const radios = document.querySelectorAll('input[name="mode"]');
+  if (!radios.length) return;
+  radios.forEach(radio => {
+    radio.addEventListener("change", async () => {
+      const mode = getMode();
+      if (mode === "custom") {
+        const formData = getFormData();
+        window.flashcardState.words = [...formData.words];
+        await preview();
+        convertFlashcardsToCustom();
+        syncToV2();
+        updateFlashcardModeUI();
+        renderFlashcardsV2();
+      } else {
+        syncToV2();
+        updateFlashcardModeUI();
+        preview();
+      }
+    });
   });
-});
+}
 
 function renderCustomFlashcards() {
   const container = document.getElementById("preview");
@@ -231,6 +250,15 @@ function renderCustomFlashcards() {
   attachFlashcardBorders();
 }
 
+function renderFlashcardsV2() {
+  const state = window.flashcardStateV2;
+  if (state.mode === "custom") {
+    renderCustomFlashcards();
+  } else {
+    preview(); // still uses old system
+  }
+}
+
 function attachFlashcardBorders() {
   document.querySelectorAll(".flashcard").forEach((card, index) => {
     // Hover preview
@@ -252,10 +280,10 @@ function attachFlashcardBorders() {
       if (!window.flashcardState.borders) {
         window.flashcardState.borders = {};
       }
-      window.flashcardState.borders[index] = style;
+      FlashcardActions.setBorder(index, style);
       document.body.classList.remove("border-mode");
       window.flashcardBorderMode.active = false;
-      renderCustomFlashcards();
+      renderFlashcardsV2();
     };
   });
 }
@@ -272,7 +300,7 @@ function attachFlashcardEditHandlers() {
         window.flashcardState.imageMap[newWord] = window.flashcardState.imageMap[oldWord];
         delete window.flashcardState.imageMap[oldWord];
       }
-      window.flashcardState.words[i] = newWord;
+      FlashcardActions.updateWord(i, newWord);
     });
   });
   // IMAGE EDIT
@@ -283,8 +311,8 @@ function attachFlashcardEditHandlers() {
       const i = el.dataset.index;
       const word = window.flashcardState.words[i];
       showImagePicker([], word, el, (img) => {
-        window.flashcardState.imageMap[word] = img;
-        renderCustomFlashcards();
+        FlashcardActions.setImage(word, img);
+        renderFlashcardsV2();
       }, {
         allowSearch: true,
         allowUpload: true
@@ -296,8 +324,8 @@ function attachFlashcardEditHandlers() {
     btn.onclick = (e) => {
       e.stopPropagation();
       const i = btn.dataset.index;
-      window.flashcardState.words.splice(i, 1);
-      renderCustomFlashcards();
+      FlashcardActions.deleteCard(i);
+      renderFlashcardsV2();
     };
   });
 }
@@ -365,13 +393,26 @@ function selectFlashcardBorder(style) {
   document.body.classList.add("border-mode");
 }
 
-document.getElementById("addCardBtn").onclick = () => {
-  const newWord = "Word " + (window.flashcardState.words.length + 1);
-  window.flashcardState.words.push(newWord);
-  window.flashcardState.imageMap[newWord] = null;
-  renderCustomFlashcards();
-};
+window.addEventListener("DOMContentLoaded", () => {
+  const addBtn = document.getElementById("addCardBtn");
+  if (addBtn) {
+    addBtn.onclick = () => {
+      FlashcardActions.addCard();
+      renderFlashcardsV2();
+    };
+  }
+  const words = document.getElementById("words");
+  if (words) {
+    words.addEventListener("input", debounce(preview, 500));
+  }
+  const displayMode = document.getElementById("displayMode");
+  if (displayMode) {
+    displayMode.addEventListener("change", debounce(preview, 500));
+  }
+  const cutLines = document.getElementById("cutLines");
+  if (cutLines) {
+    cutLines.addEventListener("change", debounce(preview, 500));
+  }
+});
 
-document.getElementById("words").addEventListener("input", debounce(preview, 500));
-document.getElementById("displayMode").addEventListener("change", debounce(preview, 500));
-document.getElementById("cutLines").addEventListener("change", debounce(preview, 500));
+initModeSwitch();

@@ -215,15 +215,21 @@ async function preview() {
         data = getFormData(); // Default for bingo and others
     }
 
-    if (window.API_BASE === "flashcards" && data.mode === "custom") {
-        data.imageMap = window.flashcardState.imageMap;
+    if (window.API_BASE === "flashcards") {
+        if (data.mode === "custom") {
+            // handled entirely in frontend
+        } else {
+            if (needsImages(data)) {
+            window.globalImageMap = await loadImages(data.words, window.globalImageMap);
+            }
+            data.imageMap = window.globalImageMap;
+        }
     } else {
         if (needsImages(data)) {
             window.globalImageMap = await loadImages(data.words, window.globalImageMap);
         }
         data.imageMap = window.globalImageMap;
-    }
-
+        }
     const res = await fetch(`${API_URL}/api/${window.API_BASE}/preview`, {
     method: "POST",
     headers: {
@@ -253,8 +259,10 @@ async function preview() {
     if (data.mode === "custom") {
         if (window.API_BASE === "worksheet") {
             renderFromState();
-        } else if (window.API_BASE === "flashcards") {
-            renderCustomFlashcards();
+        }
+        if (window.API_BASE === "flashcards") {
+            renderFlashcardsV2();
+            return;
         }
     }
     window.scrollTo(0, scrollY);
@@ -273,16 +281,6 @@ async function download() {
         } else {
             data = getFormData(); // Default for bingo and others
         }
-        if (window.API_BASE === "flashcards" && getMode() === "custom") {
-            data.words = [...window.flashcardState.words];
-            data.borders = window.flashcardState.borders || {};
-            data.imageMap = { ...window.flashcardState.imageMap };
-            data.baseUrl = window.API_URL;
-            data.cards = window.flashcardState.words.map(word => ({
-                text: word,
-                image: window.flashcardState.imageMap[word] || null
-            }));
-        }
         if (needsImages(data) && data.mode !== "custom") {
             window.globalImageMap = await loadImages(data.words, window.globalImageMap);
         }
@@ -291,10 +289,14 @@ async function download() {
         } else {
             data.imageMap = window.globalImageMap;
         }
-        if (data.mode === "custom" && window.API_BASE === "flashcards") {
-            data.cards = window.flashcardState.words.map(word => ({
+        if (window.API_BASE === "flashcards" && data.mode === "custom") {
+            data.words = [...window.flashcardState.words];
+            data.borders = window.flashcardState.borders || {};
+            data.imageMap = { ...window.flashcardState.imageMap };
+            data.baseUrl = window.API_URL;
+            data.cards = data.words.map(word => ({
                 text: word,
-                image: window.flashcardState.imageMap[word] || null
+                image: data.imageMap[word] || null
             }));
         }
         if (window.API_BASE === "worksheet") {
