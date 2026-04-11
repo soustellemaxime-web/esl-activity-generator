@@ -333,12 +333,17 @@ function attachFlashcardEditHandlers() {
 function updateFlashcardModeUI() {
   const mode = getMode();
   const words = document.getElementById("words");
+  const addBtn = document.getElementById("addCardBtn");
+  const borderBtn = document.getElementById("borderBtn");
   if (mode === "custom") {
     words.closest(".section").style.display = "none";
+    addBtn.classList.remove("hidden");
+    borderBtn.classList.remove("hidden");
   } else {
     words.closest(".section").style.display = "block";
+    addBtn.classList.add("hidden");
+    borderBtn.classList.add("hidden");
   }
-  document.getElementById("addCardBtn").classList.toggle("hidden", mode !== "custom");
 }
 
 function showFlashcardBorderPicker() {

@@ -23,7 +23,30 @@ const translations = {
     openQuestion: "Open question",
     save: "Save Worksheet",
     loadWorksheets: "Load Worksheets",
-    myWorksheets: "My Worksheets"
+    myWorksheets: "My Worksheets",
+    // Tutorial
+    flashcards_tour_intro: "Welcome to the Flashcard Creator! Let's take a quick tour.",
+    flashcards_tour_wordlist: "Start by entering your words here. For now let's add 'dog'.",
+    flashcards_tour_settings: "Here you can choose if you want pictures on your flashcards. Now let's switch to pictures and text mode.",
+    flashcards_tour_preview: "This is where your flashcards will appear.",
+    flashcards_tour_mode_group: "Choose between auto mode and custom mode here.",
+    flashcards_tour_custom_mode: "In custom mode, you can edit each flashcard individually.",
+    flashcards_tour_add_card: "Add more cards with this button.",
+    flashcards_tour_flashcard_text: "Click on the flashcard text to edit it.",
+    flashcards_tour_picker_search: "Search for an image here. Let's search for something or let it as it is and click \"Next\".",
+    flashcards_tour_picker_search_btn: "Click this button to see the search results.",
+    flashcards_tour_picker_content_img: "Click on an image to select it for your flashcard.",
+    flashcards_tour_preview_actions: "You can also save and load your flashcards using these buttons.",
+    flashcards_tour_download_btn: "Click this button to download your flashcards.",
+    flashcards_tour_outro: "That's the end of the tour! Explore the features and have fun creating flashcards!",
+    flashcards_tour_image_placeholder: "Click on the image to generate or upload your own picture.",
+    // Tutorial UI
+    tutorial_next: "Next →",
+    tutorial_skip: "Skip",
+    tutorial_finish: "Start using the app",
+    tutorial_hint_click: "👉 Click the highlighted element to continue",
+    tutorial_hint_type: "✍️ Type to continue",
+    tutorial_hint_select: "👆 Select an option to continue",
   },
 
   th: {
@@ -50,6 +73,29 @@ const translations = {
     openQuestion: "คำถามเปิด",
     save: "บันทึกใบงาน",
     loadWorksheets: "โหลดใบงาน",
-    myWorksheets: "ใบงานของฉัน"
+    myWorksheets: "ใบงานของฉัน",
+    // Tutorial
+    flashcards_tour_intro: "ยินดีต้อนรับสู่ฟีเจอร์ Flashcard Creator! มาทัวร์ดูกันสักหน่อยนะ",
+    flashcards_tour_wordlist: "เริ่มต้นด้วยการพิมพ์คำศัพท์ของคุณที่นี่ ตอนนี้ลองเพิ่มคำว่า 'dog' ดูสิ",
+    flashcards_tour_settings: "ที่นี่คุณสามารถเลือกได้ว่าต้องการให้มีรูปภาพบนแฟลชการ์ดของคุณหรือไม่ ตอนนี้ลองเปลี่ยนเป็นโหมดรูปภาพและข้อความดูสิ",
+    flashcards_tour_preview: "นี่คือที่ที่แฟลชการ์ดของคุณจะแสดงผล",
+    flashcards_tour_mode_group: "เลือกโหมดอัตโนมัติหรือโหมดกำหนดเองที่นี่",
+    flashcards_tour_custom_mode: "ในโหมดกำหนดเอง คุณสามารถแก้ไขแฟลชการ์ดแต่ละใบได้",
+    flashcards_tour_add_card: "เพิ่มแฟลชการ์ดเพิ่มเติมด้วยปุ่มนี้",
+    flashcards_tour_flashcard_text: "คลิกที่ข้อความบนแฟลชการ์ดเพื่อแก้ไข",
+    flashcards_tour_picker_search: "ค้นหารูปภาพที่นี่ ลองค้นหาสักอย่างหรือปล่อยไว้แบบนั้นแล้วคลิก \"ถัดไป\"",
+    flashcards_tour_picker_search_btn: "คลิกปุ่มนี้เพื่อดูผลการค้นหา",
+    flashcards_tour_picker_content_img: "คลิกที่รูปภาพเพื่อเลือกสำหรับแฟลชการ์ดของคุณ",
+    flashcards_tour_preview_actions: "คุณยังสามารถบันทึกและโหลดแฟลชการ์ดของคุณโดยใช้ปุ่มเหล่านี้",
+    flashcards_tour_download_btn: "คลิกปุ่มนี้เพื่อดาวน์โหลดแฟลชการ์ดของคุณ",
+    flashcards_tour_outro: "นั่นคือจุดสิ้นสุดของทัวร์! สำรวจคุณสมบัติต่างๆ และสนุกกับการสร้างแฟลชการ์ด!",
+    flashcards_tour_image_placeholder: "คลิกที่รูปภาพเพื่อสร้างหรืออัปโหลดรูปภาพของคุณเอง",
+    // Tutorial UI
+    tutorial_next: "ถัดไป →",
+    tutorial_skip: "ข้าม",
+    tutorial_finish: "เริ่มใช้งานแอป",
+    tutorial_hint_click: "👉 คลิกที่องค์ประกอบที่เน้นเพื่อดำเนินการต่อ",
+    tutorial_hint_type: "✍️ พิมพ์เพื่อดำเนินการต่อ",
+    tutorial_hint_select: "👆 เลือกตัวเลือกเพื่อดำเนินการต่อ",
   }
 };

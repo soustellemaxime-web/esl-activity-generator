@@ -160,26 +160,38 @@ function showTutorialBox(step, el) {
     document.body.appendChild(box);
   }
   box.innerHTML = `
-    <p>${step.text}</p>
+    <div class="tutorial-topbar">
+      <button id="tutorial-lang-btn" class="tutorial-lang-btn">
+        🌍
+      </button>
+    </div>
+    <p ${step.textKey ? `data-i18n="${step.textKey}"` : ""}>
+      ${step.text || ""}
+    </p>
     <div class="tutorial-actions">
       ${
         step.type === "outro"
-          ? `<button id="tutorial-finish">🚀 Start using the app</button>`
+          ? `<button id="tutorial-finish" data-i18n="tutorial_finish"></button>`
           : (step.waitForClick || step.waitForInput || step.waitForChange)
-          ? `<span class="tutorial-hint">
-              ${
-                step.waitForInput
-                  ? "✍️ Type to continue"
-                  : step.waitForChange
-                  ? `👆 Select "${step.expectedValue}" to continue`
-                  : "👉 Click the highlighted element to continue"
-              }
-            </span>`
-          : `<button id="tutorial-next">Next →</button>`
+          ? `<span class="tutorial-hint" data-i18n="${
+              step.waitForInput
+                ? "tutorial_hint_type"
+                : step.waitForChange
+                ? "tutorial_hint_select"
+                : "tutorial_hint_click"
+            }"></span>`
+          : `<button id="tutorial-next" data-i18n="tutorial_next"></button>`
       }
-      <button id="tutorial-skip">Skip</button>
+      <button id="tutorial-skip" data-i18n="tutorial_skip"></button>
     </div>
   `;
+  const langBtn = document.getElementById("tutorial-lang-btn");
+  if (langBtn) {
+    langBtn.onclick = () => {
+      toggleLanguage();
+      applyTranslations(currentLang);
+    };
+  }
   // INTRO STEP → CENTER ONLY
   if (step.type === "intro" || step.type === "outro") {
     box.style.top = "50%";
@@ -214,6 +226,7 @@ function showTutorialBox(step, el) {
     nextBtn.onclick = () => nextStep(window.API_BASE);
   }
   document.getElementById("tutorial-skip").onclick = endTutorial;
+  applyTranslations(currentLang);
 }
 
 function waitForElementVisible(step, timeout = 2000) {
@@ -240,13 +253,18 @@ function waitForElementVisible(step, timeout = 2000) {
 }
 
 function initTutorial() {
-  startTutorial(window.API_BASE);
-  /*
   if (!localStorage.getItem("tutorialSeen")) {
     startTutorial(window.API_BASE);
     localStorage.setItem("tutorialSeen", "true");
   }
-  */
+}
+
+const replayBtn = document.getElementById("replayTutorialBtn");
+
+if (replayBtn) {
+  replayBtn.addEventListener("click", () => {
+    startTutorial(window.API_BASE);
+  });
 }
 
 if (document.readyState === "loading") {

@@ -112,3 +112,28 @@ body.tutorial-active * {
 #tutorial-finish {
   background: #10b981; /* green */
 }
+
+.tutorial-allowed,
+.tutorial-allowed * {
+  pointer-events: auto !important;
+}
+
+.tutorial-topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 6px;
+}
+
+.tutorial-lang-btn {
+  background-color: white !important;
+  margin-top: 0px !important;
+  border: none;
+  font-size: 14px;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.tutorial-lang-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
