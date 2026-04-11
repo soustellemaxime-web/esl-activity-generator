@@ -1,6 +1,12 @@
 let currentStep = 0;
 
 function startTutorial(feature = "flashcards") {
+  // force AUTO mode
+  const autoRadio = document.querySelector('input[name="mode"][value="auto"]');
+  if (autoRadio) {
+    autoRadio.checked = true;
+    autoRadio.dispatchEvent(new Event("change"));
+  }
   document.body.classList.add("tutorial-active");
   currentStep = 0;
   showStep(feature);
