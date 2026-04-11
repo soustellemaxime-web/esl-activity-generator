@@ -180,9 +180,12 @@ function showTutorialBox(step, el) {
       </div>
       <span class="tutorial-progress-text"></span>
     </div>
-    <p ${step.textKey ? `data-i18n="${step.textKey}"` : ""}>
-      ${step.text || ""}
-    </p>
+    <div class="tutorial-content">
+      <img src="/assets/mascot.png" class="tutorial-mascot" />
+      <p ${step.textKey ? `data-i18n="${step.textKey}"` : ""}>
+        ${step.text || ""}
+      </p>
+    </div>
     <div class="tutorial-actions">
       ${
         step.type === "outro"

@@ -19,12 +19,11 @@
   position: absolute;
   max-width: 260px;
   padding: 14px;
-  background: white;
+  background: #dad2ed;
   color: #333;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  font-size: 14px;
-  z-index: 9999;
+  z-index: 99999;
 }
 
 #tutorial-box button {
@@ -181,4 +180,17 @@ body.tutorial-active * {
     box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15),
                 0 8px 30px rgba(0,0,0,0.2);
   }
+}
+
+.tutorial-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tutorial-mascot {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
 }

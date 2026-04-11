@@ -72,7 +72,7 @@ const tutorialSteps = {
       padding: 10,
       offsetX: 0,
       offsetY: 0,
-      index: 2,
+      index: 1,
       waitForVisible: true,
     },
     {
