@@ -103,7 +103,7 @@ const tutorialSteps = {
       waitForClick: true
     },
     {
-      element: ".picker-content img",
+      element: ".image-grid img",
       text: "Click on an image to select it for your flashcard.",
       textKey: "flashcards_tour_picker_content_img",
       padding: 10,

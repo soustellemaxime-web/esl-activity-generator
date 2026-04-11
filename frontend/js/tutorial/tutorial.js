@@ -105,13 +105,18 @@ async function showStep(feature) {
   showTutorialBox(step, targetEl);
   // Wait for click if needed
   if (step.waitForClick) {
-    const handler = (e) => {
+    const handler = async (e) => {
       if (!targetEl.contains(e.target)) return;
       targetEl.removeEventListener("click", handler);
-      // wait for next UI to appear
-      setTimeout(() => {
-        nextStep(feature);
-      }, 100); // slight delay for async UI
+      const next = tutorialSteps[feature][currentStep + 1];
+      if (next?.waitForVisible) {
+        try {
+          await waitForElementVisible(next, 4000);
+        } catch (err) {
+          console.warn("Next step element not found in time");
+        }
+      }
+      nextStep(feature);
     };
     targetEl.addEventListener("click", handler);
   }
