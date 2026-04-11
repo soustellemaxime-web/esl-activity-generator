@@ -14,7 +14,18 @@ async function showStep(feature) {
     el.style.zIndex = "";
   });
   const step = tutorialSteps[feature][currentStep];
-  const el = document.querySelector(step.element);
+  // INTRO STEP (no highlight)
+  if (step.type === "intro" || step.type === "outro") {
+    showTutorialBox(step, document.body);
+    return;
+  }
+  let el;
+  if (step.index !== undefined) {
+    const elements = document.querySelectorAll(step.element);
+    el = elements[step.index];
+  } else {
+    el = document.querySelector(step.element);
+  }
   if (!el) return;
   // AUTO ACTION FIRST
   if (step.action) {
@@ -24,19 +35,77 @@ async function showStep(feature) {
   let targetEl = el;
   if (step.waitForVisible) {
     try {
-      targetEl = await waitForElementVisible(step.element);
+      targetEl = await waitForElementVisible(step);
     } catch (e) {
       console.warn(e);
     }
   }
-  // NOW highlight
+  // AUTO INPUT
+  if (step.autoInput) {
+    targetEl.value = step.autoInput;
+    targetEl.dispatchEvent(new Event("input"));
+  }
+  if (step.hint) {
+    const wrapper = targetEl.parentElement;
+    if (wrapper) {
+      // Force layout first
+      targetEl.offsetHeight;
+      wrapper.dataset.hint = step.hint;
+      wrapper.classList.add("tutorial-hint-input");
+    }
+  }
+  // WAIT FOR INPUT
+  if (step.waitForInput) {
+    const handler = () => {
+      const lines = targetEl.value
+        .split("\n")
+        .map(l => l.trim())
+        .filter(Boolean);
+      const lastWord = lines[lines.length - 1]?.toLowerCase();
+      // Check expected word
+      if (step.expectedInput) {
+        if (lastWord === step.expectedInput.toLowerCase()) {
+          targetEl.removeEventListener("input", handler);
+          nextStep(feature);
+        }
+      } else {
+        // fallback (basic behavior)
+        if (lines.length >= 2) {
+          targetEl.removeEventListener("input", handler);
+          nextStep(feature);
+        }
+      }
+    };
+    targetEl.addEventListener("input", handler);
+  }
+  // WAIT FOR SELECT CHANGE
+  if (step.waitForChange) {
+    const handler = () => {
+      const value = targetEl.value;
+      if (step.expectedValue) {
+        if (value === step.expectedValue) {
+          targetEl.removeEventListener("change", handler);
+          nextStep(feature);
+        }
+      } else {
+        targetEl.removeEventListener("change", handler);
+        nextStep(feature);
+      }
+    };
+    targetEl.addEventListener("change", handler);
+  }
+  // Highlight
   highlightElement(targetEl, step);
   showTutorialBox(step, targetEl);
-  // WAIT FOR CLICK
+  // Wait for click if needed
   if (step.waitForClick) {
-    const handler = () => {
-      el.removeEventListener("click", handler);
-      nextStep(feature);
+    const handler = (e) => {
+      if (!targetEl.contains(e.target)) return;
+      targetEl.removeEventListener("click", handler);
+      // wait for next UI to appear
+      setTimeout(() => {
+        nextStep(feature);
+      }, 100); // slight delay for async UI
     };
     targetEl.addEventListener("click", handler);
   }
@@ -90,32 +159,56 @@ function showTutorialBox(step, el) {
     box.id = "tutorial-box";
     document.body.appendChild(box);
   }
-  const rect = el.getBoundingClientRect();
   box.innerHTML = `
     <p>${step.text}</p>
     <div class="tutorial-actions">
       ${
-        step.waitForClick
-          ? `<span class="tutorial-hint">👉 Click the highlighted element to continue</span>`
+        step.type === "outro"
+          ? `<button id="tutorial-finish">🚀 Start using the app</button>`
+          : (step.waitForClick || step.waitForInput || step.waitForChange)
+          ? `<span class="tutorial-hint">
+              ${
+                step.waitForInput
+                  ? "✍️ Type to continue"
+                  : step.waitForChange
+                  ? `👆 Select "${step.expectedValue}" to continue`
+                  : "👉 Click the highlighted element to continue"
+              }
+            </span>`
           : `<button id="tutorial-next">Next →</button>`
       }
       <button id="tutorial-skip">Skip</button>
     </div>
   `;
-  const padding = 12;
-  // Default below
-  let top = rect.bottom + window.scrollY + padding;
-  let left = rect.left + window.scrollX;
-  // If too low → show above
-  if (top + 120 > window.innerHeight + window.scrollY) {
-    top = rect.top + window.scrollY - 120;
+  // INTRO STEP → CENTER ONLY
+  if (step.type === "intro" || step.type === "outro") {
+    box.style.top = "50%";
+    box.style.left = "50%";
+    box.style.transform = "translate(-50%, -50%)";
+  } else {
+    box.style.transform = "";
+    const rect = el.getBoundingClientRect();
+    const padding = 12;
+    let top = rect.bottom + window.scrollY + padding;
+    let left = rect.left + window.scrollX;
+    if (top + 120 > window.innerHeight + window.scrollY) {
+      top = rect.top + window.scrollY - 120;
+    }
+    if (left + 260 > window.innerWidth) {
+      left = window.innerWidth - 270;
+    }
+    box.style.top = top + "px";
+    box.style.left = left + "px";
   }
-  // Prevent going off right
-  if (left + 260 > window.innerWidth) {
-    left = window.innerWidth - 270;
+  if (step.type === "outro") {
+    box.classList.add("outro");
+  } else {
+    box.classList.remove("outro");
   }
-  box.style.top = top + "px";
-  box.style.left = left + "px";
+  const finishBtn = document.getElementById("tutorial-finish");
+  if (finishBtn) {
+    finishBtn.onclick = endTutorial;
+  }
   const nextBtn = document.getElementById("tutorial-next");
   if (nextBtn) {
     nextBtn.onclick = () => nextStep(window.API_BASE);
@@ -123,15 +216,21 @@ function showTutorialBox(step, el) {
   document.getElementById("tutorial-skip").onclick = endTutorial;
 }
 
-function waitForElementVisible(selector, timeout = 2000) {
+function waitForElementVisible(step, timeout = 2000) {
   return new Promise((resolve, reject) => {
     const start = Date.now();
     function check() {
-      const el = document.querySelector(selector);
+      let el;
+      if (step.index !== undefined) {
+        const elements = document.querySelectorAll(step.element);
+        el = elements[step.index];
+      } else {
+        el = document.querySelector(step.element);
+      }
       if (el && el.offsetParent !== null) {
         resolve(el);
       } else if (Date.now() - start > timeout) {
-        reject("Element not visible: " + selector);
+        reject("Element not visible: " + step.element);
       } else {
         requestAnimationFrame(check);
       }
@@ -141,10 +240,13 @@ function waitForElementVisible(selector, timeout = 2000) {
 }
 
 function initTutorial() {
+  startTutorial(window.API_BASE);
+  /*
   if (!localStorage.getItem("tutorialSeen")) {
     startTutorial(window.API_BASE);
     localStorage.setItem("tutorialSeen", "true");
   }
+  */
 }
 
 if (document.readyState === "loading") {

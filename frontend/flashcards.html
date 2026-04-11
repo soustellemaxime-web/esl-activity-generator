@@ -42,10 +42,10 @@
             ✍️ <span data-i18n="custom">Custom mode</span>
           </label>
         </div>
-        <div class="section grid-2" data-tooltip="settings">
+        <div class="section grid-2">
           <div>
             <label for="displayMode">🖼️ Display mode</label>
-            <select id="displayMode">
+            <select id="displayMode" data-tooltip="settings">
               <option value="text">Text only</option>
               <option value="image-word">Image + word</option>
               <option value="image">Image only</option>
@@ -59,7 +59,9 @@
         </div>
         <div class="section">
           <label>📋 Word List</label>
-          <textarea id="words" data-tooltip="wordList"></textarea>
+          <div class="textarea-wrapper">
+            <textarea id="words" data-tooltip="wordList"></textarea>
+          </div>
         </div>
         <button id="addCardBtn" class="btn secondary hidden">➕ Add Card</button>
         <button class="action-btn hidden" onclick="showFlashcardBorderPicker()">🎨 Border</button>

@@ -80,3 +80,35 @@ body.tutorial-active * {
   color: #4f46e5;
   font-weight: 500;
 }
+
+.textarea-wrapper {
+  position: relative;
+}
+
+/* make textarea transparent layer-friendly */
+.textarea-wrapper textarea {
+  position: relative;
+  background: transparent;
+  z-index: 2;
+}
+
+/* hint ABOVE textarea */
+.tutorial-hint-input::after {
+  content: attr(data-hint);
+  position: absolute;
+  left: 10px;
+  top: 2.2em;
+  color: #aaa;
+  font-style: italic;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 3; /* ✅ ABOVE textarea */
+}
+
+#tutorial-box.outro {
+  text-align: center;
+}
+
+#tutorial-finish {
+  background: #10b981; /* green */
+}
