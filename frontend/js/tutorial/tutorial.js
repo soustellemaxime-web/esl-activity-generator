@@ -164,6 +164,10 @@ function showTutorialBox(step, el) {
       <button id="tutorial-lang-btn" class="tutorial-lang-btn">
         🌍
       </button>
+      <div class="tutorial-progress-inline">
+        <div class="tutorial-progress-bar"></div>
+      </div>
+      <span class="tutorial-progress-text"></span>
     </div>
     <p ${step.textKey ? `data-i18n="${step.textKey}"` : ""}>
       ${step.text || ""}
@@ -185,6 +189,13 @@ function showTutorialBox(step, el) {
       <button id="tutorial-skip" data-i18n="tutorial_skip"></button>
     </div>
   `;
+  const steps = tutorialSteps[window.API_BASE];
+  const totalSteps = steps.length;
+  const progress = ((currentStep + 1) / totalSteps) * 100;
+  const bar = box.querySelector(".tutorial-progress-bar");
+  const text = box.querySelector(".tutorial-progress-text");
+  if (bar) bar.style.width = progress + "%";
+  if (text) text.textContent = `${currentStep + 1}/${totalSteps}`;
   const langBtn = document.getElementById("tutorial-lang-btn");
   if (langBtn) {
     langBtn.onclick = () => {

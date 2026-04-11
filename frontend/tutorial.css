@@ -120,7 +120,8 @@ body.tutorial-active * {
 
 .tutorial-topbar {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 6px;
 }
 
@@ -136,4 +137,26 @@ body.tutorial-active * {
 .tutorial-lang-btn:hover {
   opacity: 1;
   transform: scale(1.1);
+}
+
+.tutorial-progress-inline {
+  flex: 1;
+  height: 4px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tutorial-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #4CAF50;
+  transition: width 0.3s ease;
+}
+
+.tutorial-progress-text {
+  font-size: 10px;
+  color: #666;
+  min-width: 30px;
+  text-align: right;
 }
