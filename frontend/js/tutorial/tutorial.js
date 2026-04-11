@@ -274,6 +274,11 @@ const replayBtn = document.getElementById("replayTutorialBtn");
 
 if (replayBtn) {
   replayBtn.addEventListener("click", () => {
+    const hasCards = window.flashcardState.words.length > 0;
+    if (hasCards) {
+      alert("Please clear your cards before starting the tutorial.");
+      return;
+    }
     startTutorial(window.API_BASE);
   });
 }
