@@ -160,3 +160,25 @@ body.tutorial-active * {
   min-width: 30px;
   text-align: right;
 }
+
+#tutorial-box.intro {
+  border: 2px solid #4CAF50;
+  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15),
+              0 8px 30px rgba(0,0,0,0.2);
+  animation: tutorialPulse 1.5s infinite;
+}
+
+@keyframes tutorialPulse {
+  0% {
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15),
+                0 8px 30px rgba(0,0,0,0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(76, 175, 80, 0.25),
+                0 10px 35px rgba(0,0,0,0.25);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15),
+                0 8px 30px rgba(0,0,0,0.2);
+  }
+}

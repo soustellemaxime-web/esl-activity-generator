@@ -234,6 +234,11 @@ function showTutorialBox(step, el) {
     box.style.top = top + "px";
     box.style.left = left + "px";
   }
+  if (step.type === "intro") {
+    box.classList.add("intro");
+  } else {
+    box.classList.remove("intro");
+  }
   if (step.type === "outro") {
     box.classList.add("outro");
   } else {
