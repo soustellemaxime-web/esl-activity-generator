@@ -171,6 +171,7 @@ body {
 
 #logoutBtn {
   display: none;
+  background-color: #e1778b;
 }
 
 .password-wrapper {
@@ -1058,6 +1059,16 @@ input:focus, select:focus, textarea:focus {
       transparent 6px,
       transparent 12px
     ) 0 75% / 100% 1px no-repeat;
+}
+
+.title-image {
+  height: 200px;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.title-image:hover {
+  transform: scale(1.1) rotate(-3deg);
 }
 
 /* Dark mode */

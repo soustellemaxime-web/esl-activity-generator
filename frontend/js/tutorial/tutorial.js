@@ -181,7 +181,7 @@ function showTutorialBox(step, el) {
       <span class="tutorial-progress-text"></span>
     </div>
     <div class="tutorial-content">
-      <img src="/assets/mascot.png" class="tutorial-mascot" />
+      <img src="/assets/mascots/mascot.png" class="tutorial-mascot" />
       <p ${step.textKey ? `data-i18n="${step.textKey}"` : ""}>
         ${step.text || ""}
       </p>

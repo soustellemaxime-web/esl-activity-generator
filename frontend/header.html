@@ -6,13 +6,27 @@
     <div class="right">
         <span id="userWelcome"></span>
 
-        <button id="homeBtn" class="tutorial-allowed">🏠 Home</button>
-        <button onclick="window.location.href='dashboard.html'" class="tutorial-allowed">📂 Dashboard</button>
-        <button id="toggleLang" class="tutorial-allowed"><img id="langIcon" src="https://flagcdn.com/w20/gb.png" /> Language</button>
-        <button id="toggleTheme" class="tutorial-allowed">🌙 Dark mode</button>
+        <button id="homeBtn" class="tutorial-allowed">
+            <span class="icon">🏠 </span> 
+            <span data-i18n="home">Home</span>
+        </button>
+        <button onclick="window.location.href='dashboard.html'" class="tutorial-allowed">
+            <span class="icon">📂 </span>
+            <span data-i18n="dashboard">Dashboard</span>
+        </button>
+        <button id="toggleLang" class="tutorial-allowed">
+            <img id="langIcon" src="https://flagcdn.com/w20/gb.png" /> 
+            <span data-i18n="language">Language</span>
+        </button>
+        <button id="toggleTheme" class="tutorial-allowed">
+            <span class="icon">🌙 </span>
+            <span data-i18n="darkmode">Dark mode</span>
+        </button>
 
         <button id="loginBtn">Login</button>
-        <button id="logoutBtn" style="display:none;">Logout</button>
+        <button id="logoutBtn" style="display:none;">
+            <span data-i18n="logout">Logout</span>
+        </button>
     </div>
 
     <div id="loginModal" class="modal hidden">

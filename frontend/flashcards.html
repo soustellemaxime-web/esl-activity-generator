@@ -26,7 +26,8 @@
 
 <div class="container">
   <div class="header">
-    <h1>Flashcards Generator</h1>
+    <img src="/assets/mascots/assistantFlashcard.png" class="title-image">
+    <h1 data-i18n="flashcardsGenerator">Flashcards Generator</h1>
   </div>
   <div class="app-layout">
     <div class="left-panel">
@@ -36,7 +37,6 @@
             <input type="radio" name="mode" value="auto" checked>
             🤖 <span data-i18n="auto">Auto mode</span>
           </label>
-
           <label>
             <input type="radio" name="mode" value="custom">
             ✍️ <span data-i18n="custom">Custom mode</span>
@@ -44,31 +44,54 @@
         </div>
         <div class="section grid-2">
           <div>
-            <label for="displayMode">🖼️ Display mode</label>
+            <label for="displayMode">
+              <span class="icon">🖼️ </span>
+              <span data-i18n="displayMode">Display mode</span>
+            </label>
             <select id="displayMode" data-tooltip="settings">
-              <option value="text">Text only</option>
-              <option value="image-word">Image + word</option>
-              <option value="image">Image only</option>
+              <option value="text" data-i18n="textOnly">Text only</option>
+              <option value="image-word" data-i18n="textAndImage">Image + word</option>
+              <option value="image" data-i18n="imageOnly">Image only</option>
             </select>
           </div>
         </div>
         <div class="section">
           <label>
-            <input type="checkbox" id="cutLines"> ✂️ Show cut lines
+            <input type="checkbox" id="cutLines"> 
+            <span class="icon">✂️ </span>
+            <span data-i18n="cutLines">Show cut lines</span>
           </label>
         </div>
         <div class="section">
-          <label>📋 Word List</label>
+          <label>
+            <span class="icon">📋</span>
+            <span data-i18n="wordList">Word List</span>
+          </label>
           <div class="textarea-wrapper">
             <textarea id="words" data-tooltip="wordList"></textarea>
           </div>
         </div>
-        <button id="addCardBtn" class="btn secondary hidden">➕ Add Card</button>
-        <button id="borderBtn" class="btn secondary hidden" onclick="showFlashcardBorderPicker()">🎨 Border</button>
+        <button id="addCardBtn" class="btn secondary hidden">
+          <span class="icon">➕ </span>
+          <span data-i18n="addCard">Add Card</span>
+        </button>
+        <button id="borderBtn" class="btn secondary hidden" onclick="showFlashcardBorderPicker()">
+          <span class="icon">🎨 </span>
+          <span data-i18n="borders">Borders</span>
+        </button>
         <div class="button-row">
-          <button class="primary" onclick="preview()">👀 Preview</button>
-          <button id="downloadBtn" onclick="download()">⬇️ Download PDF</button>
-          <button id="replayTutorialBtn" class="btn secondary">🎓 Tutorial</button>
+          <button class="primary" onclick="preview()">
+            <span class="icon">👀</span>
+            <span data-i18n="preview">Preview</span>
+          </button>
+          <button id="downloadBtn" onclick="download()">
+            <span class="icon">⬇️</span>
+            <span data-i18n="download">Download PDF</span>
+          </button>
+          <button id="replayTutorialBtn" class="btn secondary">
+            <span class="icon">🎓 </span>
+            <span data-i18n="tutorial">Tutorial</span>
+          </button>
         </div>
       </div>
     </div>
@@ -79,11 +102,11 @@
           <div class="preview-actions">
             <button class="btn secondary" onclick="saveFlashcards()"> 
               <span class="icon">💾</span>
-              <span>Save Flashcards</span>
+              <span data-i18n="saveFlashcards">Save Flashcards</span>
             </button>
             <button class="btn secondary" onclick="toggleDashboard()">
               <span class="icon">📂</span>
-              <span>Load Flashcards</span>
+              <span data-i18n="loadFlashcards">Load Flashcards</span>
             </button>
           </div>
         </div>

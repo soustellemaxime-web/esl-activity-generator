@@ -18,36 +18,48 @@
 
 <div class="container">
   <div class="header">
-    <h1>Bingo Generator</h1>
+    <img src="/assets/mascots/assistantBingo.png" class="title-image">
+    <h1 data-i18n="bingoGenerator">Bingo Generator</h1>
   </div>
   <div class="app-layout">
     <div class="left-panel">
       <div class="card">
         <div class="section">
-          <label>📝 Title</label>
-          <input id="title" placeholder="___ Bingo">
+          <label>
+            <span class="icon">📝 </span>
+            <span data-i18n="title">Title</span>
+          </label>
+          <input id="title">
         </div>
 
-        <h3>Options</h3>
+        <h3 data-i18n="options">Options</h3>
         <div class="section">
           <div class="checkbox-group">
-            <label><input type="checkbox" id="freeCenter"> Free center square</label>
-            <label><input type="checkbox" id="uppercase"> Convert to UPPERCASE</label>
+            <label><input type="checkbox" id="freeCenter"> 
+              <span data-i18n="freeCenter">Free center square</span>
+            </label>
+            <!--<label><input type="checkbox" id="uppercase"> Convert to UPPERCASE</label>-->
           </div>
         </div>
 
         <div class="section grid-2">
           <div>
-            <label for="displayMode">🖼️ Display mode</label>
+            <label for="displayMode">
+              <span class="icon">🖼️ </span>
+              <span data-i18n="displayMode">Display mode</span>
+            </label>
             <select id="displayMode">
-              <option value="text">Text only</option>
-              <option value="image-word">Image + word</option>
-              <option value="image">Image only</option>
+              <option value="text" data-i18n="textOnly">Text only</option>
+              <option value="image-word" data-i18n="textAndImage">Image + word</option>
+              <option value="image" data-i18n="imageOnly">Image only</option>
             </select>
           </div>
 
           <div>
-            <label>🎯 Grid Size</label>
+            <label>
+              <span class="icon">🎯 </span>
+              <span data-i18n="gridSize">Grid Size</span>
+            </label>
             <select id="gridSize">
               <option value="3">3 x 3</option>
               <option value="4">4 x 4</option>
@@ -57,34 +69,49 @@
         </div>
 
         <div class="section">
-          <p id="wordRequirement">Words: 0 / 9</p>
-          <label>📋 Word List</label>
+          <p id="wordRequirement">
+            <span data-i18n="words">Words</span>
+            <span>: 0 / 9 </span>
+          </p>
+          <label>
+            <span class="icon">📋 </span>
+            <span data-i18n="wordList">Word List</span>
+          </label>
           <textarea id="words"></textarea>
         </div>
 
         <div class="section">
-          <label>#️⃣ Number of Cards</label>
+          <label>
+            <span class="icon">#️⃣ </span>
+            <span data-i18n="numberCards">Number of Cards</span>
+          </label>
           <input id="cardCount" type="number" value="4">
         </div>
 
         <div class="button-row">
-          <button class="primary" onclick="preview()">👀 Preview</button>
-          <button id="downloadBtn" onclick="download()">⬇️ Download PDF</button>
+          <button class="primary" onclick="preview()">
+            <span class="icon">👀</span>
+            <span data-i18n="preview">Preview</span>
+          </button>
+          <button id="downloadBtn" onclick="download()">
+            <span class="icon">⬇️</span>
+            <span data-i18n="download">Download PDF</span>
+          </button>
         </div>
       </div>
     </div>
     <div class="right-panel">
       <div class="card preview-card">
         <div class="preview-header">
-          <h2>Preview (2 cards)</h2>
+          <h2 data-i18n="previewBingo">Preview (2 cards)</h2>
           <div class="preview-actions">
             <button class="btn secondary" onclick="saveBingo()"> 
               <span class="icon">💾</span>
-              <span>Save Bingo</span>
+              <span data-i18n="saveBingo">Save Bingo</span>
             </button>
             <button class="btn secondary" onclick="toggleDashboard()">
               <span class="icon">📂</span>
-              <span>Load Bingos</span>
+              <span data-i18n="loadBingo">Load Bingos</span>
             </button>
           </div>
         </div>
