@@ -350,9 +350,9 @@ function generateWorksheet(data) {
       pages.push(cards.slice(i, i + layoutNum));
     }
 
-    pages.forEach(pageCards => {
+    pages.forEach((pageCards, index) => {
       html += `<div class="page layout-${layoutNum}">`;
-      const stickersHTML = (data.stickers || []).map((s, i) => `
+      const stickersHTML = (data.stickers || []).filter(s => s.pageIndex === index).map((s, i) => `
         <div class="sticker-wrapper"
           data-id="${s.id}"
           data-index="${i}"

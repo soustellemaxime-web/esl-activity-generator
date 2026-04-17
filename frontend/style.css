@@ -1071,6 +1071,24 @@ input:focus, select:focus, textarea:focus {
   transform: scale(1.1) rotate(-3deg);
 }
 
+#pageControls {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+#pageControls button {
+  padding: 5px 10px;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+}
+
+#pageControls button.active {
+  background: #333;
+  color: white;
+}
+
 /* Dark mode */
 
 body.dark {

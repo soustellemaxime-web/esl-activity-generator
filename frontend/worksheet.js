@@ -10,6 +10,7 @@ window.borderMode = {
   active: false,
   style: null
 };
+window.currentPage = 0;
 
 const BASE_URL = API_URL; 
 
@@ -140,6 +141,11 @@ async function openWorksheet(id) {
   document.querySelectorAll(".layout-option").forEach(o => o.classList.remove("selected"));
   const el = document.querySelector(`.layout-option[data-layout="${window.worksheetState.layout}"]`);
   if (el) el.classList.add("selected");
+  // FORCE CUSTOM MODE
+  const customRadio = document.querySelector('input[name="mode"][value="custom"]');
+  if (customRadio) customRadio.checked = true;
+  // update UI
+  updateModeUI();
   renderFromState();
 }
 
@@ -790,6 +796,9 @@ document.getElementById("addFill").addEventListener("click", () => {
       }
     ]
   });
+  if (window.worksheetState.currentPage === undefined) {
+    window.worksheetState.currentPage = 0;
+  }
   renderFromState();
 });
 
@@ -804,6 +813,9 @@ document.getElementById("addMCQ").addEventListener("click", () => {
       }
     ]
   });
+  if (window.worksheetState.currentPage === undefined) {
+    window.worksheetState.currentPage = 0;
+  }
   renderFromState();
 });
 
@@ -815,6 +827,9 @@ document.getElementById("addMatching").addEventListener("click", () => {
       { word: "cat", image: null }
     ]
   });
+  if (window.worksheetState.currentPage === undefined) {
+    window.worksheetState.currentPage = 0;
+  }
   renderFromState();
 });
 
@@ -828,6 +843,9 @@ document.getElementById("addOpenQuestion").addEventListener("click", () => {
       }
     ]
   });
+  if (window.worksheetState.currentPage === undefined) {
+    window.worksheetState.currentPage = 0;
+  }
   renderFromState();
 });
 
@@ -908,7 +926,8 @@ function showStickerPicker() {
               src: img.src,
               x: e.clientX - rect.left,
               y: e.clientY - rect.top,
-              rotation: 0
+              rotation: 0,
+              pageIndex: window.worksheetState.currentPage,
             });
             renderFromState();
           }

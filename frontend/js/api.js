@@ -93,7 +93,10 @@ async function renderFromState() {
         data.imageMap = imageMap;
     }
     data.customExercises = window.worksheetState.exercises;
-    data.stickers = window.worksheetState.stickers;
+    const currentPage = window.worksheetState.currentPage;
+    data.stickers = window.worksheetState.stickers.filter(
+        s => s.pageIndex === currentPage
+    );
     const res = await fetch(`${API_URL}/api/worksheet/preview`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -101,6 +104,22 @@ async function renderFromState() {
     });
     const html = await res.text();
     document.getElementById("preview").innerHTML = html;
+    if (window.API_BASE === "worksheet") {
+        const pages = document.querySelectorAll("#preview .page");
+        // if no page before, reset properly
+        if (pages.length > 0 && window.worksheetState.currentPage >= pages.length) {
+            window.worksheetState.currentPage = pages.length - 1;
+        }
+        // fix empty → first page case
+        if (pages.length > 0 && window.worksheetState.currentPage === undefined) {
+            window.worksheetState.currentPage = 0;
+        }
+        // SHOW ONLY CURRENT PAGE
+        pages.forEach((page, index) => {
+            page.style.display = index === window.worksheetState.currentPage ? "" : "none";
+        });
+        renderPageControls();
+    }
     attachAllHandlers();
     if (window.API_BASE === "worksheet") {
         const previewEl = document.getElementById("preview");
@@ -331,6 +350,25 @@ async function download() {
     }
     btn.disabled = false;
     btn.textContent = "⬇️ Download PDF";
+}
+
+function renderPageControls() {
+  const container = document.getElementById("pageControls");
+  if (!container) return;
+  const pages = document.querySelectorAll("#preview .page");
+  container.innerHTML = "";
+  pages.forEach((_, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = index + 1;
+    if (index === window.worksheetState.currentPage) {
+      btn.classList.add("active");
+    }
+    btn.onclick = () => {
+      window.worksheetState.currentPage = index;
+      renderFromState();
+    };
+    container.appendChild(btn);
+  });
 }
 
 checkUser();
