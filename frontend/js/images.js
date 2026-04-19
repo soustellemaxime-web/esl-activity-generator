@@ -162,5 +162,12 @@ document.addEventListener("click", async (e) => {
         icon.classList.remove("loading");
         return;
     }
-    showImagePicker(data.images, word, icon);
+    showImagePicker(data.images, word, icon, (img) => {
+          window.globalImageMap[word] = img;
+          document.querySelectorAll(`img[data-word="${word}"]`).forEach(el => {
+            el.src = img;
+            el.style.opacity = "0.5";
+            setTimeout(() => el.style.opacity = "1", 200);
+          });
+        }, { allowUpload: true });
 });
