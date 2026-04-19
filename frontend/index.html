@@ -5,6 +5,8 @@
   <title>ESL Activity Generator</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="translations.js" defer></script>
+  <script src="js/i18n.js" defer></script>
   <script src="js/api.js" defer></script>
   <script src="js/header.js" defer></script>
   <script src="js/index.js" defer></script>
@@ -14,67 +16,73 @@
   <div class="container">
     <!-- HERO -->
     <div class="hero">
-      <h1>ESL Activity Generator</h1>
-      <p class="subtitle">
+      <h1 data-i18n="bigTitle">ESL Activity Generator</h1>
+      <p class="subtitle" data-i18n="subtitle">
         Create worksheets, bingo games and flashcards in seconds.
       </p>
       <button id="dashboardBtn" class="opendash hidden" onclick="goToDashboard()">
-        📂 Open Dashboard
+        <span class="icon">📂</span> <span data-i18n="dashboardIndex">Open Dashboard</span>
       </button>
     </div>
     <!-- TOOL CARDS -->
     <div class="tool-cards">
       <a href="worksheet.html" class="tool-card">
         <img src="assets/previews/worksheetPr.png" />
-        <h3>📝 Worksheets</h3>
-        <p>Create exercises instantly</p>
+        <h3>
+          <span class="icon">📝 </span> <span data-i18n="worksheetsIndex">Worksheets</span>
+        </h3>
+        <p data-i18n="worksheetsDesc">Create exercises instantly</p>
       </a>
       <a href="bingo.html" class="tool-card">
         <img src="assets/previews/bingoPr.png" />
-        <h3>🎯 Bingo</h3>
-        <p>Fun classroom activities</p>
+        <h3>
+          <span class="icon">🎯 </span> <span data-i18n="bingoIndex">Bingo</span>
+        </h3>
+        <p data-i18n="bingoDesc">Fun classroom activities</p>
       </a>
       <a href="flashcards.html" class="tool-card">
         <img src="assets/previews/flashcardPr.png" />
-        <h3>🃏 Flashcards</h3>
-        <p>Perfect for memorization</p>
+        <h3>
+          <span class="icon">🃏 </span> <span data-i18n="flashcardsIndex">Flashcards</span>
+        </h3>
+        <p data-i18n="flashcardsDesc">Perfect for memorization</p>
       </a>
     </div>
     <!-- PRICING -->
     <div class="pricing-container">
     <div class="pricing-card">
-      <h3>Free</h3>
+      <h3 data-i18n="pricingOne">Free</h3>
       <p class="price">฿0</p>
       <ul>
-        <li>✔ 3 downloads / day</li>
-        <li>✔ 5 saved creations</li>
-        <li>✔ All basic features</li>
-        <li>✖ No watermark removal</li>
+        <li data-i18n="oneOne">✔ 3 downloads / day</li>
+        <li data-i18n="oneTwo">✔ 5 saved creations</li>
+        <li data-i18n="oneThree">✔ All basic features</li>
+        <li data-i18n="oneFour">✖ No watermark removal</li>
       </ul>
-      <button class="btn secondary">Start Free</button>
+      <button class="btn secondary" data-i18n="buttonPriceOne">Start Free</button>
     </div>
 
     <div class="pricing-card featured">
-      <h3>Premium</h3>
-      <p class="price">฿99/mo</p>
+      <h3 data-i18n="pricingTwo">Premium</h3>
+      <p data-i18n="priceTwo" class="price">฿99/mo</p>
       <ul>
-        <li>✔ Unlimited downloads</li>
-        <li>✔ 30 saved creations</li>
-        <li>✔ No watermark</li>
-        <li>✔ All features</li>
+        <li data-i18n="twoOne">✔ Unlimited downloads</li>
+        <li data-i18n="twoTwo">✔ 30 saved creations</li>
+        <li data-i18n="twoThree">✔ No watermark</li>
+        <li data-i18n="twoFour">✔ All features</li>
       </ul>
-      <button class="btn primary">Go Premium</button>
+      <button class="btn primary" data-i18n="buttonPriceTwo">Go Premium</button>
     </div>
 
     <div class="pricing-card">
-      <h3>VIP</h3>
-      <p class="price">฿199/mo</p>
+      <h3 data-i18n="pricingThree">VIP</h3>
+      <p data-i18n="priceThree" class="price">฿199/mo</p>
       <ul>
-        <li>✔ Everything in Premium</li>
-        <li>✔ Unlimited saves</li>
-        <li>✔ Community sharing</li>
+        <li data-i18n="threeOne">✔ Everything in Premium</li>
+        <li data-i18n="threeTwo">✔ Unlimited saves</li>
+        <li data-i18n="threeThree">✔ Community sharing</li>
       </ul>
-      <button class="btn secondary">Go VIP</button>
+      <button class="btn secondary" data-i18n="buttonPriceThree">Go VIP</button>
     </div>
   </div>
   </div>
