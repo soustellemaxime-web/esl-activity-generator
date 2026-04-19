@@ -6,22 +6,24 @@
   <link rel="stylesheet" href="style.css">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/api.js"></script>
+  <script src="translations.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/api.js" defer></script>
   <script src="js/header.js" defer></script>
   <script src="dashboard.js" defer></script>
 </head>
 
 <body>
     <div class="container">
-    <h1>📂 My Dashboard</h1>
+    <h1 data-i18n="myDashboard">📂 My Dashboard</h1>
     <div id="notLogged" class="card hidden">
-        Please login to access your dashboard.
+        <span data-i18n="notLoggedDash">Please login to access your dashboard.</span>
     </div>
     <div id="dashboardContent" class="hidden">
         <div class="tabs-dashboard">
-            <button class="tab-dashboard active" onclick="switchTab(event, 'worksheet')">📝 Worksheets</button>
-            <button class="tab-dashboard" onclick="switchTab(event, 'flashcards')">🃏 Flashcards</button>
-            <button class="tab-dashboard" onclick="switchTab(event, 'bingo')">🎯 Bingo</button>
+            <button class="tab-dashboard active" onclick="switchTab(event, 'worksheet')" data-i18n="worksheetsDash">📝 Worksheets</button>
+            <button class="tab-dashboard" onclick="switchTab(event, 'flashcards')" data-i18n="flashcardsDash">🃏 Flashcards</button>
+            <button class="tab-dashboard" onclick="switchTab(event, 'bingo')" data-i18n="bingoDash">🎯 Bingo</button>
         </div>
             <div id="worksheetTab" class="tab-content"></div>
             <div id="flashcardsTab" class="tab-content hidden"></div>

@@ -37,8 +37,8 @@ function renderList(items, containerId, type) {
           <div class="preview-text">${preview}</div>
         </div>
         <div style="display:flex; gap:6px;">
-          <button onclick="openItem('${item.id}', '${type}')">Open</button>
-          <button class="btn danger" onclick="deleteItem('${item.id}')">Delete</button>
+          <button data-i18n="openButtonDashboard" onclick="openItem('${item.id}', '${type}')">Open</button>
+          <button data-i18n="deleteButtonDashboard" class="btn danger" onclick="deleteItem('${item.id}')">Delete</button>
         </div>
       </div>
     `;
@@ -76,7 +76,7 @@ function showLoading(containerId) {
     const el = document.getElementById(containerId);
     el.innerHTML = `
         <div style="text-align:center; padding:20px;">
-            ⏳ Loading...
+            <span class="icon">⏳ </span><span data-i18n="loadingDashboard">Loading...</span>
         </div>
     `;
 }

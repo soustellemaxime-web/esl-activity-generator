@@ -29,6 +29,15 @@ const translations = {
     buttonPriceOne: "Start Free",
     buttonPriceTwo: "Go Premium",
     buttonPriceThree: "Go VIP",
+    // Dashboard
+    myDashboard: "📂 My Dashboard",
+    notLoggedDash: "Please login to access your dashboard.",
+    worksheetsDash: "📝 Worksheets",
+    flashcardsDash: "🃏 Flashcards",
+    bingoDash: "🎯 Bingo",
+    openButtonDashboard: "Open",
+    deleteButtonDashboard: "Delete",
+    loadingDashboard: "Loading...",
     // General  
     worksheetGenerator: "Worksheet Generator",
     worksheetTitle: "Worksheet Title",
@@ -135,6 +144,15 @@ const translations = {
     buttonPriceOne: "เริ่มฟรี",
     buttonPriceTwo: "ไปพรีเมียม",
     buttonPriceThree: "ไปวีไอพี",
+    // Dashboard
+    myDashboard: "📂 แดชบอร์ดของฉัน",
+    notLoggedDash: "กรุณาเข้าสู่ระบบเพื่อเข้าถึงแดชบอร์ดของคุณ",
+    worksheetsDash: "📝 ใบงาน",
+    flashcardsDash: "🃏 แฟลชการ์ด",
+    bingoDash: "🎯 บิงโก",
+    loadingDashboard: "กำลังโหลด...",
+    openButtonDashboard: "เปิด",
+    deleteButtonDashboard: "ลบ",
     // General
     worksheetGenerator: "เครื่องสร้างแบบฝึกหัด",
     worksheetTitle: "ชื่อใบงาน",
