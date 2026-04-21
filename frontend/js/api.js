@@ -11,23 +11,30 @@ const supabaseClient = createClient(
 
 async function checkUser() {
     const { data: { user } } = await supabaseClient.auth.getUser();
+    console.log("Current user:", user);
     const authEl = document.getElementById("auth");
     const logoutBtn = document.getElementById("logoutBtn");
     if (user) {
-        if (authEl) {
-            authEl.style.display = "none";
+        if (authEl) authEl.style.display = "none";
+        if (logoutBtn) logoutBtn.style.display = "block";
+        // Get user plan
+        const { data: profile, error } = await supabaseClient.from("profiles").select("plan, plan_expires_at").eq("id", user.id).single();
+        if (error) {
+            console.error("Error fetching user profile:", error);
+            return;
         }
-        if (logoutBtn) {
-            logoutBtn.style.display = "block";
+        console.log("User plan:", profile.plan);
+        // Store globally
+        window.userPlan = profile.plan;
+        //Check if plan is expired
+        if (profile.plan_expires_at && new Date(profile.plan_expires_at) < new Date()) {
+            console.log("User plan has expired");
+            window.userPlan = "free";
         }
     }
     else {
-        if (authEl) {
-            authEl.style.display = "block";
-        }
-        if (logoutBtn) {
-            logoutBtn.style.display = "none";
-        }
+        if (authEl) authEl.style.display = "block";
+        if (logoutBtn) logoutBtn.style.display = "none";
     }
 }
 
