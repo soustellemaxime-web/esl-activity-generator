@@ -1,6 +1,6 @@
 let currentStep = 0;
 
-function startTutorial(feature = "flashcards") {
+function startTutorial(feature) {
   // force AUTO mode
   const autoRadio = document.querySelector('input[name="mode"][value="auto"]');
   if (autoRadio) {
@@ -30,7 +30,11 @@ async function showStep(feature) {
     const elements = document.querySelectorAll(step.element);
     el = elements[step.index];
   } else {
-    el = document.querySelector(step.element);
+    if (typeof step.element === "function") {
+      el = step.element();
+    } else {
+      el = document.querySelector(step.element);
+    }
   }
   if (!el) return;
   // AUTO ACTION FIRST
@@ -292,13 +296,16 @@ function initTutorial() {
 const replayBtn = document.getElementById("replayTutorialBtn");
 
 if (replayBtn) {
+  feature = window.API_BASE;
   replayBtn.addEventListener("click", () => {
-    const hasCards = window.flashcardState.words.length > 0;
-    if (hasCards) {
-      alert("Please clear your cards before starting the tutorial.");
-      return;
+    if (feature === "flashcards") {
+      const hasCards = window.flashcardState.words.length > 0;
+      if (hasCards) {
+        alert("Please clear your cards before starting the tutorial.");
+        return;
+      }
     }
-    startTutorial(window.API_BASE);
+    startTutorial(feature);
   });
 }
 
