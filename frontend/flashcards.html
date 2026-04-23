@@ -29,6 +29,9 @@
     <img src="/assets/mascots/assistantFlashcard.png" class="title-image">
     <h1 data-i18n="flashcardsGenerator">Flashcards Generator</h1>
   </div>
+  <div id="loginWarning" class="login-warning">
+    <span>🔒 </span> <span data-i18n="loginWarning">You are not logged in — your work may be lost.</span>
+  </div>
   <div class="app-layout">
     <div class="left-panel">
       <div class="card">
@@ -84,8 +87,9 @@
             <span class="icon">👀</span>
             <span data-i18n="preview">Preview</span>
           </button>
-          <button id="downloadBtn" onclick="download()">
+          <button id="downloadBtn" class="locked" onclick="download()">
             <span class="icon">⬇️</span>
+            <span class="lock">🔒</span>
             <span data-i18n="download">Download PDF</span>
           </button>
           <button id="replayTutorialBtn" class="btn secondary">
@@ -100,12 +104,14 @@
         <div class="preview-header">
           <h2 data-i18n="preview">Preview</h2>
           <div class="preview-actions">
-            <button class="btn secondary" onclick="saveFlashcards()"> 
+            <button id="saveBtn" class="btn secondary locked" onclick="saveFlashcards()"> 
               <span class="icon">💾</span>
+              <span class="lock">🔒</span>
               <span data-i18n="saveFlashcards">Save Flashcards</span>
             </button>
-            <button class="btn secondary" onclick="toggleDashboard()">
+            <button id="loadBtn" class="btn secondary locked" onclick="toggleDashboard()">
               <span class="icon">📂</span>
+              <span class="lock">🔒</span>
               <span data-i18n="loadFlashcards">Load Flashcards</span>
             </button>
           </div>

@@ -13,6 +13,27 @@ async function checkUser() {
     const { data: { user } } = await supabaseClient.auth.getUser();
     const authEl = document.getElementById("auth");
     const logoutBtn = document.getElementById("logoutBtn");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const loadBtn = document.getElementById("loadBtn");
+    const warning = document.getElementById("loginWarning");
+    if (downloadBtn) {
+        if (user) {
+            downloadBtn.classList.remove("locked");
+            downloadBtn.disabled = false;
+            saveBtn.classList.remove("locked");
+            saveBtn.disabled = false;
+            loadBtn.classList.remove("locked");
+            loadBtn.disabled = false;
+            warning.style.display = "none";
+        } else {
+            downloadBtn.classList.add("locked");
+            saveBtn.classList.add("locked");
+            loadBtn.classList.add("locked");
+            //downloadBtn.disabled = true;
+            warning.style.display = "block";
+        }
+    }
     if (user) {
         if (authEl) authEl.style.display = "none";
         if (logoutBtn) logoutBtn.style.display = "block";
@@ -293,6 +314,11 @@ async function preview() {
 }
 
 async function download() {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) {
+        alert("Please log in to download");
+        return;
+    }
     const btn = document.getElementById("downloadBtn");
     btn.disabled = true;
     btn.textContent = "⏳ Generating PDF...";

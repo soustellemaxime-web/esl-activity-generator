@@ -25,7 +25,9 @@
     <img src="/assets/mascots/assistantWorksheet.png" class="title-image">
     <h1 data-i18n="worksheetGenerator">Worksheet Generator</h1>
   </div>
-
+  <div id="loginWarning" class="login-warning">
+    <span>🔒 </span> <span data-i18n="loginWarning">You are not logged in — your work may be lost.</span>
+  </div>
   <div class="app-layout">
     
     <!-- LEFT PANEL -->
@@ -162,8 +164,9 @@
             <span class="icon">👀</span>
             <span data-i18n="preview">Preview</span>
           </button>
-          <button id="downloadBtn" onclick="download()">
+          <button id="downloadBtn" class="locked" onclick="download()">
             <span class="icon">⬇️</span>
+            <span class="lock">🔒</span>
             <span data-i18n="download">Download PDF</span>
           </button>
           <button id="replayTutorialBtn" class="btn secondary">
@@ -181,12 +184,14 @@
         <div class="preview-header">
           <h2 data-i18n="preview">Preview</h2>
           <div class="preview-actions">
-            <button class="btn secondary" onclick="saveWorksheet()"> 
+            <button id="saveBtn" class="btn secondary locked" onclick="saveWorksheet()"> 
               <span class="icon">💾</span>
+              <span class="lock">🔒</span>
               <span data-i18n="save">Save</span>
             </button>
-            <button class="btn secondary" onclick="toggleDashboard()">
+            <button id="loadBtn" class="btn secondary locked" onclick="toggleDashboard()">
               <span class="icon">📂</span>
+              <span class="lock">🔒</span>
               <span data-i18n="loadWorksheets">Load Worksheets</span>
             </button>
           </div>

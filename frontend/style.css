@@ -1099,8 +1099,43 @@ input:focus, select:focus, textarea:focus {
     height: auto;
 }
 
+.tier-image:hover {
+    transform: scale(1.1) rotate(-3deg);
+}
+
 .tier-icon:hover {
     transform: scale(1.1) rotate(-3deg);
+}
+
+/* Locked features */
+
+.locked {
+  background: #ccc;
+  cursor: not-allowed !important;
+  opacity: 0.7;
+}
+
+.lock {
+  display: none;
+  margin-right: 5px;
+}
+
+.locked .lock {
+  display: inline;
+}
+
+.login-warning {
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff3cd;
+  color: #856404;
+  padding: 10px;
+  text-align: center;
+  font-size: 24px;
+  z-index: 1000;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 /* Pricing */
@@ -1163,6 +1198,15 @@ input:focus, select:focus, textarea:focus {
 
 .pricing-card.vip .price {
   color: #FF9800;
+}
+
+.pricing-card.free {
+  border: 2px solid #1100ff;
+  transform: scale(1.05);
+}
+
+.pricing-card.free .price {
+  color: #1100ff;
 }
 
 /* Dark mode */

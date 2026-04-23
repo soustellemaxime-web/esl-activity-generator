@@ -90,18 +90,6 @@ h1 {
     text-decoration: none;
 }
 
-.paid-btn {
-    margin-top: 20px;
-    padding: 12px;
-    width: 100%;
-    border: none;
-    background: #4CAF50;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
 .email-btn {
   display: inline-block;
   margin-top: 10px;
@@ -115,4 +103,8 @@ h1 {
 .tier-image {
     width: 55px;
     height: auto;
+}
+
+.tier-image:hover {
+    transform: scale(1.1) rotate(-3deg);
 }
