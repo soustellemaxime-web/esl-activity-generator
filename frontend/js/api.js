@@ -11,7 +11,6 @@ const supabaseClient = createClient(
 
 async function checkUser() {
     const { data: { user } } = await supabaseClient.auth.getUser();
-    console.log("Current user:", user);
     const authEl = document.getElementById("auth");
     const logoutBtn = document.getElementById("logoutBtn");
     if (user) {
@@ -23,7 +22,6 @@ async function checkUser() {
             console.error("Error fetching user profile:", error);
             return;
         }
-        console.log("User plan:", profile.plan);
         // Store globally
         window.userPlan = profile.plan;
         //Check if plan is expired

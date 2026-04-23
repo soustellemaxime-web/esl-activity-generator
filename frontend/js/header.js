@@ -79,11 +79,11 @@ async function setupHeader() {
             return;
         }
         if (profile.plan === "free") {
-            tier.innerHTML = `<img src="assets/mascots/freeTier.png" alt="Free Tier" title="Free Tier">`;
+            tier.innerHTML = `<img class="tier-icon" src="assets/mascots/freeTier.png" alt="Free Tier" title="Free Tier">`;
         } else if (profile.plan === "premium") {
-            tier.innerHTML = `<img src="assets/mascots/premiumTier.png" alt="Premium Tier" title="Premium Tier">`;
+            tier.innerHTML = `<img class="tier-icon" src="assets/mascots/premiumTier.png" alt="Premium Tier" title="Premium Tier">`;
         }else if (profile.plan === "vip") {
-            tier.innerHTML = `<img src="assets/mascots/vipTier.png" alt="VIP Tier" title="VIP Tier">`;
+            tier.innerHTML = `<img class="tier-icon" src="assets/mascots/vipTier.png" alt="VIP Tier" title="VIP Tier">`;
         }
     } else {
         loginBtn.style.display = "inline-block";

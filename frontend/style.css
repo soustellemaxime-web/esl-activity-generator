@@ -1099,6 +1099,10 @@ input:focus, select:focus, textarea:focus {
     height: auto;
 }
 
+.tier-icon:hover {
+    transform: scale(1.1) rotate(-3deg);
+}
+
 /* Pricing */
 
 .pricing-container {
@@ -1150,6 +1154,15 @@ input:focus, select:focus, textarea:focus {
 
 .pricing-card.featured .price {
   color: #4CAF50;
+}
+
+.pricing-card.vip {
+  border: 2px solid #FF9800;
+  transform: scale(1.05);
+}
+
+.pricing-card.vip .price {
+  color: #FF9800;
 }
 
 /* Dark mode */

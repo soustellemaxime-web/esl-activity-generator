@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Upgrade</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="payment.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="translations.js" defer></script>
+    <script src="js/i18n.js" defer></script>
+    <script src="js/api.js" defer></script>
+    <script src="js/header.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1 data-i18n="upgrade">Upgrade</h1>
+        <p class="subtitle" data-i18n="choosePlan">Choose your plan when sending the payment</p>
+        <div class="plans">
+            <div class="plan premium">
+            <h3>Premium</h3>
+            <img class="tier-image" src="assets/mascots/premiumTier.png" alt="Premium Tier" title="Premium Tier">
+            <p class="price">฿99</p>
+            <p class="per-day">≈ ฿3/day</p>
+            <p data-i18n="unlimitedDownloads">Unlimited downloads</p>
+            </div>
+            <div class="plan vip">
+            <h3>VIP</h3>
+            <img class="tier-image" src="assets/mascots/vipTier.png" alt="VIP Tier" title="VIP Tier">
+            <p class="price">฿199</p>
+            <p class="per-day">≈ ฿6/day</p>
+            <p data-i18n="priorityFeatures">Priority features</p>
+            </div>
+        </div>
+        <div class="qr">
+            <p data-i18n="scanToPay">Scan to pay:</p>
+            <img src="/assets/qr-code.png">
+        </div>
+        <div class="instructions">
+            <p data-i18n="instruction1">1. Scan the QR code using your banking app</p>
+            <p data-i18n="instruction2">2. Enter the amount (฿99 or ฿199)</p>
+            <p data-i18n="instruction3">3. Send payment screenshot</p>
+        </div>
+        <div class="contact">
+            <a href="https://line.me/ti/p/maximesoustelle" target="_blank">
+                <span class="icon">💬 </span>
+                <span data-i18n="sendProofLine">Send proof via LINE</span>
+            </a>
+            <a 
+                href="mailto:soustelle.maxime@gmail.com?subject=Payment%20Confirmation&body=Hi%2C%20I%20just%20made%20a%20payment.%0A%0APlan%3A%20Premium%20or%20VIP%0AEmail%3A%20%0A%0APlease%20find%20the%20screenshot%20attached."
+                class="email-btn">
+                <span class="icon">✉️ </span> 
+                <span data-i18n="sendProofEmail">Send proof via Email</span>
+            </a>
+            <p style="margin-top:10px;">
+                <span data-i18n="directEmail"></span><strong>soustelle.maxime@gmail.com</strong>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
