@@ -102,10 +102,11 @@ async function setupHeader() {
     };
 
     //Dark mode toggle
+    /*
     toggleTheme.onclick = () => {
         document.body.classList.toggle("dark");
     };
-
+    */
     //Language toggle
     if (window.applyTranslations) {
         applyTranslations(currentLang);

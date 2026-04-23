@@ -250,5 +250,107 @@ const tutorialSteps = {
       text: "That's the end of the tour! Explore the features and have fun creating bingo cards!",
       textKey: "bingo_tour_outro"
     }
+  ],
+  worksheet: [
+    {
+      type: "intro",
+      text: "Welcome to the Worksheet Creator! Let's take a quick tour.",
+      textKey: "worksheets_tour_intro",
+      padding: 0,
+      offsetX: 0,
+      offsetY: 0
+    },
+    {
+      element: "#title",
+      text: "Here you can give your worksheet a title.",
+      textKey: "worksheets_tour_title",
+      padding: 10,
+      offsetX: 0,
+      offsetY: 0
+    },
+    {
+      element: "[data-tooltip='wordList']",
+      text: "In auto mode you can type a list of words here and the worksheet will be generated automatically. For now let's add 'cat' and 'dog'.",
+      textKey: "worksheets_tour_wordlist",
+      padding: 20,
+      offsetX: 0,
+      offsetY: 0,
+      autoInput: "cat\ndog\n",
+    },
+    {
+      element: "#matching",
+      text: "Then you can select the type of exercise to add to your worksheet. Let's choose matching for this tour.",
+      textKey: "worksheets_tour_matching",
+      padding: 10,
+      offsetX: 0,
+      offsetY: 0,
+      waitForClick: true,
+      waitForVisible: true
+    },
+    {
+      element: ".preview-card",
+      text: "This is where your worksheet will appear.",
+      textKey: "worksheets_tour_preview",
+      padding: 20,
+      offsetX: 0,
+      offsetY: 0
+    },
+    {
+      element: "input[name='mode'][value='custom']",
+      text: "Now switch to custom mode to edit the exercises manually.",
+      textKey: "worksheets_tour_custom_mode",
+      padding: 0,
+      offsetX: -4,
+      offsetY: -4,
+      waitForClick: true
+    },
+    {
+      element: "#addFill",
+      text: "In custom mode, you can add more exercises with these buttons. Let's add a fill-in-the-blank exercise.",
+      textKey: "worksheets_tour_add_exercise",
+      padding: 10,
+      offsetX: 0,
+      offsetY: 0,
+      waitForClick: true,
+      waitForVisible: true
+    },
+    {
+      element: ".layout-option",
+      text: "You can also change the layout of your worksheet. Let's switch to the 1 card layout.",
+      textKey: "worksheets_tour_edit_exercise",
+      padding: 10,
+      offsetX: 0,
+      offsetY: 0,
+      waitForClick: true
+    },
+    {
+      element: "#decorations",
+      text: "You can also add decorations to your worksheet here like borders and stickers. Feel free to explore the options later!",
+      textKey: "worksheets_tour_decorations",
+      padding: 10,
+      offsetX: 0,
+      offsetY: 0
+    },
+    {
+      element: ".preview-actions",
+      text: "You can save and load your worksheets using these buttons.",
+      textKey: "worksheets_tour_preview_actions",
+      padding: 10,
+      offsetX: 0,
+      offsetY: 0
+    },
+    {
+      element: "#downloadBtn",
+      text: "Click this button to download your worksheet.",
+      textKey: "worksheets_tour_download_btn",
+      padding: 10,
+      offsetX: 0,
+      offsetY: 0
+    },
+    {
+      type: "outro",
+      text: "That's the end of the tour! Explore the features and have fun creating worksheets!",
+      textKey: "worksheets_tour_outro"
+    }
   ]
 };

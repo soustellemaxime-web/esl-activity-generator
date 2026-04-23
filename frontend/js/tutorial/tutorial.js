@@ -19,6 +19,7 @@ async function showStep(feature) {
     el.style.pointerEvents = "";
     el.style.zIndex = "";
   });
+  console.log("Showing step", feature, currentStep);
   const step = tutorialSteps[feature][currentStep];
   // INTRO STEP (no highlight)
   if (step.type === "intro" || step.type === "outro") {
