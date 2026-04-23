@@ -136,7 +136,9 @@ document.getElementById("words").addEventListener("input", debounce(preview, 500
 document.getElementById("gridSize").addEventListener("change", debounce(preview, 500));
 document.getElementById("cardCount").addEventListener("input", debounce(preview, 500));
 document.getElementById("freeCenter").addEventListener("change", debounce(preview, 500));
-document.getElementById("uppercase").addEventListener("change", debounce(preview, 500));
+if (document.getElementById("uppercase")) {
+  document.getElementById("uppercase").addEventListener("change", debounce(preview, 500));
+}
 document.getElementById("title").addEventListener("input", debounce(preview, 500));
 
 updateWordRequirement();
