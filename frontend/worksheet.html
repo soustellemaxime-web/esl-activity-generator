@@ -5,12 +5,13 @@
   <title>Worksheet Generator</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="tutorial.css">
+  <link rel="stylesheet" href="upgradeModal.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/api.js"></script>
-  <script src="translations.js"></script>
+  <script src="js/api.js" defer></script>
+  <script src="translations.js" defer></script>
   <script src="js/i18n.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-  <script src="js/images.js"></script>
+  <script src="js/images.js" defer></script>
   <script src="script.js" defer></script>
   <script src="worksheet.js" defer></script>
   <script src="js/tutorial/tutorialSteps.js" defer></script>
@@ -210,5 +211,25 @@
     </div>
   </div>
 </div>
+
+<div id="upgradeModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>🚫 Daily limit reached</h2>
+    <p>You’ve used your 3 free downloads for today. Upgrade to continue creating unlimited worksheets.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Premium</h3>
+        <p>฿99 / month</p>
+      </div>
+      <div class="plan">
+        <h3>VIP</h3>
+        <p>฿199 / month</p>
+      </div>
+    </div>
+    <button id="goUpgrade">Upgrade Now</button>
+    <button id="closeModal" class="secondary">Maybe later</button>
+  </div>
+</div>
+
 </body>
 </html>

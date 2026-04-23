@@ -376,7 +376,7 @@ async function download() {
         if (!res.ok) {
             const errorData = await res.json();
             if (res.status === 403) {
-                alert("🚫 Daily limit reached. Upgrade to continue.");
+                showUpgradeModal();
             } else if (res.status === 401) {
                 alert("Unauthorized. Please log in again.");
             } else {
@@ -415,6 +415,22 @@ function renderPageControls() {
     };
     container.appendChild(btn);
   });
+}
+
+function showUpgradeModal() {
+  document.getElementById("upgradeModal").classList.remove("hidden");
+}
+function hideUpgradeModal() {
+  document.getElementById("upgradeModal").classList.add("hidden");
+}
+
+if (document.getElementById("closeModal")) {
+  document.getElementById("closeModal").onclick = hideUpgradeModal;
+}
+if (document.getElementById("goUpgrade")) {
+  document.getElementById("goUpgrade").onclick = () => {
+    window.location.href = "../payment.html";
+  };
 }
 
 checkUser();
