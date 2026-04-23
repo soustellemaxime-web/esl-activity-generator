@@ -1089,6 +1089,16 @@ input:focus, select:focus, textarea:focus {
   color: white;
 }
 
+#userTier img {
+    width: 55px;
+    height: auto;
+}
+
+.tier-image {
+    width: 55px;
+    height: auto;
+}
+
 /* Pricing */
 
 .pricing-container {

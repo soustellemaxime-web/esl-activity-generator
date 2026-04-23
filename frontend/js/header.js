@@ -13,6 +13,7 @@ async function setupHeader() {
     const loginBtn = document.getElementById("loginBtn");
     const logoutBtn = document.getElementById("logoutBtn");
     const welcome = document.getElementById("userWelcome");
+    const tier = document.getElementById("userTier");
     const toggleTheme = document.getElementById("toggleTheme");
     const togglePassword = document.getElementById("togglePassword");
 
@@ -72,6 +73,18 @@ async function setupHeader() {
         loginBtn.style.display = "none";
         logoutBtn.style.display = "inline-block";
         welcome.textContent = `Welcome ${user.email}`;
+        const { data: profile, error } = await supabaseClient.from("profiles").select("plan, plan_expires_at").eq("id", user.id).single();
+        if (error) {
+            console.error("Error fetching user profile:", error);
+            return;
+        }
+        if (profile.plan === "free") {
+            tier.innerHTML = `<img src="assets/mascots/freeTier.png" alt="Free Tier" title="Free Tier">`;
+        } else if (profile.plan === "premium") {
+            tier.innerHTML = `<img src="assets/mascots/premiumTier.png" alt="Premium Tier" title="Premium Tier">`;
+        }else if (profile.plan === "vip") {
+            tier.innerHTML = `<img src="assets/mascots/vipTier.png" alt="VIP Tier" title="VIP Tier">`;
+        }
     } else {
         loginBtn.style.display = "inline-block";
         logoutBtn.style.display = "none";
