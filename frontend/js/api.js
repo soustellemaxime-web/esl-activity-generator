@@ -363,13 +363,28 @@ async function download() {
             data.exercises = [];
             data.stickers = window.worksheetState.stickers;
         }  
+        const { data: { session } } = await supabaseClient.auth.getSession();
         const res = await fetch(`${API_URL}/api/${window.API_BASE}/generate`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session.access_token}`
+            },
+            body: JSON.stringify(data)
         })
+        // Check if response is ok
+        if (!res.ok) {
+            const errorData = await res.json();
+            if (res.status === 403) {
+                alert("🚫 Daily limit reached. Upgrade to continue.");
+            } else if (res.status === 401) {
+                alert("Unauthorized. Please log in again.");
+            } else {
+                alert("Error: " + (errorData.error || "Something went wrong"));
+            }
+            return;
+        }
+        // If ok
         const blob = await res.blob()
         const url = window.URL.createObjectURL(blob)
         const a = document.createElement("a")
@@ -377,7 +392,7 @@ async function download() {
         a.download = `${window.API_BASE}.pdf`
         a.click()
     } catch (err) {
-    console.error(err);
+        console.error(err);
     }
     btn.disabled = false;
     btn.textContent = "⬇️ Download PDF";
