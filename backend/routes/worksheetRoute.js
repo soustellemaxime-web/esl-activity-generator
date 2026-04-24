@@ -3,7 +3,7 @@ const express = require("express");
 const generateWorksheet = require("../generators/worksheetGenerator");
 const generatePDF = require("../services/pdfService");
 const { getTodayDownloads, addDownload } = require("../db/downloadsDB")
-const getUserFromToken = require("../utils/getUser");
+const { getUserFromToken } = require("../utils/getUser");
 const supabase = require('../supabaseClient');
 
 const router = express.Router();

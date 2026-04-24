@@ -1142,7 +1142,7 @@ input:focus, select:focus, textarea:focus {
 
 .pricing-container {
   display: flex;
-  gap: 20px;
+  gap: 40px;
   justify-content: center;
   margin-top: 40px;
   flex-wrap: wrap;

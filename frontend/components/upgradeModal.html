@@ -1,20 +1,23 @@
 <div id="upgrade-upgradeModal" class="upgrade-modal upgrade-hidden">
   <div class="upgrade-modal-content">
-    <h2>🚫 Daily limit reached</h2>
-    <p>You’ve used your 3 free downloads for today. Upgrade to continue creating unlimited worksheets.</p>
+    <h2>
+        <span class="modal-icon">🚫</span>
+        <span class="modal-title-text"></span>
+    </h2>
+    <p></p>
     <div class="upgrade-plans">
       <div class="upgrade-plan upgrade-premium">
         <h3>Premium</h3>
         <img class="upgrade-tier-image" src="assets/mascots/premiumTier.png" alt="Premium Tier" title="Premium Tier">
-        <p>฿99 / month</p>
+        <p><span>฿99 / </span><span data-i18n="month">month</span></p>
       </div>
       <div class="upgrade-plan upgrade-vip">
         <h3>VIP</h3>
         <img class="upgrade-tier-image" src="assets/mascots/vipTier.png" alt="VIP Tier" title="VIP Tier">
-        <p>฿199 / month</p>
+        <p><span>฿199 / </span><span data-i18n="month">month</span></p>
       </div>
     </div>
-    <button id="upgrade-goUpgrade">Upgrade Now</button>
-    <button id="upgrade-closeModal" class="upgrade-secondary">Maybe later</button>
+    <button id="upgrade-goUpgrade" data-i18n="upgradeGoUpgrade">Upgrade Now</button>
+    <button id="upgrade-closeModal" class="upgrade-secondary" data-i18n="upgradeCloseModal">Maybe later</button>
   </div>
 </div>

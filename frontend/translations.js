@@ -42,6 +42,14 @@ const translations = {
     sendProofLine: "Send proof via LINE",
     sendProofEmail: "Send proof via Email",
     directEmail: "Or email us directly: ",
+    // Upgrade Modal
+    month: "month",
+    upgradeGoUpgrade: "Upgrade Now",
+    upgradeCloseModal: "Maybe later",
+    downloadLimitTitle: "Download Limit Reached",
+    downloadLimitMessage: "You have reached your download limit for today. Upgrade to Premium for unlimited downloads and more features!",
+    saveLimitTitle: "Save Limit Reached",
+    saveLimitMessage: "You have reached your save limit. Upgrade to Premium to save more creations and access exclusive features!",
     // Dashboard
     myDashboard: "📂 My Dashboard",
     notLoggedDash: "Please login to access your dashboard.",
@@ -195,6 +203,14 @@ const translations = {
     sendProofLine: "ส่งหลักฐานผ่าน LINE",
     sendProofEmail: "ส่งหลักฐานผ่านอีเมล",
     directEmail: "หรืออีเมลหาเราโดยตรง: ",
+    // Upgrade Modal
+    month: "เดือน",
+    upgradeGoUpgrade: "อัปเกรดเลย",
+    upgradeCloseModal: "ไว้ทีหลัง",
+    downloadLimitTitle: "ถึงขีดจำกัดการดาวน์โหลดแล้ว",
+    downloadLimitMessage: "คุณได้ถึงขีดจำกัดการดาวน์โหลดสำหรับวันนี้แล้ว อัปเกรดเป็นพรีเมียมเพื่อดาวน์โหลดได้ไม่จำกัดและฟีเจอร์เพิ่มเติม!",
+    saveLimitTitle: "ถึงขีดจำกัดการบันทึกแล้ว",
+    saveLimitMessage: "คุณได้ถึงขีดจำกัดการบันทึกแล้ว อัปเกรดเป็นพรีเมียมเพื่อบันทึกผลงานได้มากขึ้นและเข้าถึงฟีเจอร์พิเศษ!",
     // Dashboard
     myDashboard: "📂 แดชบอร์ดของฉัน",
     notLoggedDash: "กรุณาเข้าสู่ระบบเพื่อเข้าถึงแดชบอร์ดของคุณ",

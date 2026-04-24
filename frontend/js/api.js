@@ -376,7 +376,7 @@ async function download() {
         if (!res.ok) {
             const errorData = await res.json();
             if (res.status === 403) {
-                showUpgradeModal();
+                showUpgradeModal("download");
             } else if (res.status === 401) {
                 alert("Unauthorized. Please log in again.");
             } else {
@@ -417,8 +417,24 @@ function renderPageControls() {
   });
 }
 
-function showUpgradeModal() {
-  document.getElementById("upgrade-upgradeModal").classList.remove("upgrade-hidden");
+function showUpgradeModal(type) {
+    const modal = document.getElementById("upgrade-upgradeModal");
+    const title = modal.querySelector(".modal-title-text");
+    const message = modal.querySelector("p");
+    if (type === "download") {
+        title.textContent = "🚫 Daily download limit reached";
+        message.textContent = "Upgrade to continue downloading pdfs.";
+        title.setAttribute("data-i18n", "downloadLimitTitle");
+        message.setAttribute("data-i18n", "downloadLimitMessage");
+    }
+    if (type === "save") {
+        title.textContent = "🚫 Save limit reached";
+        message.textContent = "Upgrade to save more activities.";
+        title.setAttribute("data-i18n", "saveLimitTitle");
+        message.setAttribute("data-i18n", "saveLimitMessage");
+    }
+    applyTranslations(currentLang);
+    modal.classList.remove("upgrade-hidden");
 }
 function hideUpgradeModal() {
   document.getElementById("upgrade-upgradeModal").classList.add("upgrade-hidden");

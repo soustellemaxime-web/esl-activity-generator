@@ -105,7 +105,7 @@ async function saveWorksheet() {
   if (!res.ok) {
     const errorData = await res.json();
     if (res.status === 403) {
-      showUpgradeModal();
+      showUpgradeModal("save");
     } else {
       alert(errorData.error || "Save failed");
     }

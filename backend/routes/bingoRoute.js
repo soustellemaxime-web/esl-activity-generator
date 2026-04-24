@@ -3,7 +3,7 @@ const express = require("express")
 const generateBingo = require("../generators/bingoGenerator")
 const generatePDF = require("../services/pdfService")
 const { getTodayDownloads, addDownload } = require("../db/downloadsDB")
-const getUserFromToken = require("../utils/getUser");
+const { getUserFromToken } = require("../utils/getUser");
 const supabase = require('../supabaseClient');
 
 const router = express.Router()
