@@ -88,10 +88,12 @@ async function saveWorksheet() {
     alert("You must be logged in to save worksheets.");
     return;
   }
-  await fetch(`${BASE_URL}/save`, {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  const res = await fetch(`${BASE_URL}/save`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${session.access_token}`
     },
     body: JSON.stringify({
       title: state.title,
@@ -100,6 +102,15 @@ async function saveWorksheet() {
       user_id: user.id
     })
   });
+  if (!res.ok) {
+    const errorData = await res.json();
+    if (res.status === 403) {
+      showUpgradeModal();
+    } else {
+      alert(errorData.error || "Save failed");
+    }
+    return;
+  }
   alert("Worksheet saved successfully!");
 }
 

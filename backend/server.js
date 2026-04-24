@@ -16,7 +16,8 @@ const flashcardRoutes = require("./routes/flashcardsRoute")
 const imageRoutes = require("./routes/imagesRoute")
 const worksheetRoutes = require("./routes/worksheetRoute")
 
-const { saveWorksheet, getWorksheets, getWorksheetById, deleteWorksheet } = require("./db/worksheetsDB")
+const { saveWorksheet, getWorksheets, getWorksheetById, deleteWorksheet , countUserWorksheets} = require("./db/worksheetsDB")
+const { getUserPlan , getUserFromToken} = require("./utils/getUser")
 
 app.use(express.static(path.join(__dirname, "../frontend")))
 app.use("/styles", express.static(path.join(__dirname, "styles")))
@@ -32,12 +33,42 @@ app.get("/", (req, res) => {
 
 app.post('/save', async (req, res) => {
   const { title, data, user_id, type } = req.body;
-  const { error } = await saveWorksheet(title, data, user_id, type);
-  if (error) {
-    console.error("Supabase error:", error)
-    return res.status(500).json({ error: `Failed to save ${type}` })
+  try {
+    // Get user
+    const user = await getUserFromToken(req);
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    const user_id = user.id;
+    // Get user plan
+    const plan = await getUserPlan(user_id);
+    if (!plan) {
+      return res.status(404).json({ error: "User plan not found" });
+    }
+    // Count user's saved items
+    const { count, error: countError } = await countUserWorksheets(user_id);
+    if (countError) {
+      console.error("Supabase error:", countError);
+      return res.status(500).json({ error: "Failed to count saved items" });
+    }
+    // Enforce limits based on plan
+    let limit = 5;
+    if (plan === "premium") limit = 30;
+    if (plan === "vip") limit = Infinity;
+    if (count >= limit) {
+      return res.status(403).json({ error: `Save limit reached for ${plan} plan` });
+    }
+    // Save the item
+    const { error } = await saveWorksheet(title, data, user_id, type);
+    if (error) {
+      console.error("Supabase error:", error)
+      return res.status(500).json({ error: `Failed to save ${type}` })
+    }
+    res.status(200).json({ message: `${type} saved successfully` })
+  } catch (error) {
+    console.error("Error in /save route:", error)
+    res.status(500).json({ error: "An unexpected error occurred" })
   }
-  res.status(200).json({ message: `${type} saved successfully` })
 })
 
 app.get('/worksheets', async (req, res) => {

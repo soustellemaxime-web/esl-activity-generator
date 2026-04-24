@@ -35,9 +35,19 @@ async function deleteWorksheet(id, user_id) {
         .eq('user_id', user_id);
 }
 
+async function countUserWorksheets(user_id) {
+    const { data, error } = await supabase
+        .from('worksheets')
+        .select('id')
+        .eq('user_id', user_id);
+    if (error) return { error };
+    return { count: data.length };
+}
+
 module.exports = {
     saveWorksheet,
     getWorksheets,
     getWorksheetById,
-    deleteWorksheet
+    deleteWorksheet,
+    countUserWorksheets
 };
