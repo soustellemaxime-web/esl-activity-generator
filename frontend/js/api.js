@@ -418,19 +418,31 @@ function renderPageControls() {
 }
 
 function showUpgradeModal() {
-  document.getElementById("upgradeModal").classList.remove("hidden");
+  document.getElementById("upgrade-upgradeModal").classList.remove("upgrade-hidden");
 }
 function hideUpgradeModal() {
-  document.getElementById("upgradeModal").classList.add("hidden");
+  document.getElementById("upgrade-upgradeModal").classList.add("upgrade-hidden");
 }
 
-if (document.getElementById("closeModal")) {
-  document.getElementById("closeModal").onclick = hideUpgradeModal;
-}
-if (document.getElementById("goUpgrade")) {
-  document.getElementById("goUpgrade").onclick = () => {
-    window.location.href = "../payment.html";
+async function loadModal() {
+  const res = await fetch("/components/upgradeModal.html");
+  const html = await res.text();
+  document.body.insertAdjacentHTML("beforeend", html);
+  document.getElementById("upgrade-closeModal").onclick = hideUpgradeModal;
+  document.getElementById("upgrade-goUpgrade").onclick = () => {
+    window.location.href = "/payment.html";
   };
 }
+
+//Check if im in worksheet, bingo or flashcards and load modal
+document.addEventListener("DOMContentLoaded", () => {
+  if (
+    window.API_BASE === "worksheet" ||
+    window.API_BASE === "bingo" ||
+    window.API_BASE === "flashcards"
+  ) {
+    loadModal();
+  }
+});
 
 checkUser();
