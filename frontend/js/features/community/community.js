@@ -37,15 +37,28 @@ function getEmoji(type) {
   return "📦";
 }
 
-function loadCommunity() {
+async function loadCommunity() {
   const grid = document.getElementById("communityGrid");
-  grid.innerHTML = mockData.map(renderCard).join("");
+
+  try {
+    const res = await fetch(`${API_URL}/api/community`);
+    if (!res.ok) throw new Error("API failed");
+    const data = await res.json();
+    const formatted = data.map(item => ({
+      id: item.id,
+      title: item.title,
+      type: item.type,
+      rating: item.rating_avg
+    }));
+    grid.innerHTML = formatted.map(renderCard).join("");
+  } catch (err) {
+    console.warn("Using mock data", err);
+    grid.innerHTML = mockData.map(renderCard).join("");
+  }
 }
 
 function openItem(id) {
-  const item = mockData.find(i => i.id === id);
-  localStorage.setItem("selectedCommunityItem", JSON.stringify(item));
-  window.location.href = "/community-item.html";
+  window.location.href = `/community-item.html?id=${id}`;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
