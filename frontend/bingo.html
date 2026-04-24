@@ -115,8 +115,12 @@
     <div class="right-panel">
       <div class="card preview-card">
         <div class="preview-header">
-          <h2 data-i18n="previewBingo">Preview (2 cards)</h2>
+          <h2 data-i18n="previewBingo">Preview</h2>
           <div class="preview-actions">
+            <div id="limitsBar" class="limits-bar hidden">
+              <div class="limit-item" id="saveLimit"></div>
+              <div class="limit-item" id="downloadLimit"></div>
+            </div>
             <button id="saveBtn" class="btn secondary locked" onclick="saveBingo()"> 
               <span class="icon">💾</span>
               <span class="lock">🔒</span>

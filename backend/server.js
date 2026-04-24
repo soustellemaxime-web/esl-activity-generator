@@ -18,6 +18,7 @@ const worksheetRoutes = require("./routes/worksheetRoute")
 
 const { saveWorksheet, getWorksheets, getWorksheetById, deleteWorksheet , countUserWorksheets} = require("./db/worksheetsDB")
 const { getUserPlan , getUserFromToken} = require("./utils/getUser")
+const { getTodayDownloads } = require("./db/downloadsDB")
 
 app.use(express.static(path.join(__dirname, "../frontend")))
 app.use("/styles", express.static(path.join(__dirname, "styles")))
@@ -102,6 +103,35 @@ app.delete('/worksheets/:id', async (req, res) => {
   }
   res.status(200).json({ message: "Worksheet deleted successfully" })
 })
+
+app.get("/limits", async (req, res) => {
+  const user = await getUserFromToken(req);
+  if (!user) return res.status(401).json({});
+  const user_id = user.id;
+  const plan = await getUserPlan(user_id);
+  const { count } = await countUserWorksheets(user_id);
+  let saveLimit = 5;
+  if (plan === "premium") saveLimit = 30;
+  if (plan === "vip") saveLimit = null;
+  let downloadLimit = 3;
+  if (plan === "premium") downloadLimit = null;
+  if (plan === "vip") downloadLimit = null;
+  const { data: downloads } = await getTodayDownloads(user_id);
+  const downloadsToday = downloads ? downloads.length : 0;
+  res.json({
+    limits: {
+      saves: {
+        used: count,
+        limit: saveLimit
+      },
+      downloads: {
+        used: downloadsToday,
+        limit: downloadLimit
+      }
+    },
+    plan
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

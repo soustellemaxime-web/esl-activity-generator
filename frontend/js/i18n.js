@@ -19,9 +19,18 @@ function toggleLanguage() {
   currentLang = currentLang === "en" ? "th" : "en";
   localStorage.setItem("lang", currentLang);
   applyTranslations(currentLang);
+  refreshLimitsUI();
   updateLangButton();
 }
 
+function t(key, vars = {}) {
+  let text = translations[currentLang][key] || key;
+  // replace variables like {{used}} {{limit}}
+  Object.keys(vars).forEach(k => {
+    text = text.replace(`{{${k}}}`, vars[k]);
+  });
+  return text;
+}
 
 const langBtn = document.getElementById("toggleLang");
 if (langBtn) {

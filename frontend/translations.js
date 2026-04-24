@@ -50,6 +50,11 @@ const translations = {
     downloadLimitMessage: "You have reached your download limit for today. Upgrade to Premium for unlimited downloads and more features!",
     saveLimitTitle: "Save Limit Reached",
     saveLimitMessage: "You have reached your save limit. Upgrade to Premium to save more creations and access exclusive features!",
+    // Limits
+    "noLimit": "No limit!",
+    "limitUsed": "Used {{used}}/{{limit}}",
+    "savesLabel": "💾 Saves",
+    "downloadsLabel": "⬇️ Downloads",
     // Dashboard
     myDashboard: "📂 My Dashboard",
     notLoggedDash: "Please login to access your dashboard.",
@@ -98,7 +103,7 @@ const translations = {
     saveBingo: "Save Bingo",
     loadBingo: "Load Bingo",
     bingoGenerator: "Bingo Generator",
-    previewBingo: "Preview (2 cards)",
+    previewBingo: "Preview",
     options: "Options",
     freeCenter: "Free center square",
     gridSize: "Grid Size",
@@ -211,6 +216,11 @@ const translations = {
     downloadLimitMessage: "คุณได้ถึงขีดจำกัดการดาวน์โหลดสำหรับวันนี้แล้ว อัปเกรดเป็นพรีเมียมเพื่อดาวน์โหลดได้ไม่จำกัดและฟีเจอร์เพิ่มเติม!",
     saveLimitTitle: "ถึงขีดจำกัดการบันทึกแล้ว",
     saveLimitMessage: "คุณได้ถึงขีดจำกัดการบันทึกแล้ว อัปเกรดเป็นพรีเมียมเพื่อบันทึกผลงานได้มากขึ้นและเข้าถึงฟีเจอร์พิเศษ!",
+    // Limits
+    "noLimit": "ไม่มีขีดจำกัด!",
+    "limitUsed": "ใช้ไป {{used}}/{{limit}}",
+    "savesLabel": "💾 การบันทึก",
+    "downloadsLabel": "⬇️ การดาวน์โหลด",
     // Dashboard
     myDashboard: "📂 แดชบอร์ดของฉัน",
     notLoggedDash: "กรุณาเข้าสู่ระบบเพื่อเข้าถึงแดชบอร์ดของคุณ",
@@ -259,7 +269,7 @@ const translations = {
     saveBingo: "บันทึกบิงโก",
     loadBingo: "โหลดบิงโก",
     bingoGenerator: "เครื่องสร้างบิงโก",
-    previewBingo: "ตัวอย่าง (2 ใบ)",
+    previewBingo: "ตัวอย่าง",
     options: "ตัวเลือก",
     freeCenter: "จัตุรัสกลางอิสระ",
     gridSize: "ขนาดตาราง",

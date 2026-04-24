@@ -450,6 +450,83 @@ async function loadModal() {
   };
 }
 
+function renderLimit(id, label, used, limit) {
+  const el = document.getElementById(id);
+  const tLabel = t(label);
+  if (!limit) {
+    el.innerHTML = `
+        <div class="limit-label">
+            <span>${tLabel} : </span>
+            <span>${t("noLimit")}</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width:100%"></div>
+        </div>
+    `;
+    return;
+  }
+  const remaining = limit - used;
+  const percent = (used / limit) * 100;
+  el.innerHTML = `
+    <div class="limit-label">
+      <span>${tLabel} : </span>
+      <span>${t("limitUsed", { used, limit })}</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width:${percent}%"></div>
+    </div>
+  `;
+  // Change color based on usage
+  const fill = el.querySelector(".progress-fill");
+  if (percent < 40) {
+    fill.style.backgroundColor = "green";
+  } else if (percent === 100) {
+    fill.style.backgroundColor = "red";
+  } else {
+    fill.style.backgroundColor = "orange";
+  }
+}
+
+function updateLimitsUI(data) {
+  const container = document.getElementById("limitsBar");
+  if (!data || !data.limits) return;
+  container.classList.remove("hidden");
+  renderLimit(
+    "saveLimit",
+    "savesLabel",
+    data.limits.saves.used,
+    data.limits.saves.limit
+  );
+  renderLimit(
+    "downloadLimit",
+    "downloadsLabel",
+    data.limits.downloads.used,
+    data.limits.downloads.limit
+  );
+}
+
+async function loadLimits() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) return;
+  const res = await fetch(`${API_URL}/limits`, {
+    headers: {
+      "Authorization": `Bearer ${session.access_token}`
+    }
+  });
+  if (!res.ok) {
+    console.error("Failed to fetch limits");
+    return;
+  }
+  const data = await res.json();
+  window.currentLimitsData = data;
+  updateLimitsUI(data);
+}
+
+function refreshLimitsUI() {
+  if (!window.currentLimitsData) return;
+  updateLimitsUI(window.currentLimitsData);
+}
+
 //Check if im in worksheet, bingo or flashcards and load modal
 document.addEventListener("DOMContentLoaded", () => {
   if (
@@ -458,6 +535,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.API_BASE === "flashcards"
   ) {
     loadModal();
+    loadLimits();
   }
 });
 
