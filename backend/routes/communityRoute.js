@@ -46,7 +46,16 @@ router.post("/:id/preview", async (req, res) => {
       parsedData.mode = "custom";
       parsedData.customExercises = parsedData.exercises;
     }
-    const html = generateWorksheet(parsedData);
+    let html;
+    if (item.type === "worksheet") {
+      html = generateWorksheet(parsedData, { preview: true });
+    }
+    if (item.type === "flashcards") {
+      html = generateFlashcards(parsedData, { preview: true });
+    }
+    if (item.type === "bingo") {
+      html = generateBingo(parsedData, { preview: true });
+    }
     res.send(html);
   } catch (err) {
     console.error(err);

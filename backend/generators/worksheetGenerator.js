@@ -326,7 +326,7 @@ function renderCustomExercises(exercises) {
   return cards;
 }
 
-function generateWorksheet(data) {
+function generateWorksheet(data, options = {}) {
   const { words, imageMap, matching, mcq, fill, mode, layout, title } = data;
   const currentMode = mode || "auto";
 
@@ -383,7 +383,31 @@ function generateWorksheet(data) {
         </body>
       </html>
     `;
+    if (options.preview) {
+      html = html.replace("</head>", `
+        <style>
+          .card-controls,
+          .delete-card,
+          .delete-question,
+          .add-question,
+          .add-pair,
+          .delete-pair,
+          .delete-choice,
+          .add-choice,
+          .resize-handle,
+          .rotate-handle,
+          .sticker-delete {
+            display: none !important;
+          }
 
+          /* Optional: remove pointer cursor */
+          [data-editable] {
+            pointer-events: none;
+            cursor: default;
+          }
+        </style>
+      </head>`);
+    }
     return html;
   }
 

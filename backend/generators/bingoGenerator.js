@@ -142,7 +142,7 @@ function renderCell(cell, displayMode) {
 
 }
 
-function generateBingo(data) {
+function generateBingo(data, options = {}) {
     let { words, gridSize, cardCount, freeCenter, uppercase, title, displayMode , imageMap } = data
     //console.log("IMAGE SAMPLE:", data.imageMap && Object.values(data.imageMap)[0]);
     if (uppercase) {
@@ -167,7 +167,15 @@ function generateBingo(data) {
     </body>
     </html>
     `
-
+    if (options?.preview) {
+      html = html.replace("</head>", `
+        <style>
+          .reload-icon {
+            display: none !important;
+          }
+        </style>
+      </head>`);
+    }
     return html
 }
 

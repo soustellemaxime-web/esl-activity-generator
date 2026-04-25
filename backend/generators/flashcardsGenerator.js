@@ -6,7 +6,7 @@ const flashcardCss = fs.readFileSync(
   "utf8"
 );
 
-function generateFlashcards(data) {
+function generateFlashcards(data, options = {}) {
   const { words, imageMap, displayMode, cards } = data;
   const baseUrl = data.baseUrl || "";
 
@@ -58,7 +58,15 @@ function generateFlashcards(data) {
       </body>
     </html>
   `;
-
+  if (options.preview) {
+    html = html.replace("</head>", `
+      <style>
+        .reload-icon {
+          display: none !important;
+        }
+      </style>
+    </head>`);
+  }
   return html;
 }
 
