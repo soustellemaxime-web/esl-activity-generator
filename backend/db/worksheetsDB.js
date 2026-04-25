@@ -23,7 +23,7 @@ async function getWorksheetById(id, user_id) {
         .from('worksheets')
         .select('*')
         .eq('id', id)
-        .eq('user_id', user_id)
+        .or(`user_id.eq.${user_id},visibility.eq.public`)
         .single();
 }
 

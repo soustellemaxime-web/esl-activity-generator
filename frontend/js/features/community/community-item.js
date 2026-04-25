@@ -39,15 +39,15 @@ function getEmoji(type) {
 
 function useTemplate() {
   if (!window.currentItem) return;
-  localStorage.setItem("templateData", JSON.stringify(window.currentItem));
-  if (window.currentItem.type === "worksheet") {
-    window.location.href = "/worksheet.html";
+  const item = window.currentItem;
+  if (item.type === "worksheet") {
+    window.location.href = `worksheet.html?load=${item.id}`;
   }
-  if (window.currentItem.type === "bingo") {
-    window.location.href = "/bingo.html";
+  if (item.type === "bingo") {
+    window.location.href = `/bingo.html?load=${item.id}`;
   }
-  if (window.currentItem.type === "flashcards") {
-    window.location.href = "/flashcards.html";
+  if (item.type === "flashcards") {
+    window.location.href = `/flashcards.html?load=${item.id}`;
   }
 }
 
