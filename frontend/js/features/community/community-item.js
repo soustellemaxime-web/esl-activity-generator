@@ -51,4 +51,27 @@ function useTemplate() {
   }
 }
 
+async function downloadItem() {
+  const item = window.currentItem;
+  if (!item) return;
+  let data = typeof item.data === "string"
+    ? JSON.parse(item.data)
+    : item.data;
+  if (item.type === "worksheet") {
+    data.mode = "custom"; 
+    data.customExercises = data.customExercises || data.exercises || [];
+    data.exercises = [];
+    data.imageMap = data.imageMap || {};
+    data.baseUrl = window.API_URL;
+  }
+  if (item.type === "flashcards" && data.mode === "custom") {
+    data.baseUrl = window.API_URL;
+    data.cards = (data.words || []).map(word => ({
+      text: word,
+      image: data.imageMap?.[word] || null
+    }));
+  }
+  await downloadFromData(data, item.type, item.title);
+}
+
 document.addEventListener("DOMContentLoaded", loadItem);

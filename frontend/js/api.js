@@ -398,6 +398,36 @@ async function download() {
     btn.textContent = "⬇️ Download PDF";
 }
 
+async function downloadFromData(data, type, filename = "activity") {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    const res = await fetch(`${API_URL}/api/${type}/generate`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${session?.access_token || ""}`
+        },
+        body: JSON.stringify(data)
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        if (res.status === 403) {
+            showUpgradeModal("download");
+        } else if (res.status === 401) {
+            alert("Please log in");
+        } else {
+            alert(errorData.error || "Download failed");
+        }
+        return;
+    }
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${filename}.pdf`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+}
+
 function renderPageControls() {
   const container = document.getElementById("pageControls");
   if (!container) return;
