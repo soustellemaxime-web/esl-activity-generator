@@ -12,16 +12,22 @@ async function loadItem() {
   }
 }
 
-function renderItem(item) {
+async function renderItem(item) {
   document.getElementById("itemTitle").textContent = item.title;
-  document.getElementById("rating").textContent =
-    `⭐ ${item.rating_avg || 0}`;
-  document.getElementById("preview").innerHTML = `
-    <div style="font-size: 50px; text-align:center;">
-      ${getEmoji(item.type)}
-    </div>
-  `;
-  // store for template usage
+  document.getElementById("rating").textContent = `⭐ ${item.rating_avg || 0}`;
+  const previewEl = document.getElementById("preview");
+  previewEl.innerHTML = "Loading preview...";
+  try {
+    const res = await fetch(`${API_URL}/api/community/${item.id}/preview`, {
+      method: "POST"
+    });
+    if (!res.ok) throw new Error("Preview failed");
+    const html = await res.text();
+    previewEl.innerHTML = html;
+  } catch (err) {
+    console.error(err);
+    previewEl.innerHTML = "Failed to load preview";
+  }
   window.currentItem = item;
 }
 
