@@ -78,3 +78,44 @@
   font-size: 13px;
   color: #444;
 }
+
+.community-controls button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  background: #4CAF50;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.community-controls button:hover {
+  background: #43a047;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.community-controls button:active {
+  transform: scale(0.97);
+}
+
+.community-controls button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.community-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.community-controls input {
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 0px !important;
+}

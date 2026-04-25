@@ -38,11 +38,15 @@ function getEmoji(type) {
 }
 
 async function loadCommunity() {
+  console.log("input");
   const grid = document.getElementById("communityGrid");
-
   try {
-    const sort = document.getElementById("sortSelect")?.value || "default";
-    const res = await fetch(`${API_URL}/api/community?sort=${sort}`);
+    const search = document.getElementById("searchInput").value;
+    const type = document.getElementById("filterType").value;
+    const sort = document.getElementById("sortSelect").value;
+    const res = await fetch(
+      `${API_URL}/api/community?search=${encodeURIComponent(search)}&type=${type}&sort=${sort}`
+    );
     if (!res.ok) throw new Error("API failed");
     const data = await res.json();
     const formatted = data.map(item => ({
@@ -65,4 +69,12 @@ function openItem(id) {
 document.addEventListener("DOMContentLoaded", () => {
     initCommunity();
     loadCommunity();
+});
+
+document.getElementById("filterType").addEventListener("change", loadCommunity);
+
+document.getElementById("searchInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    loadCommunity();
+  }
 });

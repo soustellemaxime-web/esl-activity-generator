@@ -8,16 +8,25 @@ const supabase = require('../supabaseClient');
 
 router.get("/", async (req, res) => {
   try {
-    const sort = req.query.sort || "default";
+    const { search = "", type = "all", sort = "default" } = req.query;
     let query = supabase
       .from("worksheets")
       .select("*")
       .eq("visibility", "public");
-
-    if (sort === "rating") {
-      query = query.order("rating_avg", { ascending: false });
+    // SEARCH (title)
+    if (search) {
+      query = query.ilike("title", `%${search}%`);
     }
-    if (sort === "new") {
+    // FILTER (type)
+    if (type !== "all") {
+      query = query.eq("type", type);
+    }
+    // SORT
+    if (sort === "rating") {
+      query = query
+        .order("rating_avg", { ascending: false })
+        .order("rating_count", { ascending: false });
+    } else if (sort === "new") {
       query = query.order("created_at", { ascending: false });
     }
     const { data, error } = await query;
