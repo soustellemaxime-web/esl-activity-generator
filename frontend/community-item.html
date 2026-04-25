@@ -19,7 +19,16 @@
     <div class="item-header">
       <h1 id="itemTitle"></h1>
       <div class="item-actions">
-        <div id="rating"></div>
+        <div id="ratingContainer">
+          <div id="ratingStars">
+            <span onclick="rate(1)">⭐</span>
+            <span onclick="rate(2)">⭐</span>
+            <span onclick="rate(3)">⭐</span>
+            <span onclick="rate(4)">⭐</span>
+            <span onclick="rate(5)">⭐</span>
+          </div>
+          <div id="ratingValue">⭐ 0</div>
+        </div>
         <button onclick="useTemplate()">🧩 Use this template</button>
         <button onclick="downloadItem()">⬇️ Download</button>
       </div>

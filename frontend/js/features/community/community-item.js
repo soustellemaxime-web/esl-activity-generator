@@ -14,7 +14,7 @@ async function loadItem() {
 
 async function renderItem(item) {
   document.getElementById("itemTitle").textContent = item.title;
-  document.getElementById("rating").textContent = `⭐ ${item.rating_avg || 0}`;
+  document.getElementById("ratingValue").textContent = `⭐ ${item.rating_avg || 0} (${item.rating_count || 0})`;
   const previewEl = document.getElementById("preview");
   previewEl.innerHTML = "Loading preview...";
   try {
@@ -72,6 +72,38 @@ async function downloadItem() {
     }));
   }
   await downloadFromData(data, item.type, item.title);
+}
+
+async function rate(value) {
+  const item = window.currentItem;
+  if (!item) return;
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) {
+    alert("Please log in to rate");
+    return;
+  }
+  const stars = document.querySelectorAll("#ratingStars span");
+  stars.forEach((star, index) => {
+    star.style.opacity = index < value ? "1" : "0.3";
+  });
+  try {
+    const res = await fetch(`${API_URL}/api/community/${item.id}/rate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${session.access_token}`
+      },
+      body: JSON.stringify({ rating: value })
+    });
+    if (!res.ok) throw new Error("Rating failed");
+    const data = await res.json();
+    // update UI instantly
+    document.getElementById("ratingValue").textContent =
+      `⭐ ${data.rating_avg.toFixed(1)} (${data.rating_count})`;
+  } catch (err) {
+    console.error(err);
+    alert("Failed to rate");
+  }
 }
 
 document.addEventListener("DOMContentLoaded", loadItem);

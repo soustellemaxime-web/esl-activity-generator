@@ -34,3 +34,13 @@
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   margin-bottom: 20px;
 }
+
+#ratingStars span {
+  cursor: pointer;
+  font-size: 20px;
+  transition: transform 0.1s;
+}
+
+#ratingStars span:hover {
+  transform: scale(1.2);
+}
