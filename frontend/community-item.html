@@ -5,6 +5,7 @@
     <title>Community Item</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="frontStyles/community.css">
+    <link rel="stylesheet" href="frontStyles/community-item.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="translations.js" defer></script>
     <script src="js/i18n.js" defer></script>
@@ -14,13 +15,17 @@
 </head>
 
 <body>
-  <div class="container">
-    <h1 id="itemTitle"></h1>
-    <div id="rating"></div>
-    <div id="preview"></div>
-    <div class="actions">
-      <button onclick="useTemplate()">Use this template</button>
-      <button onclick="downloadItem()">Download</button>
+  <div class="item-container">
+    <div class="item-header">
+      <h1 id="itemTitle"></h1>
+      <div class="item-actions">
+        <div id="rating"></div>
+        <button onclick="useTemplate()">Use this template</button>
+        <button onclick="downloadItem()">Download</button>
+      </div>
+    </div>
+    <div class="preview-wrapper">
+      <div id="preview"></div>
     </div>
   </div>
 </body>
