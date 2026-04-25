@@ -1,9 +1,14 @@
 async function loadItem() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
   if (!id) return;
   try {
-    const res = await fetch(`${API_URL}/api/community/${id}`);
+    const res = await fetch(`${API_URL}/api/community/${id}`, {
+      headers: {
+        "Authorization": `Bearer ${session?.access_token || ""}`
+      }
+    });
     if (!res.ok) throw new Error("Failed to fetch item");
     const item = await res.json();
     renderItem(item);
@@ -27,6 +32,12 @@ async function renderItem(item) {
   } catch (err) {
     console.error(err);
     previewEl.innerHTML = "Failed to load preview";
+  }
+  if (item.user_rating) {
+    const stars = document.querySelectorAll("#ratingStars span");
+    stars.forEach((star, index) => {
+      star.style.opacity = index < item.user_rating ? "1" : "0.3";
+    });
   }
   window.currentItem = item;
 }

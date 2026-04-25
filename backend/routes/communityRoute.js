@@ -22,11 +22,30 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { data, error } = await getPublicItemById(id);
+    const { data: item, error } = await getPublicItemById(id);
     if (error) {
       return res.status(500).json({ error: "Failed to fetch item" });
     }
-    res.json(data);
+    let userRating = null;
+    const authHeader = req.headers.authorization;
+    if (authHeader) {
+      const token = authHeader.replace("Bearer ", "");
+      const { data: userData } = await supabase.auth.getUser(token);
+      if (userData?.user) {
+        const { data: ratingData } = await supabase
+          .from("ratings")
+          .select("rating")
+          .eq("item_id", id)
+          .eq("user_id", userData.user.id)
+          .single();
+
+        userRating = ratingData?.rating || null;
+      }
+    }
+    res.json({
+      ...item,
+      user_rating: userRating 
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Unexpected error" });
