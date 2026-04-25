@@ -22,11 +22,17 @@
             <div class="community-controls">
                 <input type="text" placeholder="Search..." id="searchInput">
                 <select id="filterType">
-                <option value="all">All</option>
-                <option value="worksheet">Worksheets</option>
-                <option value="bingo">Bingo</option>
-            <option value="flashcards">Flashcards</option>
-            </select>
+                    <option value="all">All</option>
+                    <option value="worksheet">Worksheets</option>
+                    <option value="bingo">Bingo</option>
+                    <option value="flashcards">Flashcards</option>
+                </select>
+                <select id="sortSelect" onchange="loadCommunity()">
+                    <option value="default">Default</option>
+                    <option value="rating">⭐ Best rated</option>
+                    <option value="new">🆕 Newest</option>
+                </select>
+            </div>
             <div id="communityGrid" class="community-grid"></div>
         </div>
     </div>

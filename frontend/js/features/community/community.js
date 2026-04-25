@@ -41,7 +41,8 @@ async function loadCommunity() {
   const grid = document.getElementById("communityGrid");
 
   try {
-    const res = await fetch(`${API_URL}/api/community`);
+    const sort = document.getElementById("sortSelect")?.value || "default";
+    const res = await fetch(`${API_URL}/api/community?sort=${sort}`);
     if (!res.ok) throw new Error("API failed");
     const data = await res.json();
     const formatted = data.map(item => ({

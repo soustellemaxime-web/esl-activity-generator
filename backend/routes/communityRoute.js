@@ -8,7 +8,19 @@ const supabase = require('../supabaseClient');
 
 router.get("/", async (req, res) => {
   try {
-    const { data, error } = await getPublicItems();
+    const sort = req.query.sort || "default";
+    let query = supabase
+      .from("worksheets")
+      .select("*")
+      .eq("visibility", "public");
+
+    if (sort === "rating") {
+      query = query.order("rating_avg", { ascending: false });
+    }
+    if (sort === "new") {
+      query = query.order("created_at", { ascending: false });
+    }
+    const { data, error } = await query;
     if (error) {
       return res.status(500).json({ error: "Failed to load community items" });
     }
