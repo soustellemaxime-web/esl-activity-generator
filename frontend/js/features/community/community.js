@@ -43,6 +43,15 @@ async function loadCommunity() {
     const search = document.getElementById("searchInput").value;
     const type = document.getElementById("filterType").value;
     const sort = document.getElementById("sortSelect").value;
+    // Skeleton loading
+    const grid = document.getElementById("communityGrid");
+    grid.innerHTML = Array(5).fill(`
+      <div class="community-card skeleton">
+        <div class="community-preview skeleton-box"></div>
+        <div class="skeleton-title"></div>
+        <div class="skeleton-meta"></div>
+      </div>
+    `).join("");
     const res = await fetch(
       `${API_URL}/api/community?search=${encodeURIComponent(search)}&type=${type}&sort=${sort}`
     );
@@ -68,6 +77,13 @@ function openItem(id) {
 async function loadFeatured() {
   const grid = document.getElementById("featuredGrid");
   try {
+    grid.innerHTML = Array(5).fill(`
+      <div class="community-card skeleton">
+        <div class="community-preview skeleton-box"></div>
+        <div class="skeleton-title"></div>
+        <div class="skeleton-meta"></div>
+      </div>
+    `).join("");
     const res = await fetch(`${API_URL}/api/community/featured`);
     const data = await res.json();
     const formatted = data.map(item => ({
