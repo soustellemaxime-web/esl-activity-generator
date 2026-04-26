@@ -40,6 +40,24 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/featured", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("worksheets")
+      .select("*")
+      .eq("visibility", "public")
+      .eq("featured", true)
+      .order("created_at", { ascending: false });
+    if (error) {
+      return res.status(500).json({ error: "Failed to load featured items" });
+    }
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Unexpected error" });
+  }
+});
+
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;

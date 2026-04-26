@@ -38,7 +38,6 @@ function getEmoji(type) {
 }
 
 async function loadCommunity() {
-  console.log("input");
   const grid = document.getElementById("communityGrid");
   try {
     const search = document.getElementById("searchInput").value;
@@ -66,8 +65,26 @@ function openItem(id) {
   window.location.href = `/community-item.html?id=${id}`;
 }
 
+async function loadFeatured() {
+  const grid = document.getElementById("featuredGrid");
+  try {
+    const res = await fetch(`${API_URL}/api/community/featured`);
+    const data = await res.json();
+    const formatted = data.map(item => ({
+      id: item.id,
+      title: item.title,
+      type: item.type,
+      rating: item.rating_avg
+    }));
+    grid.innerHTML = formatted.map(renderCard).join("");
+  } catch (err) {
+    console.error("Featured failed", err);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     initCommunity();
+    loadFeatured();
     loadCommunity();
 });
 
