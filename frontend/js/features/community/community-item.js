@@ -86,7 +86,7 @@ async function downloadItem() {
       image: data.imageMap?.[word] || null
     }));
   }
-  await downloadFromData(data, item.type, item.title);
+  await downloadFromData(data, item.type, item.title, true);
 }
 
 async function rate(value) {

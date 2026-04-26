@@ -398,7 +398,7 @@ async function download() {
     btn.textContent = "⬇️ Download PDF";
 }
 
-async function downloadFromData(data, type, filename = "activity") {
+async function downloadFromData(data, type, filename = "activity", isCommunity = false) {
     const { data: { session } } = await supabaseClient.auth.getSession();
     const res = await fetch(`${API_URL}/api/${type}/generate`, {
         method: "POST",
@@ -406,7 +406,10 @@ async function downloadFromData(data, type, filename = "activity") {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${session?.access_token || ""}`
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+            ...data,
+            isCommunity 
+        })
     });
     if (!res.ok) {
         const errorData = await res.json();

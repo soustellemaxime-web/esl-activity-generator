@@ -22,6 +22,8 @@ router.post("/preview", (req, res) => {
 router.post("/generate", async (req, res) => {
   // Track downloads
   try {
+    const isCommunity = req.body.isCommunity || false;
+    const downloadType = isCommunity ? "community" : "generator";
     const user = await getUserFromToken(req);
     if (!user) {
       return res.status(401).json({ error: "Unauthorized" });
@@ -34,14 +36,28 @@ router.post("/generate", async (req, res) => {
       .eq("id", user_id)
       .single();
     // Get today's downloads
-    const { data: downloads } = await getTodayDownloads(user_id);
-    if (profile.plan === "free" && downloads.length >= 3) {
-      return res.status(403).json({ error: "Download limit reached for today." });
+    const { data: generatorDownloads } = await getTodayDownloads(user_id, "generator");
+    const { data: communityDownloads } = await getTodayDownloads(user_id, "community");
+    if (profile.plan === "free" && generatorDownloads.length >= 3) {
+      return res.status(403).json({
+        error: "Download limit reached for today."
+      });
+    }
+    if (isCommunity) {
+      let communityLimit;
+      if (profile.plan === "free") communityLimit = 1;
+      if (profile.plan === "premium") communityLimit = 5;
+      if (profile.plan === "vip") communityLimit = Infinity;
+      if (communityDownloads.length >= communityLimit) {
+        return res.status(403).json({
+          error: "Community download limit reached"
+        });
+      }
     }
     // Generate the file
     const html = generateWorksheet(req.body);
     const pdf = await generatePDF(html);
-    await addDownload(user_id);
+    await addDownload(user_id, downloadType);
     res.set({
       "Content-Type": "application/pdf",
       "Content-Disposition": "attachment; filename=worksheet.pdf"
