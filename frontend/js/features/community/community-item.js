@@ -1,4 +1,6 @@
 async function loadItem() {
+  document.getElementById("itemSkeleton").style.display = "block";
+  document.getElementById("itemContent").classList.add("hidden");
   const { data: { session } } = await supabaseClient.auth.getSession();
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
@@ -12,6 +14,8 @@ async function loadItem() {
     if (!res.ok) throw new Error("Failed to fetch item");
     const item = await res.json();
     renderItem(item);
+    document.getElementById("itemSkeleton").style.display = "none";
+    document.getElementById("itemContent").classList.remove("hidden");
   } catch (err) {
     console.error("Error loading item:", err);
   }
