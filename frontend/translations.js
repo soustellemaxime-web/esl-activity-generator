@@ -56,6 +56,7 @@ const translations = {
     "noLimit": "No limit!",
     "limitUsed": "Used {{used}}/{{limit}}",
     "savesLabel": "💾 Saves",
+    "downloadsCommunityLabel": "⬇️ Community Downloads",
     "downloadsLabel": "⬇️ Downloads",
     // Dashboard
     myDashboard: "📂 My Dashboard",
@@ -225,6 +226,7 @@ const translations = {
     "limitUsed": "ใช้ไป {{used}}/{{limit}}",
     "savesLabel": "💾 การบันทึก",
     "downloadsLabel": "⬇️ การดาวน์โหลด",
+    "downloadsCommunityLabel": "⬇️ การดาวน์โหลดชุมชน",
     // Dashboard
     myDashboard: "📂 แดชบอร์ดของฉัน",
     notLoggedDash: "กรุณาเข้าสู่ระบบเพื่อเข้าถึงแดชบอร์ดของคุณ",

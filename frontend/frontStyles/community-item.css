@@ -78,6 +78,12 @@
   height: 500px;
 }
 
+.limit-bar-community-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
 /* Animation */
 @keyframes shimmer {
   0% { background-position: -200% 0; }

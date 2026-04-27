@@ -128,9 +128,36 @@ async function rate(value) {
   }
 }
 
+function updateCommunityLimitUI(data) {
+  const container = document.getElementById("limitsBar");
+  if (!data || !data.limits) return;
+  container.classList.remove("hidden");
+  const community = data.limits.communityDownloads;
+  renderLimit(
+    "communityDownloadLimit",
+    "downloadsCommunityLabel",
+    community.used,
+    community.limit
+  );
+}
+
+async function loadLimitsCommunity() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) return;
+  const res = await fetch(`${API_URL}/limits`, {
+    headers: {
+      "Authorization": `Bearer ${session.access_token}`
+    }
+  });
+  if (!res.ok) return;
+  const data = await res.json();
+  updateCommunityLimitUI(data);
+}
+
 document.addEventListener("DOMContentLoaded", () =>
   {
     loadItem();
     loadModal();
+    loadLimitsCommunity();
   }
 );

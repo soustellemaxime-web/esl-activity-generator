@@ -115,11 +115,18 @@ app.get("/limits", async (req, res) => {
   let saveLimit = 5;
   if (plan === "premium") saveLimit = 30;
   if (plan === "vip") saveLimit = null;
-  let downloadLimit = 3;
-  if (plan === "premium") downloadLimit = null;
-  if (plan === "vip") downloadLimit = null;
-  const { data: downloads } = await getTodayDownloads(user_id);
-  const downloadsToday = downloads ? downloads.length : 0;
+  // Generator limits
+  let generatorLimit = 3;
+  if (plan === "premium") generatorLimit = 30;
+  if (plan === "vip") generatorLimit = null;
+  // Community limits
+  let communityLimit = 3;
+  if (plan === "premium") communityLimit = 10;
+  if (plan === "vip") communityLimit = null;
+  const { data: generatorDownloads } = await getTodayDownloads(user_id, "generator");
+  const { data: communityDownloads } = await getTodayDownloads(user_id, "community");
+  const generatorCount = generatorDownloads ? generatorDownloads.length : 0;
+  const communityCount = communityDownloads ? communityDownloads.length : 0;
   res.json({
     limits: {
       saves: {
@@ -127,8 +134,12 @@ app.get("/limits", async (req, res) => {
         limit: saveLimit
       },
       downloads: {
-        used: downloadsToday,
-        limit: downloadLimit
+        used: generatorCount,
+        limit: generatorLimit
+      },
+      communityDownloads: {
+        used: communityCount,
+        limit: communityLimit
       }
     },
     plan
