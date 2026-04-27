@@ -14,7 +14,7 @@ async function initCommunity() {
 }
 
 function renderCard(item) {
-  return `
+  let html = `
     <div class="community-card" onclick="openItem('${item.id}')">
       <div class="community-preview">
         ${getEmoji(item.type)}
@@ -24,10 +24,18 @@ function renderCard(item) {
       </div>
       <h3>${item.title}</h3>
       <div class="community-meta">
-        <span class="rating">⭐ ${item.rating || "0"}</span>
+        <div class="ratingStars">
+          ${[1,2,3,4,5].map(i => {
+            if (i <= item.rating) return `<span>⭐</span>`;
+            if (i - 0.5 <= item.rating) return `<span style="opacity:0.6">⭐</span>`;
+            return `<span style="opacity:0.3">⭐</span>`;
+          }).join("")}
+          ${item.rating || "0"}
+        </div>
       </div>
     </div>
   `;
+  return html;
 }
 
 function getEmoji(type) {
