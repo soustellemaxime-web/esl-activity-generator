@@ -1,4 +1,7 @@
 async function loadItem() {
+  if (window.userPlan !== "vip") {
+    document.getElementById("useTemplateBtn").classList.add("locked");
+  }
   document.getElementById("itemSkeleton").style.display = "block";
   document.getElementById("itemContent").classList.add("hidden");
   const { data: { session } } = await supabaseClient.auth.getSession();
@@ -55,6 +58,10 @@ function getEmoji(type) {
 function useTemplate() {
   if (!window.currentItem) return;
   const item = window.currentItem;
+  if (window.userPlan !== "vip") {
+    showUpgradeModal("template");
+    return;
+  }
   if (item.type === "worksheet") {
     window.location.href = `worksheet.html?load=${item.id}`;
   }
@@ -121,4 +128,9 @@ async function rate(value) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", loadItem);
+document.addEventListener("DOMContentLoaded", () =>
+  {
+    loadItem();
+    loadModal();
+  }
+);

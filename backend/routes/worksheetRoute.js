@@ -45,8 +45,8 @@ router.post("/generate", async (req, res) => {
     }
     if (isCommunity) {
       let communityLimit;
-      if (profile.plan === "free") communityLimit = 1;
-      if (profile.plan === "premium") communityLimit = 5;
+      if (profile.plan === "free") communityLimit = 3;
+      if (profile.plan === "premium") communityLimit = 10;
       if (profile.plan === "vip") communityLimit = Infinity;
       if (communityDownloads.length >= communityLimit) {
         return res.status(403).json({

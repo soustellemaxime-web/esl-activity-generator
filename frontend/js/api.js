@@ -466,6 +466,12 @@ function showUpgradeModal(type) {
         title.setAttribute("data-i18n", "saveLimitTitle");
         message.setAttribute("data-i18n", "saveLimitMessage");
     }
+    if (type === "template") {
+        title.textContent = "🚫 Community items editing only for VIP tier";
+        message.textContent = "Upgrade to edit community items.";
+        title.setAttribute("data-i18n", "templateLimitTitle");
+        message.setAttribute("data-i18n", "templateLimitMessage");
+    }
     applyTranslations(currentLang);
     modal.classList.remove("upgrade-hidden");
 }

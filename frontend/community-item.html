@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="frontStyles/community.css">
     <link rel="stylesheet" href="frontStyles/community-item.css">
+    <link rel="stylesheet" href="frontStyles/upgradeModal.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="translations.js" defer></script>
     <script src="js/i18n.js" defer></script>
@@ -29,7 +30,7 @@
           </div>
           <div id="ratingValue">⭐ 0</div>
         </div>
-        <button onclick="useTemplate()">🧩 Use this template</button>
+        <button id="useTemplateBtn" onclick="useTemplate()">🧩 Use this template</button>
         <button onclick="downloadItem()">⬇️ Download</button>
       </div>
     </div>

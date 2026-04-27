@@ -50,6 +50,8 @@ const translations = {
     downloadLimitMessage: "You have reached your download limit for today. Upgrade to Premium for unlimited downloads and more features!",
     saveLimitTitle: "Save Limit Reached",
     saveLimitMessage: "You have reached your save limit. Upgrade to Premium to save more creations and access exclusive features!",
+    templateLimitTitle: "Community items editing only for VIP tier",
+    templateLimitMessage: "Upgrade to VIP to edit community items.",
     // Limits
     "noLimit": "No limit!",
     "limitUsed": "Used {{used}}/{{limit}}",
@@ -216,6 +218,8 @@ const translations = {
     downloadLimitMessage: "คุณได้ถึงขีดจำกัดการดาวน์โหลดสำหรับวันนี้แล้ว อัปเกรดเป็นพรีเมียมเพื่อดาวน์โหลดได้ไม่จำกัดและฟีเจอร์เพิ่มเติม!",
     saveLimitTitle: "ถึงขีดจำกัดการบันทึกแล้ว",
     saveLimitMessage: "คุณได้ถึงขีดจำกัดการบันทึกแล้ว อัปเกรดเป็นพรีเมียมเพื่อบันทึกผลงานได้มากขึ้นและเข้าถึงฟีเจอร์พิเศษ!",
+    templateLimitTitle: "การแก้ไขไอเท็มชุมชนสำหรับระดับวีไอพีเท่านั้น",
+    templateLimitMessage: "อัปเกรดเป็นวีไอพีเพื่อแก้ไขไอเท็มชุมชน",
     // Limits
     "noLimit": "ไม่มีขีดจำกัด!",
     "limitUsed": "ใช้ไป {{used}}/{{limit}}",
