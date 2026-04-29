@@ -150,6 +150,9 @@ async function loadWorksheets() {
 }
 
 async function openWorksheet(id) {
+  const dashboard = document.getElementById("dashboard");
+  dashboard.classList.add("fade-out");
+  setTimeout(() => dashboard.classList.add("hidden"), 200);
   const user = await getCurrentUser();
   const res = await fetch(`${BASE_URL}/worksheets/${id}?user_id=${user.id}`);
   const data = await res.json();
@@ -164,6 +167,7 @@ async function openWorksheet(id) {
   // update UI
   updateModeUI();
   renderFromState();
+  showToast("Worksheet loaded!", "success");
 }
 
 async function deleteWorksheet(id) {

@@ -110,11 +110,10 @@ async function saveFlashcardsWithVisibility(title, visibility) {
 }
 
 async function loadFlashcard(id) {
+  const dashboard = document.getElementById("dashboard");
+  dashboard.classList.add("fade-out");
+  setTimeout(() => dashboard.classList.add("hidden"), 200);
   const user = await getCurrentUser();
-  if (!user) {
-    alert("You must be logged in to load flashcards.");
-    return;
-  }
   const res = await fetch(`${API_URL}/worksheets/${id}?user_id=${user.id}`);
   const item = await res.json();
   const state = item.data;
@@ -143,10 +142,15 @@ async function loadFlashcard(id) {
   } else {
     preview();
   }
+  showToast("Flashcards loaded!", "success");
 }
 
 async function loadFlashcards() {
   const user = await getCurrentUser();
+  if (!user) {
+    alert("You must be logged in to load flashcards.");
+    return;
+  }
   const res = await fetch(`${API_URL}/worksheets?user_id=${user.id}&type=flashcards`);
   const flashcards = await res.json();
   const container = document.getElementById("worksheetsList");

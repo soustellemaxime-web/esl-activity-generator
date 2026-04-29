@@ -70,21 +70,25 @@ async function saveBingoWithVisibility(title, visibility) {
 }
 
 async function loadBingo(id) {
-    const user = await getCurrentUser();
-    const res = await fetch(`${API_URL}/worksheets/${id}?user_id=${user.id}&type=bingo`);
-    const item = await res.json();
-    const state = item.data;
-    document.getElementById("title").value = state.title || "";
-    document.getElementById("words").value = state.words.join("\n");
-    document.getElementById("gridSize").value = state.gridSize;
-    document.getElementById("freeCenter").checked = state.freeCenter;
-    document.getElementById("cardCount").value = state.cardCount;
-    if (document.getElementById("uppercase")) {
-      document.getElementById("uppercase").checked = state.uppercase;
-    }
-    document.getElementById("displayMode").value = state.displayMode;
-    window.globalImageMap = state.imageMap || {};
-    preview();
+  const dashboard = document.getElementById("dashboard");
+  dashboard.classList.add("fade-out");
+  setTimeout(() => dashboard.classList.add("hidden"), 200);
+  const user = await getCurrentUser();
+  const res = await fetch(`${API_URL}/worksheets/${id}?user_id=${user.id}&type=bingo`);
+  const item = await res.json();
+  const state = item.data;
+  document.getElementById("title").value = state.title || "";
+  document.getElementById("words").value = state.words.join("\n");
+  document.getElementById("gridSize").value = state.gridSize;
+  document.getElementById("freeCenter").checked = state.freeCenter;
+  document.getElementById("cardCount").value = state.cardCount;
+  if (document.getElementById("uppercase")) {
+    document.getElementById("uppercase").checked = state.uppercase;
+  }
+  document.getElementById("displayMode").value = state.displayMode;
+  window.globalImageMap = state.imageMap || {};
+  preview();
+  showToast("Bingo loaded!", "success");
 }
 
 async function loadBingos() {

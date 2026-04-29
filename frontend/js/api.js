@@ -528,7 +528,12 @@ async function loadSaveModal() {
     });
 }
 
-function openSaveModal() {
+async function openSaveModal() {
+    const user = await getCurrentUser();
+    if (!user) {
+        alert("You must be logged in to save items.");
+        return;
+    }
     const titleInput = document.getElementById("title") || "Title";
     document.getElementById("saveModal").classList.remove("upgrade-hidden");
     document.getElementById("saveTitleInput").value = titleInput.value;
