@@ -489,6 +489,43 @@ async function loadModal() {
   };
 }
 
+async function loadSaveModal() {
+  const res = await fetch("/components/saveModal.html");
+  const html = await res.text();
+  document.body.insertAdjacentHTML("beforeend", html);
+  document.getElementById("save-closeModal").onclick = () => {
+    document.getElementById("saveModal").classList.add("upgrade-hidden");
+  };
+  document.getElementById("saveConfirmBtn").onclick = async () => {
+    const title = document.getElementById("saveTitleInput").value;
+    const visibility = document.querySelector('input[name="visibility"]:checked').value;
+    if (window.API_BASE === "worksheet") {
+        await saveWorksheetWithVisibility(title, visibility);
+    } else if (window.API_BASE === "flashcards") {
+        await saveFlashcardsWithVisibility(title, visibility);
+    } else if (window.API_BASE === "bingo") {
+        await saveBingoWithVisibility(title, visibility);
+    }
+    document.getElementById("saveModal").classList.add("upgrade-hidden");
+  };
+  document.querySelectorAll('input[name="visibility"]').forEach(input => {
+    input.addEventListener("change", () => {
+        const warning = document.getElementById("communityWarning");
+        if (input.value === "public" && input.checked) {
+            warning.classList.remove("hidden");
+        } else {
+            warning.classList.add("hidden");
+        }
+    });
+    });
+}
+
+function openSaveModal() {
+    const titleInput = document.getElementById("title") || "Title";
+    document.getElementById("saveModal").classList.remove("upgrade-hidden");
+    document.getElementById("saveTitleInput").value = titleInput.value;
+}
+
 function renderLimit(id, label, used, limit) {
   const el = document.getElementById(id);
   const tLabel = t(label);
@@ -574,6 +611,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.API_BASE === "flashcards"
   ) {
     loadModal();
+    loadSaveModal();
     loadLimits();
   }
 });

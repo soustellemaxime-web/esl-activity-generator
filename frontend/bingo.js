@@ -64,6 +64,44 @@ async function saveBingo() {
     alert("Bingo saved successfully!");
 }
 
+async function saveBingoWithVisibility(title, visibility) {
+  const state = getBingoState();
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  if (!user) {
+    alert("You must be logged in to save bingos.");
+    return;
+  }
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  const res = await fetch(`${API_URL}/save`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${session.access_token}`
+    },
+    body: JSON.stringify({
+      title,
+      type: "bingo",
+      data: state,
+      user_id: user.id,
+      visibility
+    })
+  });
+  if (!res.ok) {
+    const errorData = await res.json();
+    if (res.status === 403) {
+      showUpgradeModal("save");
+    } else {
+      alert(errorData.error || "Save failed");
+    }
+    return;
+  }
+  alert(
+    visibility === "community"
+      ? "Bingo shared to community!"
+      : "Bingo saved successfully!"
+  );
+}
+
 async function loadBingo(id) {
     const { data: { user } } = await supabaseClient.auth.getUser();
     const res = await fetch(`${API_URL}/worksheets/${id}?user_id=${user.id}&type=bingo`);

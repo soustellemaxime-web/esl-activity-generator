@@ -1,0 +1,33 @@
+<div id="saveModal" class="upgrade-modal upgrade-hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title-text">💾 Save your activity</h2>
+      <button id="save-closeModal">✖</button>
+    </div>
+    <div class="modal-body">
+      <!-- Title -->
+      <label>Title</label>
+      <input id="saveTitleInput" type="text" placeholder="Enter activity title" />
+      <!-- Visibility -->
+      <div class="save-options">
+        <label>
+          <input type="radio" name="visibility" value="private" checked />
+          🔒 Private (only you)
+        </label>
+        <label>
+          <input type="radio" name="visibility" value="public" />
+          🌍 Share to community
+        </label>
+      </div>
+      <!-- Warning -->
+      <p class="save-warning hidden" id="communityWarning">
+        ⚠️ This will be visible to other users.
+      </p>
+    </div>
+    <div class="modal-actions">
+      <button id="saveConfirmBtn" class="btn primary">
+        💾 Save
+      </button>
+    </div>
+  </div>
+</div>

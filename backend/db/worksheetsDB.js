@@ -1,9 +1,15 @@
 const supabase = require('../supabaseClient');
 
-async function saveWorksheet(title, data, user_id, type = "worksheet") {
+async function saveWorksheet(title, data, user_id, type = "worksheet", visibility = "private") {
     return await supabase
         .from('worksheets')
-        .insert([{ title, data, user_id, type }]);
+        .insert([{ 
+            title, 
+            data, 
+            user_id, 
+            type,
+            visibility
+        }]);
 }
 
 async function getWorksheets(user_id, type = null) {

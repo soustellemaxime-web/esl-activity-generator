@@ -104,6 +104,44 @@ async function saveFlashcards() {
   alert("Flashcards saved successfully!");
 }
 
+async function saveFlashcardsWithVisibility(title, visibility) {
+  const state = getFlashcardState();
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  if (!user) {
+    alert("You must be logged in to save flashcards.");
+    return;
+  }
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  const res = await fetch(`${API_URL}/save`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${session.access_token}`
+    },
+    body: JSON.stringify({
+      title,
+      type: "flashcards",
+      data: state,
+      user_id: user.id,
+      visibility
+    })
+  });
+  if (!res.ok) {
+    const errorData = await res.json();
+    if (res.status === 403) {
+      showUpgradeModal("save");
+    } else {
+      alert(errorData.error || "Save failed");
+    }
+    return;
+  }
+  alert(
+    visibility === "community"
+      ? "Flashcards shared to community!"
+      : "Flashcards saved successfully!"
+  );
+}
+
 async function loadFlashcard(id) {
   const { data: { user } } = await supabaseClient.auth.getUser();
   if (!user) {

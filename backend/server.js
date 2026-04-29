@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 })
 
 app.post('/save', async (req, res) => {
-  const { title, data, user_id, type } = req.body;
+  const { title, data, type, visibility } = req.body;
   try {
     // Get user
     const user = await getUserFromToken(req);
@@ -62,7 +62,7 @@ app.post('/save', async (req, res) => {
       return res.status(403).json({ error: `Save limit reached for ${plan} plan` });
     }
     // Save the item
-    const { error } = await saveWorksheet(title, data, user_id, type);
+    const { error } = await saveWorksheet(title, data, user_id, type, visibility);
     if (error) {
       console.error("Supabase error:", error)
       return res.status(500).json({ error: `Failed to save ${type}` })

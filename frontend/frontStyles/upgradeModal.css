@@ -72,3 +72,28 @@
 .upgrade-tier-image:hover {
     transform: scale(1.1) rotate(-3deg);
 }
+
+.save-options {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.save-warning {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: orange;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+}
+
