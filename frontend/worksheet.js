@@ -113,10 +113,10 @@ async function saveWorksheetWithVisibility(title, visibility) {
     }
     return;
   }
-  alert(
-    visibility === "community"
+  showToast(
+    visibility === "public"
       ? "Worksheet shared to community!"
-      : "Worksheet saved successfully!"
+      : "Worksheet saved successfully!", "success"
   );
 }
 

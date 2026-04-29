@@ -62,10 +62,10 @@ async function saveBingoWithVisibility(title, visibility) {
     }
     return;
   }
-  alert(
-    visibility === "community"
+  showToast(
+    visibility === "public"
       ? "Bingo shared to community!"
-      : "Bingo saved successfully!"
+      : "Bingo saved successfully!", "success"
   );
 }
 

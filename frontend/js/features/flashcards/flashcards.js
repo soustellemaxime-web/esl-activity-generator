@@ -102,10 +102,10 @@ async function saveFlashcardsWithVisibility(title, visibility) {
     }
     return;
   }
-  alert(
-    visibility === "community"
+  showToast(
+    visibility === "public"
       ? "Flashcards shared to community!"
-      : "Flashcards saved successfully!"
+      : "Flashcards saved successfully!", "success"
   );
 }
 

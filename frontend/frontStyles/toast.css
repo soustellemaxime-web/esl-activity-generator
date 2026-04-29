@@ -1,0 +1,33 @@
+#toastContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.toast {
+  background: #333;
+  color: white;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Types */
+.toast-success {
+  background: #4CAF50;
+}
+
+.toast-error {
+  background: #f44336;
+}
