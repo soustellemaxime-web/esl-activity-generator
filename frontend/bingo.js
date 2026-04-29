@@ -79,7 +79,9 @@ async function loadBingo(id) {
     document.getElementById("gridSize").value = state.gridSize;
     document.getElementById("freeCenter").checked = state.freeCenter;
     document.getElementById("cardCount").value = state.cardCount;
-    document.getElementById("uppercase").checked = state.uppercase;
+    if (document.getElementById("uppercase")) {
+      document.getElementById("uppercase").checked = state.uppercase;
+    }
     document.getElementById("displayMode").value = state.displayMode;
     window.globalImageMap = state.imageMap || {};
     preview();
