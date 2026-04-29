@@ -1,3 +1,51 @@
+let zoom = 0.8;
+let currentPage = 0;
+
+function updatePages() {
+  const pages = document.querySelectorAll("#preview .page");
+  if (!pages.length) return;
+  pages.forEach((p, i) => {
+    if (i === currentPage) {
+      p.style.visibility = "visible";
+      p.style.position = "relative";
+    } else {
+      p.style.visibility = "hidden";
+      p.style.position = "absolute";
+    }
+  });
+  const pageLabel = document.getElementById("ci-page-info");
+  if (pageLabel) {
+    pageLabel.textContent = `${currentPage + 1} / ${pages.length}`;
+  }
+  const prevBtn = document.getElementById("ci-prev");
+  const nextBtn = document.getElementById("ci-next");
+  if (prevBtn && nextBtn) {
+    prevBtn.disabled = currentPage === 0;
+    nextBtn.disabled = currentPage === pages.length - 1;
+  }
+}
+
+function applyZoom() {
+  const preview = document.getElementById("preview");
+  if (!preview) return;
+  preview.style.transform = `scale(${zoom})`;
+  preview.style.transformOrigin = "top center";
+  const zoomLabel = document.getElementById("ci-zoom-level");
+  if (zoomLabel) {
+    zoomLabel.textContent = Math.round(zoom * 100) + "%";
+  }
+}
+
+function toggleFullscreen() {
+  const el = document.querySelector(".ci-preview-viewport");
+  if (!el) return;
+  if (!document.fullscreenElement) {
+    el.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+
 async function loadItem() {
   document.getElementById("itemSkeleton").style.display = "block";
   document.getElementById("itemContent").classList.add("hidden");
@@ -36,6 +84,8 @@ async function renderItem(item) {
     if (!res.ok) throw new Error("Preview failed");
     const html = await res.text();
     previewEl.innerHTML = html;
+    applyZoom();
+    updatePages();
   } catch (err) {
     console.error(err);
     previewEl.innerHTML = "Failed to load preview";
@@ -159,5 +209,42 @@ document.addEventListener("DOMContentLoaded", () =>
     loadItem();
     loadModal();
     loadLimitsCommunity();
+    const zoomInBtn = document.getElementById("ci-zoom-in");
+    if (zoomInBtn) {
+      zoomInBtn.onclick = () => {
+        zoom += 0.1;
+        applyZoom();
+      };
+    }
+    const zoomOutBtn = document.getElementById("ci-zoom-out");
+    if (zoomOutBtn) {
+      zoomOutBtn.onclick = () => {
+        zoom = Math.max(0.5, zoom - 0.1);
+        applyZoom();
+      };
+    }
+    const nextBtn = document.getElementById("ci-next");
+    if (nextBtn) {
+      nextBtn.onclick = () => {
+        const pages = document.querySelectorAll("#preview .page");
+        if (currentPage < pages.length - 1) {
+          currentPage++;
+          updatePages();
+        }
+      };
+    }
+    const prevBtn = document.getElementById("ci-prev");
+    if (prevBtn) {
+      prevBtn.onclick = () => {
+        if (currentPage > 0) {
+          currentPage--;
+          updatePages();
+        }
+      };
+    }
+    const fullscreenBtn = document.getElementById("ci-fullscreen");
+    if (fullscreenBtn) {
+      fullscreenBtn.onclick = toggleFullscreen;
+    }
   }
 );
