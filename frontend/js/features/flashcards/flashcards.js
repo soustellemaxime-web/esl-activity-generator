@@ -90,7 +90,8 @@ async function saveFlashcardsWithVisibility(title, visibility) {
       type: "flashcards",
       data: state,
       user_id: user.id,
-      visibility
+      visibility,
+      id: window.currentItemId || null
     })
   });
   if (!res.ok) {
@@ -113,6 +114,7 @@ async function loadFlashcard(id) {
   const dashboard = document.getElementById("dashboard");
   dashboard.classList.add("fade-out");
   setTimeout(() => dashboard.classList.add("hidden"), 200);
+  window.currentItemId = id;
   const user = await getCurrentUser();
   const res = await fetch(`${API_URL}/worksheets/${id}?user_id=${user.id}`);
   const item = await res.json();

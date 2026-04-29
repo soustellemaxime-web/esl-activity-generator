@@ -100,7 +100,8 @@ async function saveWorksheetWithVisibility(title, visibility) {
       type: "worksheet",
       data: state,
       user_id: user.id,
-      visibility
+      visibility,
+      id: window.currentItemId || null
     })
   });
   if (!res.ok) {
@@ -153,6 +154,7 @@ async function openWorksheet(id) {
   const dashboard = document.getElementById("dashboard");
   dashboard.classList.add("fade-out");
   setTimeout(() => dashboard.classList.add("hidden"), 200);
+  window.currentItemId = id;
   const user = await getCurrentUser();
   const res = await fetch(`${BASE_URL}/worksheets/${id}?user_id=${user.id}`);
   const data = await res.json();

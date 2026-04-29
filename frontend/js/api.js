@@ -537,6 +537,15 @@ async function openSaveModal() {
     const titleInput = document.getElementById("title") || "Title";
     document.getElementById("saveModal").classList.remove("upgrade-hidden");
     document.getElementById("saveTitleInput").value = titleInput.value;
+    const modalTitle = document.querySelector("#saveModal .modal-title-text");
+    const saveBtn = document.querySelector("#saveModal .btn");
+    if (window.currentItemId) {
+        modalTitle.textContent = "Update your activity";
+        saveBtn.innerText = "💾 Update";
+    } else {
+        modalTitle.textContent = "Save your activity";
+        saveBtn.innerText = "💾 Save";
+    }
 }
 
 function renderLimit(id, label, used, limit) {

@@ -12,6 +12,19 @@ async function saveWorksheet(title, data, user_id, type = "worksheet", visibilit
         }]);
 }
 
+async function updateWorksheet(id, title, data, user_id, type, visibility) {
+    return await supabase
+        .from('worksheets')
+        .update({
+            title,
+            data,
+            type,
+            visibility
+        })
+        .eq('id', id)
+        .eq('user_id', user_id);
+}
+
 async function getWorksheets(user_id, type = null) {
     let query = supabase
         .from('worksheets')
@@ -52,6 +65,7 @@ async function countUserWorksheets(user_id) {
 
 module.exports = {
     saveWorksheet,
+    updateWorksheet,
     getWorksheets,
     getWorksheetById,
     deleteWorksheet,

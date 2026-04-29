@@ -17,7 +17,7 @@ const imageRoutes = require("./routes/imagesRoute")
 const worksheetRoutes = require("./routes/worksheetRoute")
 const communityRoutes = require("./routes/communityRoute")
 
-const { saveWorksheet, getWorksheets, getWorksheetById, deleteWorksheet , countUserWorksheets} = require("./db/worksheetsDB")
+const { saveWorksheet, updateWorksheet, getWorksheets, getWorksheetById, deleteWorksheet , countUserWorksheets} = require("./db/worksheetsDB")
 const { getUserPlan , getUserFromToken} = require("./utils/getUser")
 const { getTodayDownloads } = require("./db/downloadsDB")
 
@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 })
 
 app.post('/save', async (req, res) => {
-  const { title, data, type, visibility } = req.body;
+  const { title, data, type, visibility, id } = req.body;
   try {
     // Get user
     const user = await getUserFromToken(req);
@@ -62,7 +62,13 @@ app.post('/save', async (req, res) => {
       return res.status(403).json({ error: `Save limit reached for ${plan} plan` });
     }
     // Save the item
-    const { error } = await saveWorksheet(title, data, user_id, type, visibility);
+    let result;
+    if (id) {
+      result = await updateWorksheet(id, title, data, user_id, type, visibility);
+    } else {
+      result = await saveWorksheet(title, data, user_id, type, visibility);
+    }
+    const { error } = result;
     if (error) {
       console.error("Supabase error:", error)
       return res.status(500).json({ error: `Failed to save ${type}` })
