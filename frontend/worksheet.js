@@ -81,39 +81,6 @@ function toggleDashboard() {
   }
 }
 
-async function saveWorksheet() {
-  const state = window.worksheetState;
-  const { data: { user } } = await supabaseClient.auth.getUser();
-  if (!user) {
-    alert("You must be logged in to save worksheets.");
-    return;
-  }
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  const res = await fetch(`${BASE_URL}/save`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${session.access_token}`
-    },
-    body: JSON.stringify({
-      title: state.title,
-      type: "worksheet",
-      data: state,
-      user_id: user.id
-    })
-  });
-  if (!res.ok) {
-    const errorData = await res.json();
-    if (res.status === 403) {
-      showUpgradeModal("save");
-    } else {
-      alert(errorData.error || "Save failed");
-    }
-    return;
-  }
-  alert("Worksheet saved successfully!");
-}
-
 async function saveWorksheetWithVisibility(title, visibility) {
   const state = window.worksheetState;
   const { data: { user } } = await supabaseClient.auth.getUser();
