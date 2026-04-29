@@ -541,7 +541,7 @@ async function openSaveModal() {
     const saveBtn = document.querySelector("#saveModal .btn");
     if (window.currentItemId) {
         modalTitle.textContent = "Update your activity";
-        saveBtn.innerText = "💾 Update";
+        saveBtn.innerText = "🔄 Update";
     } else {
         modalTitle.textContent = "Save your activity";
         saveBtn.innerText = "💾 Save";

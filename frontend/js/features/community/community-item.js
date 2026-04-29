@@ -1,7 +1,4 @@
 async function loadItem() {
-  if (window.userPlan !== "vip") {
-    document.getElementById("useTemplateBtn").classList.add("locked");
-  }
   document.getElementById("itemSkeleton").style.display = "block";
   document.getElementById("itemContent").classList.add("hidden");
   const { data: { session } } = await supabaseClient.auth.getSession();
@@ -21,6 +18,9 @@ async function loadItem() {
     document.getElementById("itemContent").classList.remove("hidden");
   } catch (err) {
     console.error("Error loading item:", err);
+  }
+  if (window.userPlan !== "vip") {
+    document.getElementById("useTemplateBtn").classList.add("locked");
   }
 }
 
