@@ -33,7 +33,7 @@ function toggleDashboard() {
 
 async function saveBingoWithVisibility(title, visibility) {
   const state = getBingoState();
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) {
     alert("You must be logged in to save bingos.");
     return;
@@ -70,7 +70,7 @@ async function saveBingoWithVisibility(title, visibility) {
 }
 
 async function loadBingo(id) {
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const user = await getCurrentUser();
     const res = await fetch(`${API_URL}/worksheets/${id}?user_id=${user.id}&type=bingo`);
     const item = await res.json();
     const state = item.data;
@@ -88,7 +88,7 @@ async function loadBingo(id) {
 }
 
 async function loadBingos() {
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const user = await getCurrentUser();
     if (!user) {
         alert("You must be logged in to load bingos.");
         return;
@@ -115,7 +115,7 @@ async function loadBingos() {
 async function deleteBingo(id) {
     const confirmed = confirm("Delete this bingo?");
     if (!confirmed) return;
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const user = await getCurrentUser();
     await fetch(`${API_URL}/worksheets/${id}?user_id=${user.id}`, {
         method: "DELETE"
     });

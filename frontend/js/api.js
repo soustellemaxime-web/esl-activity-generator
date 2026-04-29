@@ -9,8 +9,16 @@ const supabaseClient = createClient(
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxZ3ZxdXpmc29xanlnZ3V1YW1iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwMDc5ODQsImV4cCI6MjA5MDU4Mzk4NH0.uULf9SpNQ3rFtfNHZ2ulmJESQB3Eum3lMTRFleff4X8"
 );
 
+let cachedUser = null;
+async function getCurrentUser() {
+  if (cachedUser) return cachedUser;
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  cachedUser = user;
+  return user;
+}
+
 async function checkUser() {
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const user = await getCurrentUser();
     const authEl = document.getElementById("auth");
     const logoutBtn = document.getElementById("logoutBtn");
     const downloadBtn = document.getElementById("downloadBtn");
@@ -314,7 +322,7 @@ async function preview() {
 }
 
 async function download() {
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const user = await getCurrentUser();
     if (!user) {
         alert("Please log in to download");
         return;

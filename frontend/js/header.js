@@ -8,7 +8,7 @@ async function loadHeader() {
 }
 
 async function setupHeader() {
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const user = await getCurrentUser();
 
     const loginBtn = document.getElementById("loginBtn");
     const logoutBtn = document.getElementById("logoutBtn");

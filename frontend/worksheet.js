@@ -83,7 +83,7 @@ function toggleDashboard() {
 
 async function saveWorksheetWithVisibility(title, visibility) {
   const state = window.worksheetState;
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) {
     alert("You must be logged in to save worksheets.");
     return;
@@ -121,7 +121,7 @@ async function saveWorksheetWithVisibility(title, visibility) {
 }
 
 async function loadWorksheets() { 
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) {
     alert("You must be logged in to load worksheets.");
     return;
@@ -150,7 +150,7 @@ async function loadWorksheets() {
 }
 
 async function openWorksheet(id) {
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  const user = await getCurrentUser();
   const res = await fetch(`${BASE_URL}/worksheets/${id}?user_id=${user.id}`);
   const data = await res.json();
   window.worksheetState = data.data;
@@ -169,7 +169,7 @@ async function openWorksheet(id) {
 async function deleteWorksheet(id) {
   const confirmed = confirm("Delete this worksheet?");
   if (!confirmed) return;
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  const user = await getCurrentUser();
   await fetch(`${BASE_URL}/worksheets/${id}?user_id=${user.id}`, {
     method: "DELETE"
   });

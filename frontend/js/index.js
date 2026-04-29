@@ -1,5 +1,5 @@
 async function initHome() {
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  const user = await getCurrentUser();
   const dashboardBtn = document.getElementById("dashboardBtn");
   if (user && dashboardBtn) {
     dashboardBtn.classList.remove("hidden");

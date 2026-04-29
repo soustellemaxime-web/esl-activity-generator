@@ -73,7 +73,7 @@ function toggleDashboard() {
 
 async function saveFlashcardsWithVisibility(title, visibility) {
   const state = getFlashcardState();
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) {
     alert("You must be logged in to save flashcards.");
     return;
@@ -110,7 +110,7 @@ async function saveFlashcardsWithVisibility(title, visibility) {
 }
 
 async function loadFlashcard(id) {
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) {
     alert("You must be logged in to load flashcards.");
     return;
@@ -146,7 +146,7 @@ async function loadFlashcard(id) {
 }
 
 async function loadFlashcards() {
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  const user = await getCurrentUser();
   const res = await fetch(`${API_URL}/worksheets?user_id=${user.id}&type=flashcards`);
   const flashcards = await res.json();
   const container = document.getElementById("worksheetsList");
@@ -169,7 +169,7 @@ async function loadFlashcards() {
 async function deleteFlashcard(id) {
   const confirmed = confirm("Delete this flashcard?");
   if (!confirmed) return;
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  const user = await getCurrentUser();
   await fetch(`${API_URL}/worksheets/${id}?user_id=${user.id}`, {
     method: "DELETE"
   });

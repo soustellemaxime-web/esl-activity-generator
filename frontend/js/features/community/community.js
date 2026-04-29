@@ -5,7 +5,7 @@ const mockData = [
 ];
 
 async function initCommunity() {
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const user = await getCurrentUser();
     if (!user) {
         document.getElementById("notLogged").classList.remove("hidden");
         return;

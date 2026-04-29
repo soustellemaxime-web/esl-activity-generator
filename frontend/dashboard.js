@@ -1,5 +1,5 @@
 async function initDashboard() {
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const user = await getCurrentUser();
     if (!user) {
         document.getElementById("notLogged").classList.remove("hidden");
         return;
@@ -58,7 +58,7 @@ function openItem(id, type) {
 async function deleteItem(id) {
     const confirmed = confirm("Delete this item?");
     if (!confirmed) return;
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const user = await getCurrentUser();
     await fetch(`${API_URL}/worksheets/${id}?user_id=${user.id}`, {
         method: "DELETE"
     });
