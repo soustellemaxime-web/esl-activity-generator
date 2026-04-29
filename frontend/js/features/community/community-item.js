@@ -23,6 +23,10 @@ function updatePages() {
     prevBtn.disabled = currentPage === 0;
     nextBtn.disabled = currentPage === pages.length - 1;
   }
+  const fsLabel = document.getElementById("ci-fullscreen-page");
+  if (fsLabel) {
+    fsLabel.textContent = `${currentPage + 1} / ${pages.length}`;
+  }
 }
 
 function applyZoom() {
@@ -209,6 +213,7 @@ document.addEventListener("DOMContentLoaded", () =>
     loadItem();
     loadModal();
     loadLimitsCommunity();
+    // Zoom
     const zoomInBtn = document.getElementById("ci-zoom-in");
     if (zoomInBtn) {
       zoomInBtn.onclick = () => {
@@ -223,6 +228,7 @@ document.addEventListener("DOMContentLoaded", () =>
         applyZoom();
       };
     }
+    // Pagination
     const nextBtn = document.getElementById("ci-next");
     if (nextBtn) {
       nextBtn.onclick = () => {
@@ -242,9 +248,55 @@ document.addEventListener("DOMContentLoaded", () =>
         }
       };
     }
+    // Fullscreen
     const fullscreenBtn = document.getElementById("ci-fullscreen");
     if (fullscreenBtn) {
       fullscreenBtn.onclick = toggleFullscreen;
+    }
+    document.addEventListener("keydown", (e) => {
+      // only when fullscreen is active
+      if (!document.fullscreenElement) return;
+      if (e.key === "ArrowRight") {
+        const pages = document.querySelectorAll("#preview .page");
+        if (currentPage < pages.length - 1) {
+          currentPage++;
+          updatePages();
+        }
+      }
+      if (e.key === "ArrowLeft") {
+        if (currentPage > 0) {
+          currentPage--;
+          updatePages();
+        }
+      }
+    });
+    document.addEventListener("fullscreenchange", () => {
+      const hint = document.getElementById("ci-fullscreen-hint");
+      if (!hint) return;
+      if (!document.fullscreenElement) {
+        hint.classList.add("hidden");
+      } else {
+        hint.classList.remove("hidden");
+      }
+    });
+    const fsPrev = document.getElementById("ci-fs-prev");
+    const fsNext = document.getElementById("ci-fs-next");
+    if (fsPrev) {
+      fsPrev.onclick = () => {
+        if (currentPage > 0) {
+          currentPage--;
+          updatePages();
+        }
+      };
+    }
+    if (fsNext) {
+      fsNext.onclick = () => {
+        const pages = document.querySelectorAll("#preview .page");
+        if (currentPage < pages.length - 1) {
+          currentPage++;
+          updatePages();
+        }
+      };
     }
   }
 );

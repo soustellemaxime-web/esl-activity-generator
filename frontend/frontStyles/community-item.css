@@ -86,8 +86,15 @@
 .ci-preview-controls {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  margin-bottom: 10px;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 8px 14px;
+  width: fit-content;
+  margin: 0 auto 15px auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .ci-preview-controls button {
@@ -108,7 +115,6 @@
 }
 
 .ci-preview-viewport {
-  overflow: auto;
   max-height: 80vh;
   background: #f5f5f5;
   padding: 20px;
@@ -118,6 +124,44 @@
 .ci-preview-viewport #preview {
   transform-origin: top center;
   transition: transform 0.2s ease;
+}
+
+.ci-preview-viewport:fullscreen {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: #eaeaea;
+}
+
+.ci-preview-viewport:fullscreen #preview {
+  margin: auto;
+}
+
+.ci-fullscreen-hint {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  z-index: 9999;
+}
+
+.ci-fs-arrow {
+  cursor: pointer;
+  padding: 0 8px;
+  user-select: none;
+}
+
+.ci-fs-arrow:hover {
+  opacity: 0.7;
+}
+
+.hidden {
+  display: none;
 }
 
 /* Animation */
