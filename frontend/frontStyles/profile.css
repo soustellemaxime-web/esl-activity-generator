@@ -1,0 +1,31 @@
+#profile-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+#profile-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#profile-plan {
+    background: #eee;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+#profile-stats {
+    margin-top: 10px;
+    display: flex;
+    gap: 20px;
+}
+
+#profile-items {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}

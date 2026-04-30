@@ -63,11 +63,21 @@ async function countUserWorksheets(user_id) {
     return { count: data.length };
 }
 
+async function getUserWorksheetStats(user_id) {
+    const { data, error } = await supabase
+        .from("worksheets")
+        .select("id, visibility, rating_avg")
+        .eq("user_id", user_id);
+    if (error) return { error };
+    return data;
+}
+
 module.exports = {
     saveWorksheet,
     updateWorksheet,
     getWorksheets,
     getWorksheetById,
     deleteWorksheet,
-    countUserWorksheets
+    countUserWorksheets,
+    getUserWorksheetStats
 };

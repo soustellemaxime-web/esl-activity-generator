@@ -17,7 +17,7 @@ const imageRoutes = require("./routes/imagesRoute")
 const worksheetRoutes = require("./routes/worksheetRoute")
 const communityRoutes = require("./routes/communityRoute")
 
-const { saveWorksheet, updateWorksheet, getWorksheets, getWorksheetById, deleteWorksheet , countUserWorksheets} = require("./db/worksheetsDB")
+const { saveWorksheet, updateWorksheet, getWorksheets, getWorksheetById, deleteWorksheet , countUserWorksheets, getUserWorksheetStats} = require("./db/worksheetsDB")
 const { getUserPlan , getUserFromToken} = require("./utils/getUser")
 const { getTodayDownloads } = require("./db/downloadsDB")
 
@@ -150,6 +150,38 @@ app.get("/limits", async (req, res) => {
     },
     plan
   });
+});
+
+app.get("/api/profile/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    // 1. Get profile (plan)
+    const userPlan = await getUserPlan(id);
+    // 2. Get worksheets (for stats)
+    const worksheets = await getUserWorksheetStats(id);
+    // 3. Compute stats
+    const totalItems = worksheets.length;
+    const sharedItems = worksheets.filter(w => w.visibility === "public").length;
+    const ratings = worksheets
+      .map(w => w.rating_avg)
+      .filter(r => r !== null);
+    const avgRating =
+      ratings.length > 0
+        ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1)
+        : 0;
+    // 4. Return data
+    res.json({
+      id,
+      username: null, // we don’t have it yet
+      plan: userPlan,
+      totalItems,
+      sharedItems,
+      avgRating
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 app.listen(PORT, () => {

@@ -12,6 +12,7 @@ async function setupHeader() {
 
     const loginBtn = document.getElementById("loginBtn");
     const logoutBtn = document.getElementById("logoutBtn");
+    const profileBtn = document.getElementById("profileBtn");
     const welcome = document.getElementById("userWelcome");
     const tier = document.getElementById("userTier");
     const toggleTheme = document.getElementById("toggleTheme");
@@ -70,6 +71,9 @@ async function setupHeader() {
 
     //Welcome message and button visibility
     if (user) {
+        profileBtn.onclick = () => {
+            window.location.href = `/profile.html?id=${user.id}`;
+        };
         loginBtn.style.display = "none";
         logoutBtn.style.display = "inline-block";
         welcome.textContent = `Welcome ${user.email}`;
@@ -88,6 +92,7 @@ async function setupHeader() {
     } else {
         loginBtn.style.display = "inline-block";
         logoutBtn.style.display = "none";
+        profileBtn.style.display = "none";
         welcome.textContent = "";
     }
 
