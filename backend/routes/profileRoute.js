@@ -1,18 +1,24 @@
 const express = require("express");
 const router = express.Router();
 const { getUserWorksheetStats} = require("../db/worksheetsDB")
-const { getUserPlan } = require("../utils/getUser")
+const { getUserPlan, getUserFromToken } = require("../utils/getUser")
 const supabase = require('../supabaseClient');
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    // 1. Get profile (plan)
+    // Who is viewing
+    const viewer = await getUserFromToken(req);
+    const isOwner = viewer && viewer.id === id;
+    // Get profile (plan)
     const userPlan = await getUserPlan(id);
-    // 2. Get worksheets (for stats)
-    const worksheets = await getUserWorksheetStats(id);
-    // 3. Compute stats
+    // Get worksheets (for stats)
+    let worksheets = await getUserWorksheetStats(id);
     const totalItems = worksheets.length;
+    // If NOT owner → keep only public
+    if (!isOwner) {
+        worksheets = worksheets.filter(w => w.visibility === "public");
+    }
     const sharedItems = worksheets.filter(w => w.visibility === "public").length;
     const ratings = worksheets
       .map(w => w.rating_avg)
@@ -21,14 +27,15 @@ router.get("/:id", async (req, res) => {
       ratings.length > 0
         ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1)
         : 0;
-    // 4. Return data
+    // Return data
     res.json({
       id,
       username: null,
       plan: userPlan,
       totalItems,
       sharedItems,
-      avgRating
+      avgRating,
+      items: worksheets
     });
   } catch (err) {
     console.error(err);

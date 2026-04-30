@@ -66,7 +66,7 @@ async function countUserWorksheets(user_id) {
 async function getUserWorksheetStats(user_id) {
     const { data, error } = await supabase
         .from("worksheets")
-        .select("id, visibility, rating_avg")
+        .select("*")
         .eq("user_id", user_id);
     if (error) return { error };
     return data;

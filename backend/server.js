@@ -18,7 +18,7 @@ const worksheetRoutes = require("./routes/worksheetRoute")
 const communityRoutes = require("./routes/communityRoute")
 const profileRoutes = require("./routes/profileRoute")
 
-const { saveWorksheet, updateWorksheet, getWorksheets, getWorksheetById, deleteWorksheet , countUserWorksheets, getUserWorksheetStats} = require("./db/worksheetsDB")
+const { saveWorksheet, updateWorksheet, getWorksheets, getWorksheetById, deleteWorksheet , countUserWorksheets } = require("./db/worksheetsDB")
 const { getUserPlan , getUserFromToken} = require("./utils/getUser")
 const { getTodayDownloads } = require("./db/downloadsDB")
 
