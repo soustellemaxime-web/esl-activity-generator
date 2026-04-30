@@ -793,4 +793,27 @@ body.border-mode * {
   }
 }
 
-/*TODO editor-only class
+/* ===== EDITOR MODE SPACING FIX ===== */
+
+.editor-mode .mcq-choices {
+  margin: 2px 0;
+  padding-left: 20px;
+}
+
+.editor-mode .mcq-choices li {
+  margin: 0;
+  margin-bottom: -10px;
+  line-height: 1.2;
+}
+
+.editor-mode .mcq-text p {
+  margin: 2px 0;
+}
+
+.editor-mode .mcq-question {
+  margin-bottom: 3px;
+}
+
+.editor-mode .mcq-text {
+  line-height: 1.2;
+}

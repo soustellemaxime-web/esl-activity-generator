@@ -384,13 +384,13 @@ function attachQuestionControls() {
           });
         }
         //Check limits
-        const warning = checkLimits(ex);
+        /*const warning = checkLimits(ex);
         if (warning) {
           alert(warning);
           //revert changes
           ex.questions.pop();
           return;
-        }
+        }*/
         renderFromState();
       };
     }
@@ -534,12 +534,12 @@ function attachMCQControls() {
         addBtn.onclick = () => {
           ex.questions[qIndex].choices.push("New choice");
           //Check limits
-          const warning = checkLimits(ex);
+          /*const warning = checkLimits(ex);
           if (warning) {
             alert(warning);
             ex.questions[qIndex].choices.pop();
             return;
-          }
+          }*/
           renderFromState();
         };
       }
@@ -596,12 +596,12 @@ function attachMatchingControls() {
       addBtn.onclick = () => {
         ex.pairs.push({ word: "New", image: null });
         //Check limits
-        const warning = checkLimits(ex);
+        /*const warning = checkLimits(ex);
         if (warning) {
           alert(warning);
           ex.pairs.pop();
           return;
-        }
+        }*/
         renderFromState();
       };
     }
