@@ -10,4 +10,14 @@ function goToDashboard() {
   window.location.href = "dashboard.html";
 }
 
+const params = new URLSearchParams(window.location.search);
+
+if (params.get("success")) {
+  alert("🎉 You're now Premium!");
+}
+
+if (params.get("canceled")) {
+  alert("Payment Canceled.");
+}
+
 document.addEventListener("DOMContentLoaded", initHome);

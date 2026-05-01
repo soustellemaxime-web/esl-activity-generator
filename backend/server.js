@@ -8,6 +8,7 @@ const app = express()
 const PORT = process.env.PORT || 3000
 
 app.use(cors())
+app.use("/api/stripe/webhook", express.raw({ type: "application/json" }));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
@@ -17,6 +18,7 @@ const imageRoutes = require("./routes/imagesRoute")
 const worksheetRoutes = require("./routes/worksheetRoute")
 const communityRoutes = require("./routes/communityRoute")
 const profileRoutes = require("./routes/profileRoute")
+const stripeRoute = require("./routes/stripeRoute")
 
 const { saveWorksheet, updateWorksheet, getWorksheets, getWorksheetById, deleteWorksheet , countUserWorksheets } = require("./db/worksheetsDB")
 const { getUserPlan , getUserFromToken} = require("./utils/getUser")
@@ -31,6 +33,7 @@ app.use("/api/bingo", bingoRoutes)
 app.use("/api/flashcards", flashcardRoutes)
 app.use("/api/images", imageRoutes)
 app.use("/api/profile", profileRoutes)
+app.use("/api/stripe", stripeRoute);
 
 app.get("/", (req, res) => {
   res.send("API running")
