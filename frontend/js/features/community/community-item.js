@@ -80,9 +80,17 @@ function getCreatorName(item) {
   return item.username || item.user_id?.slice(0, 6);
 }
 
+function goToProfile(userId) {
+  window.location.href = `/profile.html?id=${userId}`;
+}
+
 async function renderItem(item) {
   document.getElementById("itemTitle").textContent = item.title;
-  document.getElementById("itemCreator").textContent = "Created By : " + getCreatorName(item);
+  document.getElementById("itemCreator").innerHTML = `
+    Created by 
+    <span class="profile-link" onclick="goToProfile('${item.user_id}')">
+      ${getCreatorName(item)}
+    </span>`;
   document.getElementById("ratingValue").textContent = `⭐ ${item.rating_avg || 0} (${item.rating_count || 0})`;
   const previewEl = document.getElementById("preview");
   previewEl.innerHTML = "Loading preview...";

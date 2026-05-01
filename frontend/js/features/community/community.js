@@ -17,6 +17,10 @@ function getCreatorName(item) {
   return item.username || item.itemUserId?.slice(0, 6);
 }
 
+function goToProfile(userId) {
+  window.location.href = `/profile.html?id=${userId}`;
+}
+
 function renderCard(item) {
   let html = `
     <div class="community-card" onclick="openItem('${item.id}')">
@@ -38,7 +42,10 @@ function renderCard(item) {
         </div>
       </div>
       <div class="community-creator">
-        Created by ${getCreatorName(item)}
+        Created by 
+        <span class="profile-link" onclick="event.stopPropagation(); goToProfile('${item.itemUserId}')">
+          ${getCreatorName(item)}
+        </span>
       </div>
     </div>
   `;

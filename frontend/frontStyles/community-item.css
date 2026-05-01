@@ -44,6 +44,15 @@
   transform: scale(1.2);
 }
 
+.profile-link {
+  cursor: pointer;
+  color: #4a90e2;
+}
+
+.profile-link:hover {
+  text-decoration: underline;
+}
+
 /* Skeleton container */
 .item-skeleton {
   max-width: 900px;
