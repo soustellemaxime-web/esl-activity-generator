@@ -8,11 +8,14 @@ const generateBingo = require("../generators/bingoGenerator");
 const supabase = require('../supabaseClient');
 
 router.get("/", async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 10;
+  const offset = (page - 1) * limit;
   try {
     const { search = "", type = "all", sort = "default" } = req.query;
     let query = supabase
       .from("worksheets")
-      .select("*")
+      .select("*", { count: "exact" })
       .eq("visibility", "public");
     // SEARCH (title)
     if (search) {
@@ -30,7 +33,8 @@ router.get("/", async (req, res) => {
     } else if (sort === "new") {
       query = query.order("created_at", { ascending: false });
     }
-    const { data, error } = await query;
+    const { data, error, count } = await query
+      .range(offset, offset + limit - 1);
     if (error) {
       return res.status(500).json({ error: "Failed to load community items" });
     }
@@ -43,7 +47,14 @@ router.get("/", async (req, res) => {
         };
       })
     );
-    res.json(formatted);
+    res.json({
+      items: formatted,
+      pagination: {
+        page,
+        totalPages: Math.ceil((count || 0) / limit),
+        total: count || 0
+      }
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Unexpected error" });

@@ -4,6 +4,8 @@ const mockData = [
   { id: "3", title: "Colors Flashcards", type: "flashcards", rating: 5 }
 ];
 
+let currentPage = 1;
+
 async function initCommunity() {
     const user = await getCurrentUser();
     if (!user) {
@@ -59,7 +61,7 @@ function getEmoji(type) {
   return "📦";
 }
 
-async function loadCommunity() {
+async function loadCommunity(page = 1) {
   const grid = document.getElementById("communityGrid");
   try {
     const search = document.getElementById("searchInput").value;
@@ -75,11 +77,10 @@ async function loadCommunity() {
       </div>
     `).join("");
     const res = await fetch(
-      `${API_URL}/api/community?search=${encodeURIComponent(search)}&type=${type}&sort=${sort}`
+      `${API_URL}/api/community?page=${page}&search=${encodeURIComponent(search)}&type=${type}&sort=${sort}`
     );
-    if (!res.ok) throw new Error("API failed");
-    const data = await res.json();
-    const formatted = data.map(item => ({
+    const result = await res.json();
+    const formatted = result.items.map(item => ({
       username: item.username,
       id: item.id,
       itemUserId: item.user_id,
@@ -88,9 +89,26 @@ async function loadCommunity() {
       rating: item.rating_avg
     }));
     grid.innerHTML = formatted.map(renderCard).join("");
+    renderCommunityPagination(result.pagination);
   } catch (err) {
     console.warn("Using mock data", err);
     grid.innerHTML = mockData.map(renderCard).join("");
+  }
+}
+
+function renderCommunityPagination(pagination) {
+  const container = document.getElementById("communityPagination");
+  container.innerHTML = "";
+  if (!pagination || pagination.totalPages <= 1) return;
+  for (let i = 1; i <= pagination.totalPages; i++) {
+    const btn = document.createElement("button");
+    btn.textContent = i;
+    if (i === pagination.page) {
+      btn.style.fontWeight = "bold";
+      btn.style.background = "#ddd";
+    }
+    btn.onclick = () => loadCommunity(i);
+    container.appendChild(btn);
   }
 }
 
@@ -127,13 +145,13 @@ async function loadFeatured() {
 document.addEventListener("DOMContentLoaded", () => {
     initCommunity();
     loadFeatured();
-    loadCommunity();
+    loadCommunity(1);
 });
 
 document.getElementById("filterType").addEventListener("change", loadCommunity);
 
 document.getElementById("searchInput").addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    loadCommunity();
+    loadCommunity(1);
   }
 });

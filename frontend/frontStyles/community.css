@@ -136,6 +136,13 @@
   text-decoration: underline;
 }
 
+#communityPagination {
+  gap: 5px;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
 /* Skeleton base */
 .skeleton-box,
 .skeleton-title,
