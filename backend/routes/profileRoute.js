@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { getUserWorksheetStats} = require("../db/worksheetsDB")
+const { getUserWorksheetStats, getUserWorksheetsPaginated } = require("../db/worksheetsDB")
 const { getUserPlan, getUserFromToken, getUserUsername } = require("../utils/getUser")
 const supabase = require('../supabaseClient');
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
+  const page = parseInt(req.query.page) || 1;
+  const pageLimit = parseInt(req.query.pageLimit) || 8;
   try {
     // Who is viewing
     const viewer = await getUserFromToken(req);
@@ -14,14 +16,15 @@ router.get("/:id", async (req, res) => {
     const userPlan = await getUserPlan(id);
     const userUsername = await getUserUsername(id);
     // Get worksheets (for stats)
-    let worksheets = await getUserWorksheetStats(id);
-    const totalItems = worksheets.length;
+    let statItems = await getUserWorksheetStats(id);
+    const { items: worksheets, total } = await getUserWorksheetsPaginated(id, page, pageLimit, isOwner);
+    const totalItems = statItems.length;
     // If NOT owner → keep only public
     if (!isOwner) {
-        worksheets = worksheets.filter(w => w.visibility === "public");
+        statItems = statItems.filter(w => w.visibility === "public");
     }
-    const sharedItems = worksheets.filter(w => w.visibility === "public").length;
-    const publicItems = worksheets.filter(w => w.visibility === "public");
+    const sharedItems = statItems.filter(w => w.visibility === "public").length;
+    const publicItems = statItems.filter(w => w.visibility === "public");
     const ratings = publicItems
       .map(w => w.rating_avg)
       .filter(r => r !== null);
@@ -37,7 +40,12 @@ router.get("/:id", async (req, res) => {
       totalItems,
       sharedItems,
       avgRating,
-      items: worksheets
+      items: worksheets,
+      pagination: {
+        page,
+        totalPages: Math.ceil(total / pageLimit),
+        total
+      }
     });
   } catch (err) {
     console.error(err);

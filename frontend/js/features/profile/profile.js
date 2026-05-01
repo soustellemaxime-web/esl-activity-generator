@@ -1,3 +1,5 @@
+let currentPage = 1;
+
 async function initProfile() {
     const user = await getCurrentUser();
     if (!user) {
@@ -6,7 +8,7 @@ async function initProfile() {
     }
     document.getElementById("profile-container").classList.remove("hidden");
     document.getElementById("saveUsernameBtn").onclick = saveUsername;
-    loadProfile();
+    loadProfile(1);
 }
 
 function getUserIdFromURL() {
@@ -14,7 +16,8 @@ function getUserIdFromURL() {
   return params.get("id");
 }
 
-async function loadProfile() {
+async function loadProfile(page = 1) {
+  currentPage = page;
   const userId = getUserIdFromURL();
   if (!userId) return;
   const profileItems = document.getElementById("profile-items");
@@ -24,7 +27,7 @@ async function loadProfile() {
     document.getElementById("username-edit").classList.remove("hidden");
   }
   try {
-    profileItems.innerHTML = Array(5).fill(`
+    profileItems.innerHTML = Array(8).fill(`
       <div class="profile-card skeleton">
         <div class="profile-preview skeleton-box"></div>
         <div class="skeleton-title"></div>
@@ -32,7 +35,7 @@ async function loadProfile() {
       </div>
     `).join("");
     const { data: { session } } = await supabaseClient.auth.getSession();
-    const res = await fetch(`/api/profile/${userId}`, {
+    const res = await fetch(`/api/profile/${userId}?page=${page}&pageLimit=8`, {
         headers: {
             "Authorization": `Bearer ${session.access_token}`
         }
@@ -48,8 +51,25 @@ async function loadProfile() {
     document.getElementById("stat-items").textContent = `📦 ${data.totalItems || 0} items`;
     document.getElementById("stat-shared").textContent = `🌍 ${data.sharedItems || 0} shared`;
     renderProfileItems(data.items);
+    renderPagination(data.pagination);
   } catch (err) {
     console.error("Error loading profile:", err);
+  }
+}
+
+function renderPagination(pagination) {
+  const container = document.getElementById("profile-pagination");
+  container.innerHTML = "";
+  if (!pagination || pagination.totalPages <= 1) return;
+  for (let i = 1; i <= pagination.totalPages; i++) {
+    const btn = document.createElement("button");
+    btn.textContent = i;
+    if (i === pagination.page) {
+      btn.style.fontWeight = "bold";
+      btn.style.background = "#ddd";
+    }
+    btn.onclick = () => loadProfile(i);
+    container.appendChild(btn);
   }
 }
 

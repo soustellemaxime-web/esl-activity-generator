@@ -2,6 +2,7 @@
     max-width: 900px;
     margin: 40px auto;
     padding: 20px;
+    margin-bottom: -15px;
 }
 
 #profile-header {
@@ -131,6 +132,12 @@
 
 .hidden {
   display: none !important;
+}
+
+#profile-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
 }
 
 /* Animation */
