@@ -10,11 +10,16 @@ const supabaseClient = createClient(
 );
 
 let cachedUser = null;
+let userPromise = null;
 async function getCurrentUser() {
   if (cachedUser) return cachedUser;
-  const { data: { user } } = await supabaseClient.auth.getUser();
-  cachedUser = user;
-  return user;
+  if (!userPromise) {
+    userPromise = supabaseClient.auth.getUser().then(({ data }) => {
+      cachedUser = data.user;
+      return cachedUser;
+    });
+  }
+  return userPromise;
 }
 
 async function checkUser() {
