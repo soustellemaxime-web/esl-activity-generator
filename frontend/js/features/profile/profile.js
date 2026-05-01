@@ -16,7 +16,15 @@ function getUserIdFromURL() {
 async function loadProfile() {
   const userId = getUserIdFromURL();
   if (!userId) return;
+  const profileItems = document.getElementById("profile-items");
   try {
+    profileItems.innerHTML = Array(5).fill(`
+      <div class="profile-card skeleton">
+        <div class="profile-preview skeleton-box"></div>
+        <div class="skeleton-title"></div>
+        <div class="skeleton-meta"></div>
+      </div>
+    `).join("");
     const { data: { session } } = await supabaseClient.auth.getSession();
     const res = await fetch(`/api/profile/${userId}`, {
         headers: {
@@ -24,7 +32,6 @@ async function loadProfile() {
         }
     });
     const data = await res.json();
-    console.log(data);
     // Fill UI
     document.getElementById("profile-username").textContent = data.username || data.id.slice(0, 6);;
     document.getElementById("profile-plan").textContent = data.plan;

@@ -83,3 +83,36 @@
   justify-content: space-between;
   align-items: center;
 }
+
+/* Skeleton base */
+.skeleton-box,
+.skeleton-title,
+.skeleton-meta {
+  background: linear-gradient(90deg, #eee, #ddd, #eee);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: 8px;
+}
+
+/* Sizes */
+.skeleton-box {
+  height: 120px;
+  margin-bottom: 10px;
+}
+
+.skeleton-title {
+  height: 14px;
+  width: 70%;
+  margin-bottom: 8px;
+}
+
+.skeleton-meta {
+  height: 12px;
+  width: 40%;
+}
+
+/* Animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
