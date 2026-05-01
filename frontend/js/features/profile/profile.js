@@ -16,6 +16,20 @@ function getUserIdFromURL() {
   return params.get("id");
 }
 
+function loadSkeleton() {
+  // Header skeleton
+  document.getElementById("profile-username").innerHTML =
+    `<div class="skeleton-title" style="width:120px;"></div>`;
+  document.getElementById("profile-plan").innerHTML =
+    `<div class="skeleton-box" style="width:50px; height:20px;"></div>`;
+  document.getElementById("stat-rating").innerHTML =
+    `<div class="skeleton-meta" style="width:60px;"></div>`;
+  document.getElementById("stat-items").innerHTML =
+    `<div class="skeleton-meta" style="width:80px;"></div>`;
+  document.getElementById("stat-shared").innerHTML =
+    `<div class="skeleton-meta" style="width:90px;"></div>`;
+}
+
 async function loadProfile(page = 1) {
   currentPage = page;
   const userId = getUserIdFromURL();
@@ -34,6 +48,7 @@ async function loadProfile(page = 1) {
         <div class="skeleton-meta"></div>
       </div>
     `).join("");
+    loadSkeleton();
     const { data: { session } } = await supabaseClient.auth.getSession();
     const res = await fetch(`/api/profile/${userId}?page=${page}&pageLimit=8`, {
         headers: {
@@ -50,6 +65,8 @@ async function loadProfile(page = 1) {
     document.getElementById("stat-rating").textContent = `⭐ ${data.avgRating || 0}`;
     document.getElementById("stat-items").textContent = `📦 ${data.totalItems || 0} items`;
     document.getElementById("stat-shared").textContent = `🌍 ${data.sharedItems || 0} shared`;
+    usernameInput.classList.remove("skeleton-box");
+    usernameInput.placeholder = "Enter username";
     renderProfileItems(data.items);
     renderPagination(data.pagination);
   } catch (err) {
