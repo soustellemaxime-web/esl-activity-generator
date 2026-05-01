@@ -53,7 +53,10 @@ router.post("/webhook", express.raw({ type: "application/json" }), async (req, r
         .from("profiles")
         .update({
             plan: "premium",
-            plan_expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+            plan_expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+            stripe_customer_id: session.customer,
+            stripe_subscription_id: session.subscription,
+            stripe_price_id: session.items?.data?.[0]?.price?.id || null
         })
         .eq("id", userId);
     }
@@ -62,7 +65,25 @@ router.post("/webhook", express.raw({ type: "application/json" }), async (req, r
         await supabase
             .from("profiles")
             .update({ plan: "free" })
-            .eq("stripe_customer_id", subscription.customer);
+            .eq("stripe_subscription_id", subscription.id);
+    }
+    if (event.type === "invoice.payment_succeeded") {
+        const invoice = event.data.object;
+        await supabase
+            .from("profiles")
+            .update({
+                plan: "premium"
+            })
+            .eq("stripe_customer_id", invoice.customer);
+    }
+    if (event.type === "invoice.payment_failed") {
+        const invoice = event.data.object;
+        await supabase
+            .from("profiles")
+            .update({
+            plan: "free"
+            })
+            .eq("stripe_subscription_id", invoice.subscription);
     }
     res.json({ received: true });
 });
