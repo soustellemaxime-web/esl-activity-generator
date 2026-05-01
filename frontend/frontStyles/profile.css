@@ -11,7 +11,6 @@
 }
 
 #profile-plan {
-    background: #eee;
     padding: 4px 10px;
     border-radius: 10px;
     font-size: 14px;
@@ -109,6 +108,29 @@
 .skeleton-meta {
   height: 12px;
   width: 40%;
+}
+
+.tier-icon {
+    width: 55px;
+    height: auto;
+}
+
+.tier-icon:hover {
+    transform: scale(1.1) rotate(-3deg);
+}
+
+#username-edit {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+#usernameInput {
+    width: auto;
+}
+
+.hidden {
+  display: none !important;
 }
 
 /* Animation */

@@ -43,7 +43,7 @@ async function loadProfile() {
     }
     // Fill UI
     document.getElementById("profile-username").textContent = data.username || data.id.slice(0, 6);;
-    document.getElementById("profile-plan").textContent = data.plan;
+    document.getElementById("profile-plan").innerHTML = getTierImage(data.plan);
     document.getElementById("stat-rating").textContent = `⭐ ${data.avgRating || 0}`;
     document.getElementById("stat-items").textContent = `📦 ${data.totalItems || 0} items`;
     document.getElementById("stat-shared").textContent = `🌍 ${data.sharedItems || 0} shared`;
@@ -105,6 +105,13 @@ function getEmojiVisibility(visibility) {
   if (visibility === "private") return "🔒";
   if (visibility === "public") return "🌍";
   return "📦";
+}
+
+function getTierImage(tier) {
+  if (tier === "free") return `<img class="tier-icon" src="assets/mascots/freeTier.png" alt="Free Tier" title="Free Tier">`
+  if (tier === "premium") return `<img class="tier-icon" src="assets/mascots/premiumTier.png" alt="Premium Tier" title="Premium Tier">`;
+  if (tier === "vip") return `<img class="tier-icon" src="assets/mascots/vipTier.png" alt="VIP Tier" title="VIP Tier">`;
+  return "";
 }
 
 function openItem(id, visibility) {
