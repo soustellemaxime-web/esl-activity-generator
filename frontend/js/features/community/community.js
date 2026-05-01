@@ -80,6 +80,7 @@ async function loadCommunity() {
     if (!res.ok) throw new Error("API failed");
     const data = await res.json();
     const formatted = data.map(item => ({
+      username: item.username,
       id: item.id,
       itemUserId: item.user_id,
       title: item.title,
@@ -110,6 +111,7 @@ async function loadFeatured() {
     const res = await fetch(`${API_URL}/api/community/featured`);
     const data = await res.json();
     const formatted = data.map(item => ({
+      username: item.username,
       id: item.id,
       itemUserId: item.user_id,
       title: item.title,

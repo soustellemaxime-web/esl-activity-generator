@@ -5,6 +5,7 @@ async function initProfile() {
         return;
     }
     document.getElementById("profile-container").classList.remove("hidden");
+    document.getElementById("saveUsernameBtn").onclick = saveUsername;
     loadProfile();
 }
 
@@ -17,6 +18,11 @@ async function loadProfile() {
   const userId = getUserIdFromURL();
   if (!userId) return;
   const profileItems = document.getElementById("profile-items");
+  const user = await getCurrentUser();
+  const isOwner = user && user.id === userId;
+  if (isOwner) {
+    document.getElementById("username-edit").classList.remove("hidden");
+  }
   try {
     profileItems.innerHTML = Array(5).fill(`
       <div class="profile-card skeleton">
@@ -32,6 +38,9 @@ async function loadProfile() {
         }
     });
     const data = await res.json();
+    if (data.username) {
+      document.getElementById("usernameInput").value = data.username;
+    }
     // Fill UI
     document.getElementById("profile-username").textContent = data.username || data.id.slice(0, 6);;
     document.getElementById("profile-plan").textContent = data.plan;
@@ -103,6 +112,37 @@ function openItem(id, visibility) {
     window.location.href = `/community-item.html?id=${id}`;
   }
   else return;
+}
+
+async function saveUsername() {
+  const input = document.getElementById("usernameInput");
+  const username = input.value;
+  if (!username) {
+    alert("Username cannot be empty");
+    return;
+  }
+  try {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    const res = await fetch(`/api/profile/username`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${session.access_token}`
+      },
+      body: JSON.stringify({ username })
+    });
+    const result = await res.json();
+    if (!res.ok) {
+      alert(result.error || "Failed to update username");
+      return;
+    }
+    // update UI instantly
+    document.getElementById("profile-username").textContent = username;
+    alert("Username updated!");
+  } catch (err) {
+    console.error(err);
+    alert("Error updating username");
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

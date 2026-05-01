@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { getUserWorksheetStats} = require("../db/worksheetsDB")
-const { getUserPlan, getUserFromToken } = require("../utils/getUser")
+const { getUserPlan, getUserFromToken, getUserUsername } = require("../utils/getUser")
 const supabase = require('../supabaseClient');
 
 router.get("/:id", async (req, res) => {
@@ -10,8 +10,9 @@ router.get("/:id", async (req, res) => {
     // Who is viewing
     const viewer = await getUserFromToken(req);
     const isOwner = viewer && viewer.id === id;
-    // Get profile (plan)
+    // Get profile
     const userPlan = await getUserPlan(id);
+    const userUsername = await getUserUsername(id);
     // Get worksheets (for stats)
     let worksheets = await getUserWorksheetStats(id);
     const totalItems = worksheets.length;
@@ -31,13 +32,39 @@ router.get("/:id", async (req, res) => {
     // Return data
     res.json({
       id,
-      username: null,
+      username: userUsername,
       plan: userPlan,
       totalItems,
       sharedItems,
       avgRating,
       items: worksheets
     });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.post("/username", async (req, res) => {
+  try {
+    const user = await getUserFromToken(req);
+    if (!user) return res.status(401).json({ error: "Unauthorized" });
+    const { username } = req.body;
+    if (!username || username.length < 3) {
+      return res.status(400).json({ error: "Invalid username" });
+    }
+    const { error } = await supabase
+      .from("profiles")
+      .update({ username })
+      .eq("id", user.id);
+    if (error) {
+      if (error.code === "23505") {
+        return res.status(400).json({ error: "Username already taken" });
+      }
+      console.error(error);
+      return res.status(500).json({ error: "Failed to update username" });
+    }
+    res.json({ success: true });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });

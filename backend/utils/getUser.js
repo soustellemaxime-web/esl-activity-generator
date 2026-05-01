@@ -19,7 +19,18 @@ async function getUserPlan(user_id) {
   return profile.plan;
 }
 
+async function getUserUsername(user_id) {
+  const { data: profile, error } = await supabase
+    .from("profiles")
+    .select("username")
+    .eq("id", user_id)
+    .single();
+  if (error) return null;
+  return profile.username;
+}
+
 module.exports = {
   getUserFromToken,
-  getUserPlan
+  getUserPlan,
+  getUserUsername
 };

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { getPublicItems , getPublicItemById } = require("../db/communityDB");
+const { getUserUsername } = require("../utils/getUser");
 const generateFlashcards = require("../generators/flashcardsGenerator");
 const generateWorksheet = require("../generators/worksheetGenerator");
 const generateBingo = require("../generators/bingoGenerator");
@@ -33,7 +34,16 @@ router.get("/", async (req, res) => {
     if (error) {
       return res.status(500).json({ error: "Failed to load community items" });
     }
-    res.json(data);
+    const formatted = await Promise.all(
+      data.map(async (item) => {
+        const username = await getUserUsername(item.user_id);
+        return {
+          ...item,
+          username
+        };
+      })
+    );
+    res.json(formatted);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Unexpected error" });
@@ -51,7 +61,16 @@ router.get("/featured", async (req, res) => {
     if (error) {
       return res.status(500).json({ error: "Failed to load featured items" });
     }
-    res.json(data);
+    const formatted = await Promise.all(
+      data.map(async (item) => {
+        const username = await getUserUsername(item.user_id);
+        return {
+          ...item,
+          username
+        };
+      })
+    );
+    res.json(formatted);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Unexpected error" });
@@ -81,9 +100,11 @@ router.get("/:id", async (req, res) => {
         userRating = ratingData?.rating || null;
       }
     }
+    const username = await getUserUsername(item.user_id);
     res.json({
       ...item,
-      user_rating: userRating 
+      username,
+      user_rating: userRating
     });
   } catch (err) {
     console.error(err);
