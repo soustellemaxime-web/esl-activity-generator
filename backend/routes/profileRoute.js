@@ -20,7 +20,8 @@ router.get("/:id", async (req, res) => {
         worksheets = worksheets.filter(w => w.visibility === "public");
     }
     const sharedItems = worksheets.filter(w => w.visibility === "public").length;
-    const ratings = worksheets
+    const publicItems = worksheets.filter(w => w.visibility === "public");
+    const ratings = publicItems
       .map(w => w.rating_avg)
       .filter(r => r !== null);
     const avgRating =

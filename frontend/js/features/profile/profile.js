@@ -45,18 +45,57 @@ function renderProfileItems(items) {
     return;
   }
   items.forEach(item => {
+    const visibilityCapitalized = item.visibility.charAt(0).toUpperCase() + item.visibility.slice(1);
     const div = document.createElement("div");
     div.className = "profile-item-card";
     div.innerHTML = `
-      <div class="card">
+      <div class="card" onclick="openItem('${item.id}', '${item.visibility}')">
+        <div class="profile-item-preview">
+          ${getEmojiType(item.type)}
+        </div>
+        <div class="profile-item-badge ${item.type}">
+          ${item.type}
+        </div>
         <strong>${item.title || "Untitled"}</strong>
         <div style="font-size:12px; color:#666;">
-          ${item.type} • ${item.visibility}
+          ${getEmojiVisibility(item.visibility)} ${visibilityCapitalized}
         </div>
+        ${item.visibility === "public" ? `
+          <div class="profile-meta">
+            <div class="profile-ratingStars">
+              ${[1,2,3,4,5].map(i => {
+                if (i <= item.rating_avg) return `<span>⭐</span>`;
+                if (i - 0.5 <= item.rating_avg) return `<span style="opacity:0.6">⭐</span>`;
+                return `<span style="opacity:0.3">⭐</span>`;
+              }).join("")}
+              ${item.rating_avg || "0"}
+            </div>
+          </div>
+        ` : ""}
       </div>
     `;
     container.appendChild(div);
   });
+}
+
+function getEmojiType(type) {
+  if (type === "worksheet") return "📄";
+  if (type === "bingo") return "🎯";
+  if (type === "flashcards") return "🃏";
+  return "📦";
+}
+
+function getEmojiVisibility(visibility) {
+  if (visibility === "private") return "🔒";
+  if (visibility === "public") return "🌍";
+  return "📦";
+}
+
+function openItem(id, visibility) {
+  if (visibility === "public") {
+    window.location.href = `/community-item.html?id=${id}`;
+  }
+  else return;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
