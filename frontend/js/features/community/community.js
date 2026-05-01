@@ -13,6 +13,10 @@ async function initCommunity() {
     document.getElementById("communityContent").classList.remove("hidden");
 }
 
+function getCreatorName(item) {
+  return item.username || item.itemUserId?.slice(0, 6);
+}
+
 function renderCard(item) {
   let html = `
     <div class="community-card" onclick="openItem('${item.id}')">
@@ -32,6 +36,9 @@ function renderCard(item) {
           }).join("")}
           ${item.rating || "0"}
         </div>
+      </div>
+      <div class="community-creator">
+        Created by ${getCreatorName(item)}
       </div>
     </div>
   `;
@@ -67,6 +74,7 @@ async function loadCommunity() {
     const data = await res.json();
     const formatted = data.map(item => ({
       id: item.id,
+      itemUserId: item.user_id,
       title: item.title,
       type: item.type,
       rating: item.rating_avg
@@ -96,6 +104,7 @@ async function loadFeatured() {
     const data = await res.json();
     const formatted = data.map(item => ({
       id: item.id,
+      itemUserId: item.user_id,
       title: item.title,
       type: item.type,
       rating: item.rating_avg

@@ -121,6 +121,12 @@
   margin-bottom: 0px !important;
 }
 
+.community-creator {
+  font-size:12px; 
+  color:#888;
+  margin-top: 10px;
+}
+
 /* Skeleton base */
 .skeleton-box,
 .skeleton-title,
