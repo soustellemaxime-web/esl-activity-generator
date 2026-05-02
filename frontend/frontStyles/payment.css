@@ -108,3 +108,11 @@ h1 {
 .tier-image:hover {
     transform: scale(1.1) rotate(-3deg);
 }
+
+.orPayment{
+    font-size: 48px;
+    font-weight: bold;
+    margin: auto;
+    border: 2px solid black;
+    border-radius: 10px;
+}
