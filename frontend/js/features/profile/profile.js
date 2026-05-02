@@ -59,6 +59,12 @@ async function loadProfile(page = 1) {
     if (data.username) {
       document.getElementById("usernameInput").value = data.username;
     }
+    const cancelBtn = document.getElementById("cancelSubBtn");
+    if (data.plan === "premium" || data.plan === "vip") {
+      cancelBtn.classList.remove("hidden");
+    } else {
+      cancelBtn.classList.add("hidden");
+    }
     // Fill UI
     document.getElementById("profile-username").textContent = data.username || data.id.slice(0, 6);;
     document.getElementById("profile-plan").innerHTML = getTierImage(data.plan);

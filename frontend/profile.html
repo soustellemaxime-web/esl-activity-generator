@@ -11,6 +11,7 @@
   <script src="js/api.js" defer></script>
   <script src="js/header.js" defer></script>
   <script src="js/features/profile/profile.js" defer></script>
+  <script src="js/payment.js" defer></script>
 </head>
 <body>
     <div id="notLogged" class="card hidden">
@@ -20,6 +21,9 @@
         <div id="profile-header">
             <h2 id="profile-username">User</h2>
             <span id="profile-plan">Free</span>
+            <button id="cancelSubBtn" class="hidden" onclick="cancelSubscription()">
+                Cancel Subscription
+            </button>
         </div>
         <div id="username-edit" class="hidden">
             <input type="text" id="usernameInput" placeholder="Enter username" />

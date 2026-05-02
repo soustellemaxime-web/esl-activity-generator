@@ -41,6 +41,29 @@ router.post("/create-checkout", async (req, res) => {
   }
 });
 
+router.post("/cancel-subscription", async (req, res) => {
+  try {
+    const user = await getUserFromToken(req);
+    if (!user) return res.status(401).json({ error: "Unauthorized" });
+    // get subscription id from DB
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("stripe_subscription_id")
+      .eq("id", user.id)
+      .single();
+    if (error || !data?.stripe_subscription_id) {
+      return res.status(400).json({ error: "No subscription found" });
+    }
+    await stripe.subscriptions.update(data.stripe_subscription_id, {
+      cancel_at_period_end: true
+    });
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Cancel failed" });
+  }
+});
+
 router.post("/webhook", express.raw({ type: "application/json" }), async (req, res) => {
     const sig = req.headers["stripe-signature"];
     let event;
