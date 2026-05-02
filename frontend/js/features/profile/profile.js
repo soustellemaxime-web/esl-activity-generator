@@ -60,10 +60,15 @@ async function loadProfile(page = 1) {
       document.getElementById("usernameInput").value = data.username;
     }
     const cancelBtn = document.getElementById("cancelSubBtn");
-    if (data.plan === "premium" || data.plan === "vip") {
-      cancelBtn.classList.remove("hidden");
-    } else {
-      cancelBtn.classList.add("hidden");
+    const subCard = document.getElementById("subscription-card");
+    if (isOwner) {
+      if (data.plan === "premium" || data.plan === "vip") {
+        subCard.classList.remove("hidden");
+        document.getElementById("sub-plan-text").textContent = data.plan === "vip" ? "VIP 👑" : "Premium ⭐";
+        document.getElementById("sub-status-text").textContent = "Active";
+      } else {
+          subCard.classList.add("hidden");
+      }
     }
     // Fill UI
     document.getElementById("profile-username").textContent = data.username || data.id.slice(0, 6);;

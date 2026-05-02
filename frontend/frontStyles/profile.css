@@ -7,8 +7,50 @@
 
 #profile-header {
     display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.profile-left {
+    display: flex;
     align-items: center;
     gap: 10px;
+}
+
+#subscription-card {
+    background: white;
+    border-radius: 12px;
+    padding: 12px 16px;
+    min-width: 180px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sub-plan {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.sub-status {
+    font-size: 12px;
+    color: #666;
+}
+
+#subscription-card button {
+    margin-top: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+    background: #ff4d4f;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+#subscription-card button:hover {
+    background: #e04344;
 }
 
 #profile-plan {
