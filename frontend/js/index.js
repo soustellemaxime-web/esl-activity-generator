@@ -13,7 +13,7 @@ function goToDashboard() {
 const params = new URLSearchParams(window.location.search);
 
 if (params.get("success")) {
-  alert("🎉 You're now Premium!");
+  alert("🎉 You've upgraded your plan! Thank you for your support <3");
 }
 
 if (params.get("canceled")) {
